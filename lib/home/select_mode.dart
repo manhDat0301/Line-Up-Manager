@@ -16,7 +16,7 @@ class _SelectModeState extends State<SelectMode> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      print(_key.currentContext.size.width);
+//      print(_key.currentContext.size.width);
     });
   }
 
