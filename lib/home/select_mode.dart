@@ -10,6 +10,15 @@ class SelectMode extends StatefulWidget {
 
 class _SelectModeState extends State<SelectMode> {
   CarouselController _carouselController = CarouselController();
+  GlobalKey _key = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      print(_key.currentContext.size.width);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +68,14 @@ class _SelectModeState extends State<SelectMode> {
 
   Widget _carousel() {
     return CarouselSlider(
-      items: <Widget>[_portraitMode(), _portraitMode()],
+      items: <Widget>[_portraitMode(), _landscape()],
       options: CarouselOptions(
         scrollDirection: Axis.horizontal,
         initialPage: 0,
         height: 419,
+        carouselController: _carouselController,
         enableInfiniteScroll: false,
-//        viewportFraction: 0.6,
-//        aspectRatio: 0.5,
+        viewportFraction: 0.70,
         enlargeCenterPage: false,
       ),
       carouselController: _carouselController,
@@ -90,4 +99,24 @@ class _SelectModeState extends State<SelectMode> {
       ),
     );
   }
+
+  Widget _landscape() {
+    return Container(
+      width: 50,
+      height: 50,
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Center(
+              child: Text(
+                'Landscape Mode',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
