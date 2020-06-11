@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
+import 'package:marozi/data/data.dart';
+import 'package:marozi/portrait/portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
 class AddPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: <String, WidgetBuilder>{
-        'home': (BuildContext context) => ChangeNotifierProvider(
-            create: (BuildContext context) => Data(), child: AddPlayerPage()),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => Data(),
+      builder: (BuildContext context, widget) {
+        return MaterialApp(
+          home: Scaffold(body: AddPlayerPage()),
+        );
       },
-      initialRoute: 'home',
     );
   }
 }
@@ -27,21 +29,17 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
     return Scaffold(
       body: SafeArea(
         top: true,
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return Container(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Column(
-                children: <Widget>[
-                  _topBar(),
-                  _starting(),
-                  SizedBox(height: 10),
-                  _substitutes(),
-                  _deleteBtn(),
-                ],
-              ),
-            );
-          },
+        child: Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            children: <Widget>[
+              _topBar(),
+              _starting(),
+              SizedBox(height: 10),
+              _substitutes(),
+              _deleteBtn(),
+            ],
+          ),
         ),
       ),
     );
@@ -61,9 +59,15 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
               fontSize: 20,
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.orange,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Portrait()));
+            },
+            child: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.orange,
+            ),
           ),
         ],
       ),

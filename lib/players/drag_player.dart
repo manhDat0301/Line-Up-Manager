@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
+import 'package:marozi/portrait/player_detail.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
 import '../resources/colors.dart';
 
@@ -30,16 +32,13 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
   double top;
   double left;
 
-//  GlobalKey _key = GlobalKey();
   Offset offset = Offset(100, 100);
 
   @override
   void initState() {
     super.initState();
     i = widget.i;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-//      print(_key.currentContext.size.width);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override
@@ -58,19 +57,25 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
               Provider.of<Data>(context).listPlayers[i].assetImage != null
                   ? 400
                   : 0),
-      child: Draggable(
-        child: _dragChild(context),
-        childWhenDragging: Opacity(
-          opacity: 0.5,
-          child: _dragChild(context),
-        ),
-        feedback: _dragChild(context),
-        data: 1 as dynamic,
-        onDragEnd: (details) {
-          if (details.wasAccepted) {
-            Provider.of<Data>(context, listen: false).swapPlayersPortrait(i);
-          }
+      child: InkWell(
+        onDoubleTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => PlayerDetail(i)));
         },
+        child: Draggable(
+          child: _dragChild(context),
+          childWhenDragging: Opacity(
+            opacity: 0.5,
+            child: _dragChild(context),
+          ),
+          feedback: _dragChild(context),
+          data: 1 as dynamic,
+          onDragEnd: (details) {
+            if (details.wasAccepted) {
+              Provider.of<Data>(context, listen: false).swapPlayersPortrait(i);
+            }
+          },
+        ),
       ),
     );
   }

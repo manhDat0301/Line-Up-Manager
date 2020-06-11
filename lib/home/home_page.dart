@@ -1,7 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:marozi/home/select_mode.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,20 +10,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _orientation(context));
+    return _orientation(context);
   }
 
   Widget _orientation(BuildContext context) {
-    if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {});
-      return SelectMode();
+    Orientation orientation = MediaQuery.of(context).orientation;
+    if (orientation == Orientation.portrait) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).switchOrientation(true);
+      });
+      return ModePortrait();
     } else {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {});
-      return SelectMode();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).switchOrientation(false);
+      });
+      return ModeLandscape();
     }
+  }
+}
+
+class ModeLandscape extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text('ModeLandscape'),
+      ),
+    );
   }
 }

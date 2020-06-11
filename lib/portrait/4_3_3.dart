@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 import 'package:provider/provider.dart';
 
-import 'drag_player.dart';
+import '../players/drag_player.dart';
 
 class Portrait433 extends StatefulWidget {
   @override
@@ -15,8 +15,6 @@ class _Portrait433State extends State<Portrait433> {
 
   initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-//      print(_key.currentContext.size.width);
-//      print(_key.currentContext.size.height);
     });
     super.initState();
   }
@@ -42,11 +40,6 @@ class _Portrait433State extends State<Portrait433> {
     for (int i = 0; i < provider.listPlayers.length; i++) {
       items.add(DragPlayer(i: i));
     }
-//    for (int i = 0; i < provider.listEmptyTarget.length; i++) {
-//      items.add(EmptyDragTarget(
-//        i: i
-//      ));
-//    }
     return items;
   }
 }

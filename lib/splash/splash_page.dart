@@ -15,8 +15,10 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     Timer(
         Duration(seconds: 1),
-        () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+        () => Navigator.of(context).push(PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) =>
+                HomePage())));
     super.initState();
   }
 

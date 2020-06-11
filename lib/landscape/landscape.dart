@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 

@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
 class Portrait extends StatefulWidget {
   @override
@@ -17,34 +18,38 @@ class _PortraitState extends State<Portrait> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-//      Provider.of<Data>(context, listen: false).setIsPortrait(true);
-//      print(_key.currentContext.size.width);
-//      print(_key.currentContext.size.height);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => Data(),
+      builder: (BuildContext context, widget) {
+        return MaterialApp(
+          home: Scaffold(body: _safeArea(context)),
+        );
+      },
+    );
+  }
+
+  Widget _safeArea(context) {
     return SafeArea(
       key: _key,
       top: true,
       left: true,
       right: true,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Container(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Column(
-              children: <Widget>[
-                _topBar(),
-                _carousel(context),
-                _textFormation(),
-                _bottomFormation(context),
-              ],
-            ),
-          );
-        },
+      child: Container(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Column(
+          children: <Widget>[
+            _topBar(),
+            _carousel(context),
+            _textFormation(),
+            _bottomFormation(context),
+          ],
+        ),
       ),
     );
   }
@@ -160,6 +165,35 @@ class _PortraitState extends State<Portrait> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class Portrait2 extends StatelessWidget {
+  final CarouselController _carouselController = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
+    return _carousel(context);
+  }
+
+  Widget _carousel(context) {
+    return Expanded(
+      child: CarouselSlider(
+        carouselController: _carouselController,
+        items: Provider.of<Data>(context).listFormationPort,
+        options: CarouselOptions(
+          onScrolled: (double d) {
+            Provider.of<Data>(context, listen: false)
+                .setCarouselPageIndex(d.toInt());
+          },
+          height: double.infinity,
+          viewportFraction: 1.0,
+          enlargeCenterPage: false,
+          initialPage: 0,
+          enableInfiniteScroll: false,
+        ),
+      ),
     );
   }
 }
