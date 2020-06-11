@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/players/data.dart';
-import 'package:marozi/portrait/drag_player.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/players/drag_player.dart';
 import 'package:provider/provider.dart';
 
 class Landscape433 extends StatefulWidget {
@@ -39,10 +39,6 @@ class _Landscape433State extends State<Landscape433> {
       playerDraggable = DragPlayer(i: i);
       items.add(playerDraggable);
     }
-//    for (int i = 0; i < provider.listPlayers.length; i++) {
-//      playerDraggable = DragTargetPos(i: i);
-//      items.add(playerDraggable);
-//    }
     return items;
   }
 
