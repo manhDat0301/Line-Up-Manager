@@ -20,6 +20,10 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   bool coachShow = true;
   bool captainShow = false;
 
+  bool ratingSelected = false;
+  bool formSelected = false;
+  bool numberSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -175,60 +179,94 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
 
   Widget _bottom() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 20, 8, 25),
+      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
-            child: Container(
-              height: 35,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black38),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  ratingSelected = !ratingSelected;
+                  formSelected = false;
+                  numberSelected = false;
+                });
+              },
+              child: Container(
+                height: 35,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ratingSelected ? Colors.orange : Colors.white,
+                  border: Border.all(
+                      color: ratingSelected ? Colors.orange : Colors.black38),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: MyText(
-                text: 'Rating',
-                color: Colors.black26,
-                fontSize: 17,
+                child: MyText(
+                  text: 'Rating',
+                  color: ratingSelected ? Colors.white : Colors.black38,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
           Expanded(
-            child: Container(
-              height: 35,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.black38),
-                  bottom: BorderSide(color: Colors.black38),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  formSelected = !formSelected;
+                  numberSelected = false;
+                  ratingSelected = false;
+                });
+              },
+              child: Container(
+                height: 35,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: formSelected ? Colors.orange : Colors.white,
+                  border: Border(
+                    top: BorderSide(
+                        color: formSelected ? Colors.orange : Colors.black38),
+                    bottom: BorderSide(
+                        color: formSelected ? Colors.orange : Colors.black38),
+                  ),
                 ),
-              ),
-              child: MyText(
-                text: 'Rating',
-                color: Colors.black26,
-                fontSize: 17,
+                child: MyText(
+                  text: 'Form',
+                  color: formSelected ? Colors.white : Colors.black38,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
           Expanded(
-            child: Container(
-              height: 35,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black38),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  numberSelected = !numberSelected;
+                  formSelected = false;
+                  ratingSelected = false;
+                });
+              },
+              child: Container(
+                height: 35,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: numberSelected ? Colors.orange : Colors.white,
+                  border: Border.all(
+                      color: numberSelected ? Colors.orange : Colors.black38),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: MyText(
-                text: 'Rating',
-                color: Colors.black26,
-                fontSize: 17,
+                child: MyText(
+                  text: 'Number',
+                  color: numberSelected ? Colors.white : Colors.black38,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
