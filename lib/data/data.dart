@@ -8,6 +8,7 @@ class Data with ChangeNotifier {
   List<Widget> listFormationLands;
   List<Widget> listFormationPort;
   List<String> listTypeFormation;
+  List<String> listStyle;
   int p2;
   int carouselPageIndex = 0;
 
@@ -19,6 +20,8 @@ class Data with ChangeNotifier {
     listFormationPort = Constants.initFormationPortrait(listFormationPort);
 
     listTypeFormation = Constants.initTypeFormation(listTypeFormation);
+
+    listStyle = Constants.initStyle(listStyle);
   }
 
   playerTarget(int player2) {

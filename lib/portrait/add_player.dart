@@ -11,6 +11,7 @@ class AddPlayer extends StatelessWidget {
       create: (BuildContext context) => Data(),
       builder: (BuildContext context, widget) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(body: AddPlayerPage()),
         );
       },

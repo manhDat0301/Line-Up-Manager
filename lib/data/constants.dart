@@ -125,4 +125,7 @@ class Constants {
   static List<String> initTypeFormation(List<String> list) {
     return list = ['4-3-3', '4-2-3-1', '4-4-2', '3-4-3', '3-2-2-3', '3-3-3-1'];
   }
+  static List<String> initStyle(List<String> list) {
+    return list = ['Braven', 'Glory Red', 'B&W', 'The Bleu', 'Royal White', 'Red Devils'];
+  }
 }

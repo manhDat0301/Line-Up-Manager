@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/home/home_page.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
+import 'package:marozi/data/my_text.dart';
 import 'package:marozi/portrait/add_player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/home_page.dart';
 
 class ModePortrait extends StatefulWidget {
   @override
@@ -23,8 +25,7 @@ class _ModePortraitState extends State<ModePortrait> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override
@@ -41,7 +42,17 @@ class _ModePortraitState extends State<ModePortrait> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Align(alignment: Alignment.topCenter, child: Text('Select Mode')),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Align(
+                  alignment: Alignment.topCenter,
+                  child: MyText(
+                    text: 'Select mode',
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ),
             Spacer(),
             _pageView(),
             _goButton(),
@@ -90,8 +101,10 @@ class _ModePortraitState extends State<ModePortrait> {
           Image.asset('assets/images/portrait.png'),
           Expanded(
             child: Center(
-              child: Text(
-                'Portrait Mode',
+              child: MyText(
+                text: 'Portrait Mode',
+                color: Colors.black,
+                fontSize: 16,
               ),
             ),
           ),

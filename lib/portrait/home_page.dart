@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:marozi/home/select_mode.dart';
+import 'package:marozi/portrait/select_mode.dart';
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 import 'package:provider/provider.dart';
 

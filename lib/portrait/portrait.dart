@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
+import 'export.dart';
+
 class Portrait extends StatefulWidget {
   @override
   _PortraitState createState() => _PortraitState();
@@ -17,8 +19,7 @@ class _PortraitState extends State<Portrait> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
     super.initState();
   }
 
@@ -27,56 +28,59 @@ class _PortraitState extends State<Portrait> {
     return ChangeNotifierProvider(
       create: (BuildContext context) => Data(),
       builder: (BuildContext context, widget) {
-        return MaterialApp(
-          home: Scaffold(body: _safeArea(context)),
-        );
+        return _safeArea(context);
       },
     );
   }
 
   Widget _safeArea(context) {
-    return SafeArea(
-      key: _key,
-      top: true,
-      left: true,
-      right: true,
-      child: Container(
-        padding: EdgeInsets.only(bottom: 10),
-        child: Column(
-          children: <Widget>[
-            _topBar(),
-            _carousel(context),
-            _textFormation(),
-            _bottomFormation(context),
-          ],
+    return Scaffold(
+      body: SafeArea(
+        key: _key,
+        top: true,
+        left: true,
+        right: true,
+        child: Container(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Column(
+            children: <Widget>[
+              _topBar(),
+              _carousel(context),
+              _textFormation(),
+              _bottomFormation(context),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _topBar() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Icon(
-            Icons.arrow_back_ios,
-            color: Colors.orange,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Icon(
+          Icons.arrow_back_ios,
+          color: Colors.orange,
+        ),
+        Text(
+          'Position',
+          style: TextStyle(
+            fontFamily: fontSFDisplayRegular,
+            fontSize: 20,
           ),
-          Text(
-            'Position',
-            style: TextStyle(
-              fontFamily: fontSFDisplayRegular,
-              fontSize: 20,
-            ),
-          ),
-          Icon(
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => Export()));
+          },
+          child: Icon(
             Icons.arrow_forward_ios,
             color: Colors.orange,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -122,43 +126,37 @@ class _PortraitState extends State<Portrait> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      ...Iterable<int>.generate(Provider.of<Data>(context)
-                              .listFormationPort
-                              .length)
-                          .map((int pageIndex) => Row(
-                                children: <Widget>[
-                                  FlatButton(
-                                      child: Text(
-                                        Provider.of<Data>(context)
-                                            .listTypeFormation[pageIndex],
-                                        style: TextStyle(
-                                          color: Provider.of<Data>(context)
-                                                      .carouselPageIndex ==
-                                                  pageIndex
-                                              ? Colors.red
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Provider.of<Data>(context,
-                                                listen: false)
-                                            .setCarouselPageIndex(pageIndex);
-                                        _carouselController
-                                            .animateToPage(pageIndex);
-                                      }),
-                                  VerticalDivider(
-                                    thickness: 0.12,
-                                    endIndent: 15,
-                                    indent: 15,
-                                    width: 0,
-                                    color: Colors.black,
+                  ...Iterable<int>.generate(
+                          Provider.of<Data>(context).listFormationPort.length)
+                      .map((int pageIndex) => Row(
+                            children: <Widget>[
+                              FlatButton(
+                                  child: Text(
+                                    Provider.of<Data>(context)
+                                        .listTypeFormation[pageIndex],
+                                    style: TextStyle(
+                                      color: Provider.of<Data>(context)
+                                                  .carouselPageIndex ==
+                                              pageIndex
+                                          ? Colors.red
+                                          : Colors.black,
+                                    ),
                                   ),
-                                ],
-                              )),
-                    ],
-                  ),
+                                  onPressed: () {
+                                    Provider.of<Data>(context, listen: false)
+                                        .setCarouselPageIndex(pageIndex);
+                                    _carouselController
+                                        .animateToPage(pageIndex);
+                                  }),
+                              VerticalDivider(
+                                thickness: 0.12,
+                                endIndent: 15,
+                                indent: 15,
+                                width: 0,
+                                color: Colors.black,
+                              ),
+                            ],
+                          )),
                 ],
               ),
             ),
