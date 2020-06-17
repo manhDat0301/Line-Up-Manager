@@ -1,13 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/portrait/add_player.dart';
+import 'package:marozi/portrait/player_table.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/home_page.dart';
 
 class ModePortrait extends StatefulWidget {
   @override
@@ -17,7 +16,7 @@ class ModePortrait extends StatefulWidget {
 class _ModePortraitState extends State<ModePortrait> {
   CarouselController _carouselController = CarouselController();
   PageController _pageController = PageController(
-    viewportFraction: 0.7,
+    viewportFraction: 0.9,
     initialPage: 0,
   );
   GlobalKey _key = GlobalKey();
@@ -25,7 +24,8 @@ class _ModePortraitState extends State<ModePortrait> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    });
   }
 
   @override
@@ -37,6 +37,7 @@ class _ModePortraitState extends State<ModePortrait> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         top: true,
         child: Column(
@@ -65,8 +66,14 @@ class _ModePortraitState extends State<ModePortrait> {
 
   Widget _pageView() {
     return Container(
-      height: 410,
+      height: 523,
       child: PageView(
+        onPageChanged: (bool) {
+//          SystemChrome.setPreferredOrientations([
+//            DeviceOrientation.landscapeRight,
+//            DeviceOrientation.landscapeLeft,
+//          ]);
+        },
         controller: _pageController,
         scrollDirection: Axis.horizontal,
         children: <Widget>[
@@ -74,22 +81,6 @@ class _ModePortraitState extends State<ModePortrait> {
           _landscape(),
         ],
       ),
-    );
-  }
-
-  Widget _carousel() {
-    return CarouselSlider(
-      items: <Widget>[_portraitMode(), _landscape()],
-      options: CarouselOptions(
-        scrollDirection: Axis.horizontal,
-        initialPage: 0,
-        height: 419,
-        carouselController: _carouselController,
-        enableInfiniteScroll: false,
-        viewportFraction: 0.70,
-        enlargeCenterPage: false,
-      ),
-      carouselController: _carouselController,
     );
   }
 
@@ -123,11 +114,15 @@ class _ModePortraitState extends State<ModePortrait> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-//                Image.asset('assets/images/landscape.png'),
-                SizedBox(width: 300, height: 247),
-                Center(
-                  child: Text(
-                    'Landscape Mode',
+                Image.asset('assets/images/landscape.png'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: Center(
+                    child: MyText(
+                      text: 'Landscape Mode',
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],
@@ -144,18 +139,17 @@ class _ModePortraitState extends State<ModePortrait> {
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: () {
-          Provider.of<Data>(context, listen: false).switchOrientation(true);
-          Navigator.of(context).push(PageRouteBuilder(
-              pageBuilder:
-                  (BuildContext context, animation, secondaryAnimation) =>
-                      _pageController.initialPage == 0
-                          ? AddPlayer()
-                          : ModeLandscape()));
+          Provider.of<Data>(context, listen: false).orientation(true);
+//          Navigator.of(context).push(PageRouteBuilder(
+//              pageBuilder:
+//                  (BuildContext context, animation, secondaryAnimation) =>
+//                      PlayerTable()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PlayerTable()));
         },
         textColor: Colors.white,
         padding: const EdgeInsets.all(0.0),
         child: Container(
-          width: 250,
+          width: MediaQuery.of(context).size.width * 0.88,
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

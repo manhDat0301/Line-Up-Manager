@@ -90,7 +90,6 @@ class Constants {
       Player(
           'Maguire', playerHarryMaguire1, Offset(portraitW(37), portraitH(52))),
       Player('De Gea', playerDeGea1, Offset(portraitW(50), portraitH(67))),
-
       Player('LDM', null, Offset(portraitW(20), portraitH(3))),
       Player('RDM', null, Offset(portraitW(78), portraitH(3))),
       Player('LS', null, Offset(portraitW(12), portraitH(35))),
@@ -125,7 +124,88 @@ class Constants {
   static List<String> initTypeFormation(List<String> list) {
     return list = ['4-3-3', '4-2-3-1', '4-4-2', '3-4-3', '3-2-2-3', '3-3-3-1'];
   }
+
   static List<String> initStyle(List<String> list) {
-    return list = ['Braven', 'Glory Red', 'B&W', 'The Bleu', 'Royal White', 'Red Devils'];
+    return list = [
+      'Braven',
+      'Glory Red',
+      'B&W',
+      'The Bleu',
+      'Royal White',
+      'Red Devils'
+    ];
+  }
+
+  static List<String> initPremierLeague(List<String> list) {
+    return [
+      'Arsenal',
+      'Aston Villa',
+      'Bournemouth',
+      'Brighton & Hove Albion',
+      'Burnley',
+      'Chelsea',
+      'Crystal Palace',
+      'Everton',
+      'Leicester City',
+      'Liverpool',
+      'Manchester City',
+      'Manchester United',
+      'Newcastle United',
+      'Norwich City',
+      'Sheffield United',
+      'Southampton',
+      'Tottenham Hotspur',
+      'Watford',
+      'West Ham United',
+      'Wolverhampton Wanderers',
+    ];
+  }
+
+  static List<String> initManUnitedPlayers(List<String> list) {
+    return [
+      'Paul Pogba',
+      'Marcus Rashford',
+      'Bruno Fernandes',
+      'Odion Ighalo',
+      'Anthony Martial',
+      'Bournemouth',
+      'Mason Greenwood',
+      'Daniel James',
+      'Angel Gomes',
+      'Harry Maguire',
+      'Fred',
+      'David De Gea',
+      'Jesse Lingard',
+      'Brandon Williams',
+      'Juan Mata',
+      'Aaron Wan-Bissaka',
+      'Scott McTominay',
+      'Andreas Pereira',
+      'Tahith Chong',
+      'Nemanja Matić',
+      'Diogo Dalot',
+      'Eric Bertrand Bailly',
+      'Luke Shaw',
+      'Phil Jones',
+      'Victor Lindelöf',
+      'Teden Mengi',
+      'Sergio Romero',
+      'James Garner',
+      'Axel Tuanzebe',
+      'Largie Ramazani',
+      'Lee Grant',
+      'Timothy Fosu-Mensah',
+      'Joel Castro Pereira',
+      'Ethan Laird',
+      'Dylan Levitt',
+      'Cameron Borthwick-Jackson',
+      'Ethan Galbraith',
+      'Matej Kovar',
+      'Di\'Shon Bernard',
+      'D\'Mani Mellor',
+      'Arnau Puigmal',
+      'Ethan Hamilton',
+      'Max Dunne',
+    ];
   }
 }

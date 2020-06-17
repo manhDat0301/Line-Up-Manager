@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:marozi/landscape/select_mode.dart';
 import 'package:marozi/portrait/select_mode.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,25 +21,14 @@ class _HomePageState extends State<HomePage> {
     Orientation orientation = MediaQuery.of(context).orientation;
     if (orientation == Orientation.portrait) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<Data>(context, listen: false).switchOrientation(true);
+        Provider.of<Data>(context, listen: false).orientation(true);
       });
       return ModePortrait();
     } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<Data>(context, listen: false).switchOrientation(false);
+        Provider.of<Data>(context, listen: false).orientation(false);
       });
       return ModeLandscape();
     }
-  }
-}
-
-class ModeLandscape extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('ModeLandscape'),
-      ),
-    );
   }
 }

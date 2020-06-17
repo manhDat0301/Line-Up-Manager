@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
+import 'package:marozi/portrait/portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
-class Landscape extends StatefulWidget {
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
+class Landscape extends StatefulWidget {
   @override
   _LandscapeState createState() => _LandscapeState();
 }
@@ -17,28 +18,51 @@ class _LandscapeState extends State<Landscape> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      left: true,
-      right: true,
-      top: true,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Column(
-            children: <Widget>[
-              _topBar(),
-              _carousel(context),
-            ],
+    if (MediaQuery.of(context).orientation == Orientation.landscape) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).orientation(false);
+        print('landscape: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
+        print('landscape: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
+      });
+      return ChangeNotifierProvider(
+        create: (BuildContext context) => Data(),
+        builder: (context, widget) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              body: SafeArea(
+                left: true,
+                right: true,
+                top: true,
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Column(
+                      children: <Widget>[
+                        _topBar(),
+                        _carousel(context),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
           );
         },
-      ),
-    );
+      );
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).orientation(true);
+        print('landscape: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
+        print('landscape: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
+      });
+      return Portrait();
+    }
   }
 
   Widget _topBar() {
@@ -118,6 +142,9 @@ class _LandscapeState extends State<Landscape> {
                         Divider(
                           color: Colors.black,
                           thickness: 0.12,
+                          height: 0,
+                          indent: 18,
+                          endIndent: 18,
                         ),
                       ],
                     ))

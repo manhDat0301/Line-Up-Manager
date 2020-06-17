@@ -9,8 +9,11 @@ class Data with ChangeNotifier {
   List<Widget> listFormationPort;
   List<String> listTypeFormation;
   List<String> listStyle;
+  List<String> listPremierLeague;
+  List<String> listManUPlayers;
   int p2;
   int carouselPageIndex = 0;
+  String teamSelected;
 
   Data() {
     listPlayers = Constants.initPlayersList(listPlayers);
@@ -22,10 +25,21 @@ class Data with ChangeNotifier {
     listTypeFormation = Constants.initTypeFormation(listTypeFormation);
 
     listStyle = Constants.initStyle(listStyle);
+
+    listPremierLeague = Constants.initPremierLeague(listPremierLeague);
+
+    listManUPlayers = Constants.initManUnitedPlayers(listManUPlayers);
+
+    listManUPlayers.sort();
   }
 
   playerTarget(int player2) {
     p2 = player2;
+  }
+
+  teamSelect(String team) {
+    teamSelected = team;
+    notifyListeners();
   }
 
   swapPlayersPortrait(int p1) {
@@ -51,7 +65,7 @@ class Data with ChangeNotifier {
     notifyListeners();
   }
 
-  switchOrientation(bool isPortrait) {
+  orientation(bool isPortrait) {
     if (isPortrait) {
       for (int i = 0; i < listPlayers.length; i++) {
         listPlayers[i].offset = Constants.offsetPortrait[listPlayers[i].name];
@@ -63,4 +77,5 @@ class Data with ChangeNotifier {
     }
     notifyListeners();
   }
+
 }

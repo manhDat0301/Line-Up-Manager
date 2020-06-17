@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/custom_icon_export.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/portrait/custom_dialog.dart';
+import 'package:marozi/portrait/export_button.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -23,22 +23,25 @@ class _ExportState extends State<Export> {
     return Scaffold(
       body: SafeArea(
         top: true,
-        child: Column(
-          children: <Widget>[
-            _topBar(),
-            _center(),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
-              child: Text(
-                'Style',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: fontSFDisplayRegular,
+        child: GestureDetector(
+          onTap: () {},
+          child: Column(
+            children: <Widget>[
+              _topBar(),
+              _center(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
+                child: Text(
+                  'Style',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: fontSFDisplayRegular,
+                  ),
                 ),
               ),
-            ),
-            _bottom(),
-          ],
+              _bottom(),
+            ],
+          ),
         ),
       ),
     );
@@ -62,10 +65,7 @@ class _ExportState extends State<Export> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: Icon(CustomIcon.export_icon, color: Colors.orange),
-          ),
+          ExportButton(),
         ],
       ),
     );
@@ -78,7 +78,7 @@ class _ExportState extends State<Export> {
           children: <Widget>[
             Expanded(
               child: Container(
-                color: Colors.orange,
+                color: Colors.white,
               ),
             ),
             Padding(

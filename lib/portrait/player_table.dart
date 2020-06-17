@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/data/data.dart';
+import 'package:marozi/landscape/player_table.dart';
+import 'package:marozi/portrait/adding.dart';
+import 'package:marozi/portrait/player_detail.dart';
 import 'package:marozi/portrait/portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
-class AddPlayer extends StatelessWidget {
+class PlayerTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => Data(),
-      builder: (BuildContext context, widget) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(body: AddPlayerPage()),
-        );
-      },
-    );
+    Orientation orientation = MediaQuery.of(context).orientation;
+    if (orientation == Orientation.portrait) {
+      return ChangeNotifierProvider(
+        create: (BuildContext context) => Data(),
+        builder: (BuildContext context, widget) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(body: AddPlayerPage()),
+          );
+        },
+      );
+    } else {
+      return ChangeNotifierProvider(
+        create: (BuildContext context) => Data(),
+        builder: (BuildContext context, widget) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(body: PlayerTableLandscape()),
+          );
+        },
+      );
+    }
   }
 }
 
@@ -26,7 +42,15 @@ class AddPlayerPage extends StatefulWidget {
 
 class _AddPlayerPageState extends State<AddPlayerPage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+//    if (MediaQuery.of(context).orientation == Orientation.portrait) {
     return Scaffold(
       body: SafeArea(
         top: true,
@@ -44,11 +68,14 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
         ),
       ),
     );
+//    } else {
+    return PlayerTableLandscape();
+//    }
   }
 
   Widget _topBar() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 5.0),
+      padding: const EdgeInsets.only(bottom: 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -145,7 +172,14 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
               color: Colors.orange,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => PlayerAdding()));
+          },
+          onDoubleTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => PlayerDetail(0)));
+          },
         ),
       ),
     );

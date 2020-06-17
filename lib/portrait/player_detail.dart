@@ -535,7 +535,7 @@ class _PlayerDetailState extends State<PlayerDetail> {
                       borderRadius: BorderRadius.circular(4.49),
                     ),
                     child: Text(
-                      'RB',
+                      'RWB',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),

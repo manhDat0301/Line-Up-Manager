@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/landscape/landscape.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -25,12 +26,26 @@ class _PortraitState extends State<Portrait> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => Data(),
-      builder: (BuildContext context, widget) {
-        return _safeArea(context);
-      },
-    );
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).orientation(true);
+        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
+        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
+      });
+      return ChangeNotifierProvider(
+        create: (BuildContext context) => Data(),
+        builder: (BuildContext context, widget) {
+          return _safeArea(context);
+        },
+      );
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<Data>(context, listen: false).orientation(false);
+        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
+        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
+      });
+      return Landscape();
+    }
   }
 
   Widget _safeArea(context) {
@@ -59,9 +74,12 @@ class _PortraitState extends State<Portrait> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Icon(
-          Icons.arrow_back_ios,
-          color: Colors.orange,
+        InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.orange,
+          ),
         ),
         Text(
           'Position',
@@ -72,8 +90,8 @@ class _PortraitState extends State<Portrait> {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => Export()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) => Export()));
           },
           child: Icon(
             Icons.arrow_forward_ios,
