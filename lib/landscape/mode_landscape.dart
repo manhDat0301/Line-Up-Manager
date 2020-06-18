@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/common/position.dart';
+import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/landscape/landscape.dart';
+import 'package:marozi/landscape/position_landscape.dart';
+import 'package:marozi/resources/colors.dart';
 
 class ModeLandscape extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class _ModeLandscapeState extends State<ModeLandscape> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         left: true,
         right: true,
@@ -124,22 +128,33 @@ class _ModeLandscapeState extends State<ModeLandscape> {
   }
 
   Widget _goBtn() {
-    return Container(
-      width: MediaQuery.of(context).size.width / 3,
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
+    return RaisedButton(
+      padding: EdgeInsets.all(0.0),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      child: RaisedButton(
-        color: Colors.orange,
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => Landscape()));
-        },
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => PlayerTable()));
+      },
+      child: Container(
+        alignment: Alignment.center,
+        height: 40,
+        width: MediaQuery.of(context).size.width / 3.5,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: <Color>[
+              HexColor('FF7008'),
+              HexColor('FF964A'),
+            ],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: MyText(
           text: 'Go',
           color: Colors.white,
-          textAlign: TextAlign.center,
           fontSize: 19,
         ),
       ),

@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/portrait/player_table.dart';
+import 'package:marozi/portrait/table_portrait.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +15,10 @@ class ModePortrait extends StatefulWidget {
 }
 
 class _ModePortraitState extends State<ModePortrait> {
-  CarouselController _carouselController = CarouselController();
   PageController _pageController = PageController(
     viewportFraction: 0.9,
     initialPage: 0,
   );
-  GlobalKey _key = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
-  }
 
   @override
   void dispose() {
@@ -139,11 +131,6 @@ class _ModePortraitState extends State<ModePortrait> {
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: () {
-          Provider.of<Data>(context, listen: false).orientation(true);
-//          Navigator.of(context).push(PageRouteBuilder(
-//              pageBuilder:
-//                  (BuildContext context, animation, secondaryAnimation) =>
-//                      PlayerTable()));
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PlayerTable()));
         },
         textColor: Colors.white,

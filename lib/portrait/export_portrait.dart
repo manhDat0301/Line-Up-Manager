@@ -1,26 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/data/data.dart';
-import 'package:marozi/portrait/custom_dialog.dart';
 import 'package:marozi/portrait/export_button.dart';
+import 'package:marozi/portrait/setting_dialog_portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
-class Export extends StatefulWidget {
+class ExportPortrait extends StatefulWidget {
   @override
-  _ExportState createState() => _ExportState();
+  _ExportPortraitState createState() => _ExportPortraitState();
 }
 
-class _ExportState extends State<Export> {
+class _ExportPortraitState extends State<ExportPortrait> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         top: true,
         child: GestureDetector(

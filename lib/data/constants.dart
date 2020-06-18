@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/landscape/4_3_3.dart';
+import 'package:marozi/landscape/4_3_3_landscape.dart';
 import 'package:marozi/players/player.dart';
-import 'package:marozi/portrait/4_3_3.dart';
+import 'package:marozi/portrait/4_3_3_portrait.dart';
 
 import '../resources/strings.dart';
 
@@ -68,28 +68,32 @@ class Constants {
     'Bailly': Offset(landscapeW(58), landscapeH(61)),
     'Maguire': Offset(landscapeW(24.7), landscapeH(61)),
     'De Gea': Offset(landscapeW(41.45), landscapeH(63.3)),
+    'LS': Offset(portraitW(23), portraitH(0.2)),
+    'RS': Offset(portraitW(18), portraitH(12)),
+    'LDM': Offset(portraitW(32), portraitH(35)),
+    'RDM': Offset(portraitW(65), portraitH(35)),
   };
 
   static List<Player> initPlayersList(List<Player> list) {
     list = [
       Player(
-          'Martial', playerAnthonyMartial, Offset(portraitW(50), portraitH(3))),
+          'Martial', playerAnthonyMartial, Offset(portraitW(0), portraitH(0))),
       Player(
-          'Bruno', playerBrunoFernandes, Offset(portraitW(50), portraitH(18))),
+          'Bruno', playerBrunoFernandes, Offset(portraitW(0), portraitH(0))),
       Player('Rashford', playerMarcusRashford,
-          Offset(portraitW(20), portraitH(18))),
+          Offset(portraitW(0), portraitH(0))),
       Player('Greenwood', playerMasonGreenwood,
-          Offset(portraitW(78), portraitH(18))),
-      Player('Pogba', playerPaulPogba1, Offset(portraitW(36), portraitH(35))),
+          Offset(portraitW(0), portraitH(0))),
+      Player('Pogba', playerPaulPogba1, Offset(portraitW(0), portraitH(0))),
       Player('McTominay', playerScottMcTominay,
-          Offset(portraitW(62), portraitH(35))),
+          Offset(portraitW(0), portraitH(0))),
       Player('Wan-bisaka', playerAaronWanBissaka,
-          Offset(portraitW(86), portraitH(48))),
-      Player('Shaw', playerLukeShaw, Offset(portraitW(12), portraitH(48))),
-      Player('Bailly', playerEricBailly1, Offset(portraitW(61), portraitH(52))),
+          Offset(portraitW(0), portraitH(0))),
+      Player('Shaw', playerLukeShaw, Offset(portraitW(0), portraitH(0))),
+      Player('Bailly', playerEricBailly1, Offset(portraitW(0), portraitH(0))),
       Player(
-          'Maguire', playerHarryMaguire1, Offset(portraitW(37), portraitH(52))),
-      Player('De Gea', playerDeGea1, Offset(portraitW(50), portraitH(67))),
+          'Maguire', playerHarryMaguire1, Offset(portraitW(0), portraitH(0))),
+      Player('De Gea', playerDeGea1, Offset(portraitW(0), portraitH(0))),
       Player('LDM', null, Offset(portraitW(20), portraitH(3))),
       Player('RDM', null, Offset(portraitW(78), portraitH(3))),
       Player('LS', null, Offset(portraitW(12), portraitH(35))),

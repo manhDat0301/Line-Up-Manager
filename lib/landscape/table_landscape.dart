@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/data/data.dart';
+import 'package:marozi/common/position.dart';
+import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/portrait/player_table.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:provider/provider.dart';
 
 import 'adding.dart';
 
@@ -54,7 +53,11 @@ class _PlayerTableLandscapeState extends State<PlayerTableLandscape> {
           fontWeight: FontWeight.w600,
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => Position(),
+            ));
+          },
           child: Icon(
             Icons.arrow_forward_ios,
             color: Colors.orange,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/portrait/player_detail.dart';
+import 'package:marozi/portrait/detail_portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +38,6 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
   void initState() {
     super.initState();
     i = widget.i;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override
@@ -149,7 +148,7 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
         player.assetImage == null
             ? Container(
                 width: 65,
-                height: 74,
+                height: 65,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(

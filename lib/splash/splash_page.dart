@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/home_page.dart';
+import 'package:marozi/common/home_page.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 

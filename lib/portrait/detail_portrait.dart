@@ -23,18 +23,17 @@ class _PlayerDetailState extends State<PlayerDetail> {
   void initState() {
     super.initState();
     i = widget.i;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      print(
+          'Detail: ${Provider.of<Data>(context, listen: false).listPlayers[i].name}');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: _detail(),
-    );
-  }
-
-  Widget _detail() {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
         child: Column(

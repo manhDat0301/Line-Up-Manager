@@ -11,24 +11,15 @@ class Portrait433 extends StatefulWidget {
 }
 
 class _Portrait433State extends State<Portrait433> {
-  GlobalKey _key = GlobalKey();
-
-  initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.only(bottom: 5.0),
-      child: Container(
-        width: double.infinity,
-        child: Card(
-          child: Stack(
-            children: stackItems(context),
-          ),
+      width: double.infinity,
+      child: Card(
+        child: Stack(
+          children: stackItems(context),
         ),
       ),
     );

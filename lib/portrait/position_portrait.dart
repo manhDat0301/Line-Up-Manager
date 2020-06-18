@@ -1,57 +1,34 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/landscape/landscape.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
-import 'export.dart';
+import 'export_portrait.dart';
 
-class Portrait extends StatefulWidget {
+class PositionPortrait extends StatefulWidget {
   @override
-  _PortraitState createState() => _PortraitState();
+  _PositionPortraitState createState() => _PositionPortraitState();
 }
 
-class _PortraitState extends State<Portrait> {
+class _PositionPortraitState extends State<PositionPortrait> {
   final CarouselController _carouselController = CarouselController();
-  GlobalKey _key = GlobalKey();
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<Data>(context, listen: false).orientation(true);
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<Data>(context, listen: false).orientation(true);
-        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
-        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
-      });
-      return ChangeNotifierProvider(
-        create: (BuildContext context) => Data(),
-        builder: (BuildContext context, widget) {
-          return _safeArea(context);
-        },
-      );
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<Data>(context, listen: false).orientation(false);
-        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].name}');
-        print('portrait: ${Provider.of<Data>(context, listen: false).listPlayers[2].offset}');
-      });
-      return Landscape();
-    }
-  }
-
-  Widget _safeArea(context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        key: _key,
         top: true,
         left: true,
         right: true,
@@ -91,7 +68,7 @@ class _PortraitState extends State<Portrait> {
         InkWell(
           onTap: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) => Export()));
+                MaterialPageRoute(builder: (BuildContext context) => ExportPortrait()));
           },
           child: Icon(
             Icons.arrow_forward_ios,

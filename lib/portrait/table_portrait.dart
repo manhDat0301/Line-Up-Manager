@@ -1,57 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/data/data.dart';
-import 'package:marozi/landscape/player_table.dart';
+import 'package:marozi/common/position.dart';
 import 'package:marozi/portrait/adding.dart';
-import 'package:marozi/portrait/player_detail.dart';
-import 'package:marozi/portrait/portrait.dart';
+import 'package:marozi/portrait/detail_portrait.dart';
+import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:provider/provider.dart';
 
-class PlayerTable extends StatelessWidget {
+class PlayerTablePortrait extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
-    if (orientation == Orientation.portrait) {
-      return ChangeNotifierProvider(
-        create: (BuildContext context) => Data(),
-        builder: (BuildContext context, widget) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(body: AddPlayerPage()),
-          );
-        },
-      );
-    } else {
-      return ChangeNotifierProvider(
-        create: (BuildContext context) => Data(),
-        builder: (BuildContext context, widget) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(body: PlayerTableLandscape()),
-          );
-        },
-      );
-    }
-  }
+  _PlayerTablePortraitState createState() => _PlayerTablePortraitState();
 }
 
-class AddPlayerPage extends StatefulWidget {
-  @override
-  _AddPlayerPageState createState() => _AddPlayerPageState();
-}
-
-class _AddPlayerPageState extends State<AddPlayerPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    });
-  }
-
+class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
   @override
   Widget build(BuildContext context) {
-//    if (MediaQuery.of(context).orientation == Orientation.portrait) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
         child: Container(
@@ -68,9 +32,6 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
         ),
       ),
     );
-//    } else {
-    return PlayerTableLandscape();
-//    }
   }
 
   Widget _topBar() {
@@ -90,7 +51,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => Portrait()));
+                  builder: (BuildContext context) => Position()));
             },
             child: Icon(
               Icons.arrow_forward_ios,
