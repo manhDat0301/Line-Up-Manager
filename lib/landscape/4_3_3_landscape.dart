@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/common/drag_player.dart';
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/players/drag_player.dart';
 import 'package:provider/provider.dart';
 
 class Landscape433 extends StatefulWidget {

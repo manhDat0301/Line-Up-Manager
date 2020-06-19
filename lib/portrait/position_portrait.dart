@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/data/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class PositionPortrait extends StatefulWidget {
 
 class _PositionPortraitState extends State<PositionPortrait> {
   final CarouselController _carouselController = CarouselController();
+  int currentPage = 0;
 
   @override
   void initState() {
@@ -67,8 +69,8 @@ class _PositionPortraitState extends State<PositionPortrait> {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) => ExportPortrait()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => ExportPortrait()));
           },
           child: Icon(
             Icons.arrow_forward_ios,
@@ -126,18 +128,18 @@ class _PositionPortraitState extends State<PositionPortrait> {
                       .map((int pageIndex) => Row(
                             children: <Widget>[
                               FlatButton(
-                                  child: Text(
-                                    Provider.of<Data>(context)
+                                  child: MyText(
+                                    text: Provider.of<Data>(context)
                                         .listTypeFormation[pageIndex],
-                                    style: TextStyle(
-                                      color: Provider.of<Data>(context)
-                                                  .carouselPageIndex ==
-                                              pageIndex
-                                          ? Colors.red
-                                          : Colors.black,
-                                    ),
+                                    fontSize: 17,
+                                    color: currentPage == pageIndex
+                                        ? Colors.red
+                                        : Colors.black,
                                   ),
                                   onPressed: () {
+                                    setState(() {
+                                      currentPage = pageIndex;
+                                    });
                                     Provider.of<Data>(context, listen: false)
                                         .setCarouselPageIndex(pageIndex);
                                     _carouselController

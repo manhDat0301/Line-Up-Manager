@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/portrait/adding.dart';
+import 'package:marozi/portrait/adding_portrait.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:provider/provider.dart';
 
-class PlayerAddingLandscape extends StatefulWidget {
+class AddingLandscape extends StatefulWidget {
   @override
-  _PlayerAddingLandscapeState createState() => _PlayerAddingLandscapeState();
+  _AddingLandscapeState createState() => _AddingLandscapeState();
 }
 
-class _PlayerAddingLandscapeState extends State<PlayerAddingLandscape> {
+class _AddingLandscapeState extends State<AddingLandscape> {
   bool isPremierLSelect = true;
   bool isChampionshipSelect = false;
   bool isLeagueOneSelect = false;
@@ -50,7 +50,7 @@ class _PlayerAddingLandscapeState extends State<PlayerAddingLandscape> {
         ),
       );
     } else {
-      return PlayerAdding();
+      return AddingPortrait();
     }
   }
 

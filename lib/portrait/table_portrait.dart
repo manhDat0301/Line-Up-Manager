@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/common/adding.dart';
 import 'package:marozi/common/position.dart';
-import 'package:marozi/portrait/adding.dart';
+import 'package:marozi/portrait/adding_portrait.dart';
 import 'package:marozi/portrait/detail_portrait.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -120,32 +121,6 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
     );
   }
 
-  Widget _add() {
-    return ClipOval(
-      child: Material(
-        child: InkWell(
-          splashColor: Colors.orangeAccent, // inkwell color
-          child: SizedBox(
-            width: 65,
-            height: 65,
-            child: Icon(
-              Icons.add_circle,
-              color: Colors.orange,
-            ),
-          ),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => PlayerAdding()));
-          },
-          onDoubleTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => PlayerDetail(0)));
-          },
-        ),
-      ),
-    );
-  }
-
   Widget _substitutes() {
     return Container(
       height: 240,
@@ -208,6 +183,32 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
             color: Colors.orange,
             size: 33,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _add() {
+    return ClipOval(
+      child: Material(
+        child: InkWell(
+          splashColor: Colors.orangeAccent, // inkwell color
+          child: SizedBox(
+            width: 65,
+            height: 65,
+            child: Icon(
+              Icons.add_circle,
+              color: Colors.orange,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => Adding()));
+          },
+          onDoubleTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => PlayerDetail(0)));
+          },
         ),
       ),
     );

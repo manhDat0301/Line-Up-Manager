@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 import 'package:provider/provider.dart';
 
-import '../players/drag_player.dart';
+import '../common/drag_player.dart';
 
 class Portrait433 extends StatefulWidget {
   @override

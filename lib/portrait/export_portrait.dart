@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/common/setting_dialog.dart';
 import 'package:marozi/data/data.dart';
+import 'package:marozi/data/my_text.dart';
 import 'package:marozi/portrait/export_button.dart';
-import 'package:marozi/portrait/setting_dialog_portrait.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -31,12 +32,10 @@ class _ExportPortraitState extends State<ExportPortrait> {
               _center(),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
-                child: Text(
-                  'Style',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: fontSFDisplayRegular,
-                  ),
+                child: MyText(
+                  text: 'Style',
+                  color: Colors.black,
+                  fontSize: 19,
                 ),
               ),
               _bottom(),
@@ -48,26 +47,20 @@ class _ExportPortraitState extends State<ExportPortrait> {
   }
 
   Widget _topBar() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4, right: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          InkWell(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(Icons.arrow_back_ios, color: Colors.orange),
-          ),
-          Text(
-            'Export',
-            style: TextStyle(
-              fontFamily: fontSFDisplayRegular,
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          ExportButton(),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: Icon(Icons.arrow_back_ios, color: Colors.orange),
+        ),
+        MyText(
+          text: 'Export',
+          color: Colors.black,
+          fontSize: 19,
+        ),
+        ExportButton(),
+      ],
     );
   }
 
@@ -130,9 +123,12 @@ class _ExportPortraitState extends State<ExportPortrait> {
                     onTap: () {
                       showDialog(
                           context: context,
-                          builder: (context) => CustomDialog());
+                          builder: (context) => SettingDialog());
                     },
-                    child: Icon(Icons.settings),
+                    child: Icon(
+                      Icons.settings,
+                      color: Colors.black54,
+                    ),
                   ),
                 ],
               ),

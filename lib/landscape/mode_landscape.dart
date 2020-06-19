@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/common/position.dart';
 import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/landscape/position_landscape.dart';
 import 'package:marozi/resources/colors.dart';
 
 class ModeLandscape extends StatefulWidget {
@@ -101,10 +99,11 @@ class _ModeLandscapeState extends State<ModeLandscape> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 130,
+          Image.asset(
+            'assets/images/portrait.png',
             alignment: Alignment.center,
-            child: Image.asset('assets/images/portrait.png'),
+            height: MediaQuery.of(context).size.height / 1.543,
+            colorBlendMode: BlendMode.darken,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -51,9 +51,14 @@ class _PositionLandscapeState extends State<PositionLandscape> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Icon(
-          Icons.arrow_back_ios,
-          color: Colors.orange,
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.orange,
+          ),
         ),
         Text(
           'Position',
@@ -113,24 +118,32 @@ class _PositionLandscapeState extends State<PositionLandscape> {
             ...Iterable<int>.generate(
                     Provider.of<Data>(context).listTypeFormation.length)
                 .map(
-              (int pageIndex) => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              (int pageIndex) => Wrap(
                 children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        currentPage = pageIndex;
-                      });
-                      _carouselController.animateToPage(pageIndex);
-                    },
-                    child: Text(
-                      Provider.of<Data>(context).listTypeFormation[pageIndex],
-                      style: TextStyle(
-                        color: currentPage == pageIndex
-                            ? Colors.red
-                            : Colors.black,
-                        fontSize: 17,
-                        fontFamily: fontSFDisplayRegular,
+                  Container(
+                    width: 140,
+                    height: 48,
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          currentPage = pageIndex;
+                        });
+                        _carouselController.animateToPage(pageIndex);
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          Provider.of<Data>(context)
+                              .listTypeFormation[pageIndex],
+                          style: TextStyle(
+                            color: currentPage == pageIndex
+                                ? Colors.red
+                                : Colors.black,
+                            fontSize: 17,
+                            fontFamily: fontSFDisplayRegular,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -141,8 +154,7 @@ class _PositionLandscapeState extends State<PositionLandscape> {
                           color: Colors.black,
                           thickness: 0.12,
                           height: 0,
-                          indent: 18,
-                          endIndent: 18,
+                          indent: 20,
                         )
                       : Container(),
                 ],

@@ -4,7 +4,7 @@ import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
 import 'package:marozi/resources/colors.dart';
 
-import 'adding.dart';
+import 'adding_landscape.dart';
 
 class PlayerTableLandscape extends StatefulWidget {
   @override
@@ -209,7 +209,7 @@ class _PlayerTableLandscapeState extends State<PlayerTableLandscape> {
         splashColor: Colors.orange,
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => PlayerAddingLandscape()));
+              builder: (BuildContext context) => AddingLandscape()));
         },
         child: Container(
           width: 65,

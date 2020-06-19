@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/common/setting_dialog.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/data/my_text.dart';
 import 'package:marozi/portrait/export_button.dart';
@@ -40,13 +41,10 @@ class _ExportLandscapeState extends State<ExportLandscape> {
             onTap: () => Navigator.of(context).pop(),
             child: Icon(Icons.arrow_back_ios, color: Colors.orange),
           ),
-          Text(
-            'Export',
-            style: TextStyle(
-              fontFamily: fontSFDisplayRegular,
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
-            ),
+          MyText(
+            text: 'Export',
+            color: Colors.black,
+            fontSize: 19,
           ),
           ExportButton(),
         ],
@@ -64,7 +62,7 @@ class _ExportLandscapeState extends State<ExportLandscape> {
               child: Card(
                 child: Column(
                   children: <Widget>[
-                    Expanded(child: Container(color: Colors.red)),
+                    Expanded(child: Container(color: Colors.white)),
                     Divider(indent: 15, endIndent: 15, height: 14),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -93,6 +91,7 @@ class _ExportLandscapeState extends State<ExportLandscape> {
                               style: TextStyle(
                                 color: Colors.orange,
                                 fontFamily: fontSFDisplayRegular,
+                                fontSize: 16,
                               ),
                               children: [
                                 TextSpan(
@@ -100,14 +99,22 @@ class _ExportLandscapeState extends State<ExportLandscape> {
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: fontSFDisplayRegular,
+                                    fontSize: 16,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Icon(
-                            Icons.settings,
-                            color: Colors.black38,
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => SettingDialog());
+                            },
+                            child: Icon(
+                              Icons.settings,
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ),
@@ -118,20 +125,20 @@ class _ExportLandscapeState extends State<ExportLandscape> {
             ),
             Card(
               child: Container(
-                width: 140,
+                width: 130,
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+                padding: EdgeInsets.fromLTRB(25, 10, 0, 10),
                 child: ListView(
                   children: <Widget>[
                     ...Iterable<int>.generate(
                             Provider.of<Data>(context).listTypeFormation.length)
-                        .map((i) => InkWell(
-                              onTap: () {},
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
+                        .map((i) => Column(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
                                     alignment: Alignment.centerLeft,
-                                    height: 40,
+                                    height: 48,
                                     child: MyText(
                                       text: Provider.of<Data>(context)
                                           .listTypeFormation[i],
@@ -139,17 +146,18 @@ class _ExportLandscapeState extends State<ExportLandscape> {
                                       fontSize: 18,
                                     ),
                                   ),
-//                                  i <
-//                                          Provider.of<Data>(context)
-//                                                  .listTypeFormation
-//                                                  .length -
-//                                              1
-//                                      ? Divider(
-//                                          thickness: 1, color: Colors.black)
-//                                      : Container(),
-                                  Divider(),
-                                ],
-                              ),
+                                ),
+                                i <
+                                        Provider.of<Data>(context)
+                                                .listTypeFormation
+                                                .length -
+                                            1
+                                    ? Divider(
+                                        height: 0,
+                                        thickness: 0.2,
+                                        color: Colors.black)
+                                    : Container(),
+                              ],
                             ))
                   ],
                 ),

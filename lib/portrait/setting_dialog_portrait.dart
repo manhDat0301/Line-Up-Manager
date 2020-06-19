@@ -3,7 +3,7 @@ import 'package:marozi/data/my_text.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 
-class CustomDialog extends StatelessWidget {
+class SettingDialogPortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyCustomDialog();
@@ -100,7 +100,6 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                 onChanged: (bool value) {
                   setState(() {
                     substitutesShow = value;
-                    print('substitutes show :$substitutesShow');
                   });
                 },
               ),

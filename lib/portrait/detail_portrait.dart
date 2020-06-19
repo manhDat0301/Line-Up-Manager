@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/common/custom_chart.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -23,10 +24,6 @@ class _PlayerDetailState extends State<PlayerDetail> {
   void initState() {
     super.initState();
     i = widget.i;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      print(
-          'Detail: ${Provider.of<Data>(context, listen: false).listPlayers[i].name}');
-    });
   }
 
   @override
@@ -203,7 +200,6 @@ class _PlayerDetailState extends State<PlayerDetail> {
                   Image.asset(
                     iconMu2,
                     width: 50,
-//                    height: 30,
                   ),
                 ],
               ),
@@ -360,9 +356,17 @@ class _PlayerDetailState extends State<PlayerDetail> {
 
   Widget _chart() {
     return Container(
-      color: Colors.black12,
       width: 165,
       height: 165,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+//            size: Size(165,165),
+            painter: MyPainter(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -580,7 +584,7 @@ class _PlayerDetailState extends State<PlayerDetail> {
       style: TextStyle(
         fontFamily: fontSFDisplayRegular,
         fontSize: 13,
-        color: Colors.black38,
+        color: Colors.black54,
       ),
     );
   }

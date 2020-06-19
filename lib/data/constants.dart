@@ -59,29 +59,28 @@ class Constants {
   static Map<String, Offset> offsetLandscape = {
     'Martial': Offset(landscapeW(41.45), landscapeH(0.2)),
     'Bruno': Offset(landscapeW(41.45), landscapeH(21.5)),
-    'Rashford': Offset(landscapeW(15), landscapeH(21.5)),
-    'Greenwood': Offset(landscapeW(68.85), landscapeH(21.5)),
-    'Pogba': Offset(landscapeW(28), landscapeH(39.5)),
-    'McTominay': Offset(landscapeW(55.3), landscapeH(39.5)),
-    'Wan-bisaka': Offset(landscapeW(74.85), landscapeH(61)),
+    'Rashford': Offset(landscapeW(21.5), landscapeH(21.5)),
+    'Greenwood': Offset(landscapeW(61.5), landscapeH(21.5)),
+    'Pogba': Offset(landscapeW(31.5), landscapeH(39.5)),
+    'McTominay': Offset(landscapeW(51.5), landscapeH(39.5)),
+    'Wan-bisaka': Offset(landscapeW(73), landscapeH(61)),
     'Shaw': Offset(landscapeW(10), landscapeH(61)),
     'Bailly': Offset(landscapeW(58), landscapeH(61)),
     'Maguire': Offset(landscapeW(24.7), landscapeH(61)),
     'De Gea': Offset(landscapeW(41.45), landscapeH(63.3)),
-    'LS': Offset(portraitW(23), portraitH(0.2)),
-    'RS': Offset(portraitW(18), portraitH(12)),
-    'LDM': Offset(portraitW(32), portraitH(35)),
-    'RDM': Offset(portraitW(65), portraitH(35)),
+    'LS': Offset(landscapeW(11.5), landscapeH(0.2)),
+    'RS': Offset(landscapeW(71.5), landscapeH(0.2)),
+    'LDM': Offset(landscapeW(10.5), landscapeH(39.5)),
+    'RDM': Offset(landscapeW(72.5), landscapeH(39.5)),
   };
 
   static List<Player> initPlayersList(List<Player> list) {
     list = [
       Player(
           'Martial', playerAnthonyMartial, Offset(portraitW(0), portraitH(0))),
+      Player('Bruno', playerBrunoFernandes, Offset(portraitW(0), portraitH(0))),
       Player(
-          'Bruno', playerBrunoFernandes, Offset(portraitW(0), portraitH(0))),
-      Player('Rashford', playerMarcusRashford,
-          Offset(portraitW(0), portraitH(0))),
+          'Rashford', playerMarcusRashford, Offset(portraitW(0), portraitH(0))),
       Player('Greenwood', playerMasonGreenwood,
           Offset(portraitW(0), portraitH(0))),
       Player('Pogba', playerPaulPogba1, Offset(portraitW(0), portraitH(0))),
@@ -94,10 +93,10 @@ class Constants {
       Player(
           'Maguire', playerHarryMaguire1, Offset(portraitW(0), portraitH(0))),
       Player('De Gea', playerDeGea1, Offset(portraitW(0), portraitH(0))),
-      Player('LDM', null, Offset(portraitW(20), portraitH(3))),
-      Player('RDM', null, Offset(portraitW(78), portraitH(3))),
-      Player('LS', null, Offset(portraitW(12), portraitH(35))),
-      Player('RS', null, Offset(portraitW(86), portraitH(35))),
+      Player('LDM', null, Offset(portraitW(0), portraitH(0))),
+      Player('RDM', null, Offset(portraitW(0), portraitH(0))),
+      Player('LS', null, Offset(portraitW(0), portraitH(0))),
+      Player('RS', null, Offset(portraitW(0), portraitH(0))),
     ];
 
     return list;
@@ -126,7 +125,18 @@ class Constants {
   }
 
   static List<String> initTypeFormation(List<String> list) {
-    return list = ['4-3-3', '4-2-3-1', '4-4-2', '3-4-3', '3-2-2-3', '3-3-3-1'];
+    return list = [
+      '4-3-3',
+      '4-2-3-1',
+      '4-4-2',
+      '4-1-2-1-2',
+      '4-1-4-1',
+      '3-4-3',
+      '3-2-2-3',
+      '3-3-3-1',
+      '5-4-1',
+      '5-3-2',
+    ];
   }
 
   static List<String> initStyle(List<String> list) {

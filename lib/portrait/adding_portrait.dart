@@ -1,104 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/landscape/adding.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:provider/provider.dart';
 
-class Adding extends StatelessWidget {
+class AddingPortrait extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return PlayerAdding();
-  }
+  _AddingPortraitState createState() => _AddingPortraitState();
 }
 
-class PlayerAdding extends StatefulWidget {
-  @override
-  _PlayerAddingState createState() => _PlayerAddingState();
-}
-
-class _PlayerAddingState extends State<PlayerAdding> {
+class _AddingPortraitState extends State<AddingPortrait> {
   bool isFavouriteExpand = false;
   bool isPremierLeagueExpand = false;
   bool isMUExpand = false;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      print(
-          "adding: ${Provider.of<Data>(context, listen: false).listManUPlayers[0]}");
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      double customMinPrefixIconSize = 32;
-      BoxConstraints iconConstraints = BoxConstraints(
-        minWidth: customMinPrefixIconSize,
-        minHeight: customMinPrefixIconSize,
-      );
-      return ChangeNotifierProvider(
-        create: (BuildContext context) => Data(),
-        builder: (context, widget) {
-          return MaterialApp(
-            home: Scaffold(
-              backgroundColor: colorInputBackground,
-              body: SafeArea(
-                top: true,
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: ListView(
-                    padding: EdgeInsets.only(left: 6, right: 6),
-                    children: <Widget>[
-                      _container(
-                        _searchPlayer(iconConstraints),
-                        12,
-                        height: 243,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: MyText(
-                            textAlign: TextAlign.start,
-                            text: 'Favourite players',
-                            color: Colors.black,
-                            fontSize: 16),
-                      ),
-                      _favouritePlayer(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0),
-                        child: MyText(
-                          text: 'England',
-                          color: Colors.black,
-                          fontSize: 16,
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      _england(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0),
-                        child: MyText(
-                          text: 'Spain',
-                          color: Colors.black,
-                          fontSize: 16,
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      _laliga(),
-                    ],
-                  ),
+    double customMinPrefixIconSize = 32;
+    BoxConstraints iconConstraints = BoxConstraints(
+      minWidth: customMinPrefixIconSize,
+      minHeight: customMinPrefixIconSize,
+    );
+    return Scaffold(
+      backgroundColor: colorInputBackground,
+      body: SafeArea(
+        top: true,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: ListView(
+            padding: EdgeInsets.only(left: 6, right: 6),
+            children: <Widget>[
+              _container(
+                _searchPlayer(iconConstraints),
+                12,
+                height: 243,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: MyText(
+                    textAlign: TextAlign.start,
+                    text: 'Favourite players',
+                    color: Colors.black,
+                    fontSize: 16),
+              ),
+              _favouritePlayer(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 6.0),
+                child: MyText(
+                  text: 'England',
+                  color: Colors.black,
+                  fontSize: 16,
+                  textAlign: TextAlign.start,
                 ),
               ),
-            ),
-          );
-        },
-      );
-    } else {
-      return PlayerAddingLandscape();
-    }
+              _england(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 6.0),
+                child: MyText(
+                  text: 'Spain',
+                  color: Colors.black,
+                  fontSize: 16,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              _laliga(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _container(Widget child, double top, {double height}) {

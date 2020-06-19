@@ -152,16 +152,15 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                      color: candidateData.isEmpty
-                          ? Colors.transparent
-                          : Colors.orange),
+                    color: candidateData.isEmpty ? Colors.transparent : Colors.orange,
+                  ),
                 ),
                 child: candidateData.isEmpty
                     ? null
                     : Icon(
                         Icons.swap_horiz,
                         color: Colors.orange,
-                        size: 60,
+                        size: 58,
                       ),
               )
             : Container(
