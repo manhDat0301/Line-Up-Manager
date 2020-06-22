@@ -62,10 +62,11 @@ class SpiderChartPainter extends CustomPainter {
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
   );
-  Rect rect = new Rect.fromCircle(
-    center: new Offset(165.0, 55.0),
-    radius: 180.0,
-  );
+
+//  Rect rect = new Rect.fromCircle(
+//    center: new Offset(165.0, 55.0),
+//    radius: 180.0,
+//  );
 
   final Paint spokes = Paint()..color = Colors.grey;
 
@@ -85,6 +86,7 @@ class SpiderChartPainter extends CustomPainter {
     Offset center = size.center(Offset.zero);
 
     double angle = (2 * pi) / data.length;
+//    print(angle);
 
     var dataPoints = List<Offset>();
 
@@ -102,6 +104,7 @@ class SpiderChartPainter extends CustomPainter {
       var x = center.dy * cos(angle * i - pi / 2);
       var y = center.dy * sin(angle * i - pi / 2);
 
+//      print('x: $x y: $y add: ${Offset(x, y) + center}');
       outerPoints.add(Offset(x, y) + center);
     }
 
@@ -109,9 +112,9 @@ class SpiderChartPainter extends CustomPainter {
       paintLabels(canvas, center, outerPoints, this.labels);
     }
     paintGraphOutline(canvas, center, outerPoints);
-    paintDataLines(canvas, dataPoints);
+//    paintDataLines(canvas, dataPoints);
 //    paintDataPoints(canvas, dataPoints);
-//    paintText(canvas, center, dataPoints, data);
+    paintText(canvas, center, dataPoints, data);
   }
 
   void paintDataLines(Canvas canvas, List<Offset> points) {
@@ -122,7 +125,7 @@ class SpiderChartPainter extends CustomPainter {
       fill,
     );
 
-    canvas.drawPath(path, stroke..shader = gradient.createShader(rect));
+//    canvas.drawPath(path, stroke..shader = gradient.createShader(rect));
   }
 
   void paintDataPoints(Canvas canvas, List<Offset> points) {

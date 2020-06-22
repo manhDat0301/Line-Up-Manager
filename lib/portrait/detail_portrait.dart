@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/common/custom_chart.dart';
+import 'package:marozi/common/skill_chart.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -52,13 +52,11 @@ class _PlayerDetailState extends State<PlayerDetail> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 2.0, 8.0, 5.0),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.orange,
-            ),
+          Icon(
+            Icons.arrow_back_ios,
+            color: Colors.orange,
           ),
+          SizedBox(width: 8),
           Text(
             Provider.of<Data>(context).listPlayers[i].name,
             textAlign: TextAlign.center,
@@ -355,15 +353,44 @@ class _PlayerDetailState extends State<PlayerDetail> {
   }
 
   Widget _chart() {
-    return Container(
-      width: 165,
-      height: 165,
+    return Expanded(
       child: Stack(
-        alignment: Alignment.center,
         children: [
-          CustomPaint(
-//            size: Size(165,165),
-            painter: MyPainter(),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 125,
+              height: 125,
+              child: MyChart(
+                showData: false,
+                data: [0, 0, 0, 0, 0],
+                maxValue: 1,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 165,
+              height: 165,
+              child: MyChart(
+                data: [
+                  67,
+                  78,
+                  50,
+                  90,
+                  80,
+                ],
+                maxValue: 100,
+                labels: [
+                  'Ball Skill',
+                  'Defence',
+                  'Passing',
+                  'Physical',
+                  'Shooting',
+                ],
+              ),
+            ),
           ),
         ],
       ),
