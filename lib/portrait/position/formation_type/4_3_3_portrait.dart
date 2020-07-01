@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
-import 'package:provider/provider.dart';
+import 'package:marozi/portrait/position/repositories/constants.dart';
 
-import '../common/drag_player.dart';
+import '../../../common/drag_player.dart';
 
 class Portrait433 extends StatefulWidget {
   @override
@@ -11,7 +10,6 @@ class Portrait433 extends StatefulWidget {
 }
 
 class _Portrait433State extends State<Portrait433> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +25,7 @@ class _Portrait433State extends State<Portrait433> {
 
   List<Widget> stackItems(BuildContext context) {
     List<Widget> items = [];
-    final provider = Provider.of<Data>(context);
-    for (int i = 0; i < provider.listPlayers.length; i++) {
+    for (int i = 0; i < Constants.listPlayers.length; i++) {
       items.add(DragPlayer(i: i));
     }
     return items;

@@ -119,7 +119,6 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                 onChanged: (bool value) {
                   setState(() {
                     coachShow = value;
-                    print('coach show: $coachShow');
                   });
                 },
               ),

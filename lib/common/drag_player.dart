@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/portrait/detail_portrait.dart';
+import 'package:marozi/portrait/position/repositories/constants.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:provider/provider.dart';
-
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
 import '../resources/colors.dart';
 
@@ -32,8 +30,6 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
   double top;
   double left;
 
-  Offset offset = Offset(100, 100);
-
   @override
   void initState() {
     super.initState();
@@ -42,8 +38,8 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    left = Provider.of<Data>(context).listPlayers[i].offset.dx;
-    top = Provider.of<Data>(context).listPlayers[i].offset.dy;
+    left = 120;
+    top = 120;
     return _draggable();
   }
 
@@ -52,10 +48,7 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
       left: left,
       top: top,
       duration: Duration(
-          milliseconds:
-              Provider.of<Data>(context).listPlayers[i].assetImage != null
-                  ? 400
-                  : 0),
+          milliseconds: Constants.listPlayers[i].assetImage != null ? 400 : 0),
       child: InkWell(
         onDoubleTap: () {
           Navigator.of(context).push(MaterialPageRoute(
@@ -70,9 +63,7 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
           feedback: _dragChild(context),
           data: 1 as dynamic,
           onDragEnd: (details) {
-            if (details.wasAccepted) {
-              Provider.of<Data>(context, listen: false).swapPlayersPortrait(i);
-            }
+            if (details.wasAccepted) {}
           },
         ),
       ),
@@ -80,7 +71,7 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
   }
 
   Widget _dragChild(BuildContext context) {
-    final player = Provider.of<Data>(context).listPlayers[i];
+    final player = Constants.listPlayers[i];
     return DragTarget(
       builder: (BuildContext context, List<dynamic> candidateData,
           List<dynamic> rejectedData) {
@@ -91,9 +82,7 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
       onWillAccept: (data) {
         return data == 1;
       },
-      onAccept: (data) {
-        Provider.of<Data>(context, listen: false).playerTarget(i);
-      },
+      onAccept: (data) {},
     );
   }
 
@@ -152,7 +141,9 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: candidateData.isEmpty ? Colors.transparent : Colors.orange,
+                    color: candidateData.isEmpty
+                        ? Colors.transparent
+                        : Colors.orange,
                   ),
                 ),
                 child: candidateData.isEmpty

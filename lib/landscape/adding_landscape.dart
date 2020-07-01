@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/common/auto_complete_tf.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/position/repositories/constants.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/data/my_text.dart';
 import 'package:marozi/portrait/adding_portrait.dart';
@@ -16,10 +18,23 @@ class _AddingLandscapeState extends State<AddingLandscape> {
   bool isLeagueOneSelect = false;
   bool isManUSelect = true;
 
+  GlobalKey<ScrollableAutoCompleteTextFieldState> key = GlobalKey();
+  FocusNode _focusNode;
+  ScrollableAutoCompleteTextField searchTf;
+  TextEditingController _textController;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    _focusNode = FocusNode();
+    _textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    _textController.dispose();
   }
 
   @override
@@ -87,9 +102,9 @@ class _AddingLandscapeState extends State<AddingLandscape> {
   Widget _search(iconConstraints) {
     return Container(
       width: 249,
-      height: 136,
-      margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 5),
+      height: 50,
+      alignment: Alignment.center,
+      padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
@@ -102,7 +117,9 @@ class _AddingLandscapeState extends State<AddingLandscape> {
               borderRadius: BorderRadius.circular(8),
               color: colorInputBackground,
             ),
-            child: TextFormField(
+            child: ScrollableAutoCompleteTextField(
+              focusNode: _focusNode,
+              controller: _textController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 8.0),
                 isDense: true,
@@ -115,31 +132,44 @@ class _AddingLandscapeState extends State<AddingLandscape> {
                 border: InputBorder.none,
                 prefixIconConstraints: iconConstraints,
               ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  MyText(
-                    text: 'David De Gea',
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                  Divider(
-                    thickness: 0.5,
-                    height: 0.5,
-                  ),
-                  MyText(
-                    text: 'David Silva',
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ],
-              ),
+              itemSorter: (a, b) {
+                return a.toString().compareTo(b.toString());
+              },
+              suggestions: Constants.playersName(),
+              itemSubmitted: (data) {
+                setState(() {
+                  searchTf.textField.controller.text = data.toString();
+                });
+              },
+              itemFilter: (suggestion, String query) {
+                return suggestion
+                    .toString()
+                    .toLowerCase()
+                    .startsWith(query.toLowerCase());
+              },
+              itemBuilder: (BuildContext context, suggestion) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(14, 10, 10, 14),
+                      width: double.maxFinite,
+                      alignment: Alignment.centerLeft,
+                      child: MyText(
+                        text: suggestion.toString(),
+                        color: Colors.black,
+                        fontSize: 19,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      thickness: 0.1,
+                      indent: 14,
+                    ),
+                  ],
+                );
+              },
+              key: key,
             ),
           ),
         ],

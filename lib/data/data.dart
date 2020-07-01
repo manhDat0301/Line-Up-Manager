@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/players/player.dart';
 
-import 'constants.dart';
+import '../portrait/position/repositories/constants.dart';
 
 class Data with ChangeNotifier {
   List<Player> listPlayers;
@@ -16,13 +16,9 @@ class Data with ChangeNotifier {
   String teamSelected;
 
   Data() {
-    listPlayers = Constants.initPlayersList(listPlayers);
 
     listFormationLands = Constants.initFormationLandscape(listFormationLands);
 
-    listFormationPort = Constants.initFormationPortrait(listFormationPort);
-
-    listTypeFormation = Constants.initTypeFormation(listTypeFormation);
 
     listStyle = Constants.initStyle(listStyle);
 

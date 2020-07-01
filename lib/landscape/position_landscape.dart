@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/common/export.dart';
+import 'package:marozi/data/my_text.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:provider/provider.dart';
@@ -99,6 +100,12 @@ class _PositionLandscapeState extends State<PositionLandscape> {
                 enlargeCenterPage: false,
                 initialPage: 0,
                 enableInfiniteScroll: false,
+                onScrolled: (i) {},
+                onPageChanged: (int, reason) {
+                  print('$int $reason');
+                  Provider.of<Data>(context, listen: false)
+                      .setCarouselPageIndex(int);
+                },
               ),
             ),
           ),
@@ -126,23 +133,18 @@ class _PositionLandscapeState extends State<PositionLandscape> {
                     padding: const EdgeInsets.only(left: 20.0),
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          currentPage = pageIndex;
-                        });
                         _carouselController.animateToPage(pageIndex);
                       },
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          Provider.of<Data>(context)
+                        child: MyText(
+                          text: Provider.of<Data>(context)
                               .listTypeFormation[pageIndex],
-                          style: TextStyle(
-                            color: currentPage == pageIndex
-                                ? Colors.red
-                                : Colors.black,
-                            fontSize: 17,
-                            fontFamily: fontSFDisplayRegular,
-                          ),
+                          color: Provider.of<Data>(context).carouselPageIndex ==
+                                  pageIndex
+                              ? Colors.red
+                              : Colors.black,
+                          fontSize: 17,
                         ),
                       ),
                     ),

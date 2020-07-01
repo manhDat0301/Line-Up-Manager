@@ -64,7 +64,12 @@ class _ModeLandscapeState extends State<ModeLandscape> {
   Widget _landscapeMode() {
     return Row(
       children: <Widget>[
-        Image.asset('assets/images/landscape.png'),
+        InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => PlayerTable()));
+            },
+            child: Image.asset('assets/images/landscape.png')),
         Flexible(
           fit: FlexFit.tight,
           child: Column(

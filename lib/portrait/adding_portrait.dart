@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/common/auto_complete_tf.dart';
+import 'package:marozi/common/eng_clubs_vm.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/position/repositories/constants.dart';
 import 'package:marozi/data/data.dart';
 import 'package:marozi/data/my_text.dart';
 import 'package:marozi/resources/colors.dart';
@@ -13,6 +16,27 @@ class _AddingPortraitState extends State<AddingPortrait> {
   bool isFavouriteExpand = false;
   bool isPremierLeagueExpand = false;
   bool isMUExpand = false;
+
+  GlobalKey<ScrollableAutoCompleteTextFieldState> acfKey = new GlobalKey(debugLabel: 'inputText');
+  TextEditingController engClubsController = new TextEditingController();
+  FocusNode _focusNode;
+  ScrollableAutoCompleteTextField searchTextField;
+  TextEditingController _textController;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    _textController.dispose();
+  }
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _textController = TextEditingController();
+    _loadEngClubs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +59,7 @@ class _AddingPortraitState extends State<AddingPortrait> {
               _container(
                 _searchPlayer(iconConstraints),
                 12,
-                height: 243,
+                height: 58,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -76,7 +100,7 @@ class _AddingPortraitState extends State<AddingPortrait> {
   Widget _container(Widget child, double top, {double height}) {
     return Container(
       height: height,
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: top),
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: top),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -86,68 +110,12 @@ class _AddingPortraitState extends State<AddingPortrait> {
   }
 
   Widget _searchPlayer(BoxConstraints iconConstraints) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 13),
-          decoration: BoxDecoration(
-            color: colorInputBackground,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: IntrinsicHeight(
-            child: Theme(
-              data: Theme.of(context).copyWith(splashColor: Colors.transparent),
-              child: TextFormField(
-                textAlign: TextAlign.start,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-                  prefixIcon: Icon(Icons.search, size: 26),
-                  prefixIconConstraints: iconConstraints,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: (0.09 * MediaQuery.of(context).size.width),
-              top: 18,
-              bottom: 16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                MyText(text: 'David De Gea', color: Colors.black, fontSize: 19),
-                Divider(
-                  color: Colors.black,
-                  thickness: 0.1,
-                  height: 0,
-                ),
-                MyText(text: 'David Silva', color: Colors.black, fontSize: 19),
-                Divider(
-                  color: Colors.black,
-                  thickness: 0.1,
-                  height: 0,
-                ),
-                MyText(text: 'David Villa', color: Colors.black, fontSize: 19),
-                Divider(
-                  color: Colors.black,
-                  thickness: 0.1,
-                  height: 0,
-                ),
-                MyText(
-                    text: 'Davide Santon', color: Colors.black, fontSize: 19),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: colorInputBackground,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: _searchTextField2(iconConstraints),
     );
   }
 
@@ -359,5 +327,67 @@ class _AddingPortraitState extends State<AddingPortrait> {
       ),
       5,
     );
+  }
+
+  Widget _searchTextField2(iconConstraints) {
+    return searchTextField = ScrollableAutoCompleteTextField(
+      key: acfKey,
+      controller: _textController,
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+        prefixIcon: Icon(Icons.search, size: 26),
+        prefixIconConstraints: iconConstraints,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+      ),
+      clearOnSubmit: false,
+      suggestions: Constants.playersName(),
+      itemFilter: (suggestion, String query) {
+        return suggestion
+            .toString()
+            .toLowerCase()
+            .startsWith(query.toLowerCase());
+      },
+      itemSorter: (a, b) {
+        return a.toString().compareTo(b.toString());
+      },
+      itemSubmitted: (data) {
+        setState(() {
+          return searchTextField.textField.controller.text = data.toString();
+        });
+      },
+      itemBuilder: (BuildContext context, suggestion) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.fromLTRB(14, 15, 14, 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  MyText(
+                      text: suggestion.toString(),
+                      color: Colors.black,
+                      fontSize: 19),
+                ],
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+              height: 5,
+              thickness: 0.1,
+              indent: 14,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _loadEngClubs() async {
+    await EngClubsViewModel.loadEngClubs();
   }
 }

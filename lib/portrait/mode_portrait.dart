@@ -1,13 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/common/table.dart';
 import 'package:marozi/data/my_text.dart';
-import 'package:marozi/portrait/table_portrait.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:provider/provider.dart';
-
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/data/data.dart';
 
 class ModePortrait extends StatefulWidget {
   @override
@@ -60,12 +55,6 @@ class _ModePortraitState extends State<ModePortrait> {
     return Container(
       height: 523,
       child: PageView(
-        onPageChanged: (bool) {
-//          SystemChrome.setPreferredOrientations([
-//            DeviceOrientation.landscapeRight,
-//            DeviceOrientation.landscapeLeft,
-//          ]);
-        },
         controller: _pageController,
         scrollDirection: Axis.horizontal,
         children: <Widget>[
@@ -81,7 +70,12 @@ class _ModePortraitState extends State<ModePortrait> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Image.asset('assets/images/portrait.png'),
+          InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => PlayerTable()));
+              },
+              child: Image.asset('assets/images/portrait.png')),
           Expanded(
             child: Center(
               child: MyText(
@@ -131,7 +125,8 @@ class _ModePortraitState extends State<ModePortrait> {
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PlayerTable()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => PlayerTable()));
         },
         textColor: Colors.white,
         padding: const EdgeInsets.all(0.0),
