@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/landscape/4_3_3_landscape.dart';
 import 'package:marozi/players/player.dart';
-import 'package:marozi/portrait/position/formation_type/4_3_3_portrait.dart';
+import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi/lib/portrait/position/ui/4_3_3_portrait.dart';
 
 import '../../../resources/strings.dart';
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/portrait/detail_portrait.dart';
+import 'package:marozi/portrait/position/bloc/export.dart';
 import 'package:marozi/portrait/position/repositories/constants.dart';
 import 'package:marozi/resources/fonts.dart';
 
@@ -38,51 +40,57 @@ class _MyDragPlayerState extends State<_MyDragPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    left = 120;
-    top = 120;
     return _draggable();
   }
 
   Widget _draggable() {
-    return AnimatedPositioned(
-      left: left,
-      top: top,
-      duration: Duration(
-          milliseconds: Constants.listPlayers[i].assetImage != null ? 400 : 0),
-      child: InkWell(
-        onDoubleTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => PlayerDetail(i)));
-        },
-        child: Draggable(
-          child: _dragChild(context),
-          childWhenDragging: Opacity(
-            opacity: 0.5,
-            child: _dragChild(context),
-          ),
-          feedback: _dragChild(context),
-          data: 1 as dynamic,
-          onDragEnd: (details) {
-            if (details.wasAccepted) {}
-          },
-        ),
-      ),
+    return BlocBuilder<PositionBloc, PositionState>(
+      builder: (BuildContext context, state) {
+        if (state is PositionInit) {
+          return AnimatedPositioned(
+            left: state.listPlayers[i].offset.dx,
+            top: state.listPlayers[i].offset.dy,
+            duration: Duration(
+                milliseconds:
+                    Constants.listPlayers[i].assetImage != null ? 400 : 0),
+            child: InkWell(
+              onDoubleTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => PlayerDetail(i)));
+              },
+              child: Draggable(
+                child: _dragChild(context),
+                childWhenDragging: Opacity(
+                  opacity: 0.5,
+                  child: _dragChild(context),
+                ),
+                feedback: _dragChild(context),
+                data: i,
+                onDragEnd: (details) {},
+              ),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
   Widget _dragChild(BuildContext context) {
     final player = Constants.listPlayers[i];
     return DragTarget(
-      builder: (BuildContext context, List<dynamic> candidateData,
+      builder: (BuildContext context, List<int> candidateData,
           List<dynamic> rejectedData) {
         return player.assetImage != null
             ? _player(player, candidateData)
             : _empty(player, candidateData);
       },
       onWillAccept: (data) {
-        return data == 1;
+        return true;
       },
-      onAccept: (data) {},
+      onAccept: (data) {
+        context.bloc<PositionBloc>().add(PositionSwap(i, data));
+      },
     );
   }
 
