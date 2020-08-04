@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "73223850692",
+    "firebase_url": "https://coach-tool-development.firebaseio.com",
+    "project_id": "coach-tool-development",
+    "storage_bucket": "coach-tool-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73223850692:android:cf7b750d265f9659da1791",
+        "android_client_info": {
+          "package_name": "com.braven.maroziv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73223850692-f410mu6bao9kdjv6fc8vjlasuef0ki4u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.braven.maroziv2",
+            "certificate_hash": "a14413c5512cbd38796bdb628a3b6500d9bdf961"
+          }
+        },
+        {
+          "client_id": "73223850692-4ou1r3cdr6jjd8uqth6ruml68cg29o09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh6tpuUs3tvN-b0wbgMOYlizmxyeBKTzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73223850692-4ou1r3cdr6jjd8uqth6ruml68cg29o09.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "73223850692-2d5nk7f94ui5d4t7am6p3t29ktbnlnqd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.braven.maroziv2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
