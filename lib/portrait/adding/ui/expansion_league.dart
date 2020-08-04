@@ -98,7 +98,8 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
                   if (state is ClubByLeagueState) {
                     return SingleChildScrollView(
                       child: Container(
-                        height: 280,
+                        height: 265,
+                        padding: EdgeInsets.only(left: 15),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.clubs.length,

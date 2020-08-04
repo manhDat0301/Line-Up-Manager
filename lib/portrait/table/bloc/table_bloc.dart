@@ -18,13 +18,13 @@ class TableBloc extends Bloc<TableEvent, TableState> {
     }
     if (event is PlayerSelect) {
       AddingConstants.tableMap[AddingConstants.key] = event.player;
-      print('PlayerSelect : ${AddingConstants.tableMap}');
-      yield PlayerAdded(map: AddingConstants.tableMap);
+      yield PlayerAdded(
+          map: (Map.from(AddingConstants.tableMap))
+            ..update(AddingConstants.key, (value) => event.player));
     }
     if (event is PlayerDelete) {
       if (currentState is PlayerAdded) {
-        currentState.map.remove(event.key);
-        yield currentState.copyWith(map: currentState.map);
+        yield PlayerAdded(map: Map.from(currentState.map)..remove(event.key));
       }
     }
   }

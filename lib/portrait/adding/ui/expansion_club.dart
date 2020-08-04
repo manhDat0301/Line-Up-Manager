@@ -62,7 +62,7 @@ class _ExpansionClubState extends State<ExpansionClub> {
         child: SingleChildScrollView(
           child: state.players.length != 0
               ? Container(
-                  height: state.players.length < 2 ? 30 : 220,
+                  height: state.players.length < 2 ? 30 : 170,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.players.length,

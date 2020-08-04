@@ -1,12 +1,16 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/portrait/position/bloc/position_bloc.dart';
 import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
 class PositionPortrait extends StatefulWidget {
+  final List<Player> players;
+
+  PositionPortrait(this.players);
+
   @override
   _PositionPortraitState createState() => _PositionPortraitState();
 }
@@ -117,11 +121,11 @@ class _PositionPortraitState extends State<PositionPortrait> {
               height: 58,
               child: BlocBuilder<PositionBloc, PositionState>(
                 builder: (BuildContext context, PositionState state) {
-                  return ListView(
+                  return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      ...Iterable<int>.generate(['asd', 'asdasd'].length)
-                          .map((i) => Row(
+                    itemCount: widget.players.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
                         children: <Widget>[
                           InkWell(
                             onTap: () {
@@ -133,18 +137,18 @@ class _PositionPortraitState extends State<PositionPortrait> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: MyText(
-                                text: ['asd', 'asdasd'][i],
+                                text: widget.players[index].name,
                                 color: Colors.red,
                                 fontSize: 17,
                               ),
                             ),
                           ),
-                          i < ['asd', 'asdasd'].length - 1
+                          index < widget.players.length - 1
                               ? VerticalDivider()
                               : Container(),
                         ],
-                      ))
-                    ],
+                      );
+                    },
                   );
                 },
               ),

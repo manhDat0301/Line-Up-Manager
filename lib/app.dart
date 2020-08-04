@@ -29,11 +29,32 @@ class MyApp extends StatelessWidget {
           fontFamily: fontSFDisplayRegular,
         ),
         initialRoute: '/homepage',
-        routes: <String, WidgetBuilder>{
-          '/homepage': (BuildContext context) => HomePage(),
-          '/table': (BuildContext context) => PlayerTable(),
-          '/adding': (BuildContext context) => Adding(),
-          '/position': (BuildContext context) => Position(),
+        onGenerateRoute: (settings) {
+          print('onGenerateRoute ${settings.name}');
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => HomePage());
+              break;
+            case '/position':
+              print(settings.arguments);
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      Position(settings.arguments));
+              break;
+            case '/table':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => PlayerTable());
+              break;
+            case '/adding':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => Adding());
+              break;
+            default:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => HomePage());
+              break;
+          }
         },
       ),
     );

@@ -63,9 +63,8 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                 onTap: () {
                   if (state is PlayerAdded) {
                     if (state.map.keys.length == 3) {
-                      Navigator.pushNamed(context, '/position');
+                      Navigator.pushNamed(context, '/position', arguments: state.map.values.toList());
                     }
-
                     if (state.map.isEmpty) {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content:
@@ -91,11 +90,6 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                         Navigator.pushNamed(context, '/position');
                       }
                     }
-                  } else {
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
-                      content:
-                          Text('Need at least 5 Starting and 3 Substitutes'),
-                    ));
                   }
                 },
                 child: Icon(

@@ -13,7 +13,7 @@ class AddButtonPress extends TableEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => [];
+  List<Object> get props => [key];
 }
 
 class PlayerSelect extends TableEvent {
@@ -23,7 +23,7 @@ class PlayerSelect extends TableEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => [];
+  List<Object> get props => [player];
 }
 
 class PlayerDelete extends TableEvent {
@@ -33,5 +33,5 @@ class PlayerDelete extends TableEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => [];
+  List<Object> get props => [key];
 }
