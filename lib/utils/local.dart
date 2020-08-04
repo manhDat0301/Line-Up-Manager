@@ -5,6 +5,8 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/model/league/league_repository.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
+import 'package:marozi/utils/database_helpers.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MaroziLocal {
   Future<int> countLeagueLocal() async {
@@ -39,6 +41,15 @@ class MaroziLocal {
   Future insertLeagueLocal(League league) async {
     final leagueRepo = LeagueRepository();
     await leagueRepo.insertLeague(league);
+  }
+
+  Future clearAllContent() async {
+    final helper = DatabaseHelper.instance;
+    Database db = await helper.database;
+
+    db.delete(tableLeagues);
+    db.delete(tableClubs);
+    db.delete(tablePlayer);
   }
 
   Future clearLeagueContent() async {

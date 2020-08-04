@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/club/club_repository.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/model/league/league_repository.dart';
 import 'package:marozi/model/player/player.dart';
+import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/utils/firebase.dart';
 import 'package:marozi/utils/local.dart';
-
 
 class FirebaseOrLocal {
   static final _maroziFirebase = MaroziFirebase();
@@ -20,110 +21,145 @@ class FirebaseOrLocal {
     }
   }
 
-  Future<Map<String, List<League>>> getLeagueByNation() async {
-    Map<String, List<League>> result = Map();
-    final leagueRepo = LeagueRepository();
-
-    if (await _leagueNeedUpdate()) {
-      _localUpdateAllLeague();
-      _firestoreInstance.collection('League').getDocuments().then((value) {
-        value.documents.forEach((element) {
-          result[element.data['league_nation']] = [];
-        });
-
-        result.keys.forEach((key) {
-          value.documents.forEach((element) {
-            if (element.data['league_nation'] == key &&
-                element.data['league_nation'] != null) {
-              League league = League();
-              league.id = element.documentID;
-              league.name = element.data['league_name'];
-              league.nation = element.data['league_nation'];
-              league.logUrl = element.data['league_logo_url'];
-              league.isExpand = false;
-              result[key].add(league);
-            }
-          });
-        });
-      });
-      return result;
-    }
-    result = await leagueRepo.getLeagueByNation();
-    return result;
-  }
-
-  Future<List<Club>> getClubsByLeague(League league) async {
-
-    int local = await _maroziLocal.countClubByLeague(league: league);
-    int firebase = await _maroziFirebase.countClubsByLeagueId(league.id);
-
-    List<Club> clubs = [];
-    if (local != 0) {
-      clubs = await _maroziLocal.getClubsByLeague(league);
-    }
-    if (local == 0 || local != firebase) {
-      clubs = await _localUpdateClubsByLeague(league);
-    }
-    return clubs;
-  }
-
-  Future<List<Player>> getPlayersByClub(Club club) async {
-    int local = await _maroziLocal.countPlayersByClub(club: club);
-    int firebase = await _maroziFirebase.countPlayersByClubId(club.id);
-
-    print('local $local firebase $firebase');
-
-    List<Player> players = [];
-
-//    print('local $local firebase $firebase');
-//    if (local != 0) {
-//      players = await _maroziLocal.getPlayersByClub(club);
-//    }
-//    if (local == 0 || local != firebase) {
-////      players = await _localUpdateClubsByLeague(league);
-//    }
-    return players;
-  }
-
-  static _localUpdateAllLeague() async {
-    await _maroziLocal.clearLeagueContent();
-    _firestoreInstance.collection('League').getDocuments().then((value) {
-      value.documents.forEach((element) {
-        League league = League();
-        league.id = element.documentID;
-        league.name = element.data['league_name'];
-        league.nation = element.data['league_nation'];
-        league.logUrl = element.data['league_logo_url'];
-        league.isExpand = false;
-        _maroziLocal.insertLeagueLocal(league);
-      });
-    });
-  }
-
   static Future<bool> _leagueNeedUpdate() async {
     int firebase = await _maroziFirebase.countLeagueFirebase();
     int local = await _maroziLocal.countLeagueLocal();
     return (local == 0 || local != firebase);
   }
 
-  Future<List<Club>> _localUpdateClubsByLeague(League league) async {
-    final clubRepo = ClubRepository();
+  static _localUpdateAllLeague() async {
+    await _maroziLocal.clearLeagueContent();
+    _firestoreInstance.collection('League').getDocuments().then((value) {
+      for (var element in value.documents) {
+        League league = League();
+        league.id = element.documentID;
+        league.name = element.data['league_name'];
+        league.nation = element.data['league_nation'];
+        league.logoUrl = element.data['league_logo_url'];
+        league.isExpand = false;
+        _maroziLocal.insertLeagueLocal(league);
+      }
+    });
+  }
+
+  Future<Map<String, List<League>>> getLeagueByNation() async {
+    Map<String, List<League>> result = {};
+    final leagueRepo = LeagueRepository();
+    result = await leagueRepo.getLeagueByNation();
+    return result;
+  }
+
+  Future<List<Club>> getClubsByLeague(League league) async {
+    int local = await _maroziLocal.countClubByLeague(league: league);
+    List<Club> listFirebase = await _getClubsByLeague(league);
+    List<Club> clubs;
+    if (local != 0) {
+      clubs = await _maroziLocal.getClubsByLeague(league);
+    }
+    if (local == 0 || local != listFirebase.length) {
+      _updateClubsByLeague(league);
+      return listFirebase;
+    }
+    return clubs;
+  }
+
+  Future<List<Club>> _getClubsByLeague(League league) async {
     List<Club> clubs = [];
-    _firestoreInstance.collection('Club').getDocuments().then((value) {
+    await _firestoreInstance
+        .collection('Club')
+        .where('league_id', isEqualTo: league.id)
+        .getDocuments()
+        .then((value) {
       value.documents.forEach((element) {
-        if (element.data['league_id'] == league.id) {
-          Club club = Club();
-          club.id = element.documentID;
-          club.name = element.data['club_name'];
-          club.leagueId = element.data['league_id'];
-          club.leagueName = element.data['league_name'];
-          club.logoUrl = element.data['club_logo_url'];
-          club.isExpand = false;
-          clubRepo.insertClub(club);
-          clubs.add(club);
-        }
+        Club club = Club();
+        club.id = element.documentID;
+        club.name = element.data['club_name'];
+        club.leagueId = element.data['league_id'];
+        club.leagueName = element.data['league_name'];
+        club.logoUrl = element.data['club_logo_url'];
+        club.isExpand = false;
+        clubs.add(club);
       });
     });
     return clubs;
+  }
+
+  Future _updateClubsByLeague(League league) async {
+    final clubRepo = ClubRepository();
+    _firestoreInstance
+        .collection('Club')
+        .where('league_id', isEqualTo: league.id)
+        .getDocuments()
+        .then((value) {
+      value.documents.forEach((element) {
+        Club club = Club();
+        club.id = element.documentID;
+        club.name = element.data['club_name'];
+        club.leagueId = element.data['league_id'];
+        club.leagueName = element.data['league_name'];
+        club.logoUrl = element.data['club_logo_url'];
+        club.isExpand = false;
+        clubRepo.insertClub(club);
+      });
+    });
+  }
+
+  Future<List<Player>> getPlayersByClub(Club club) async {
+    int local = await _maroziLocal.countPlayersByClub(club: club);
+    int firebase = await _firestoreInstance
+        .collection('Player')
+        .where('club_id', isEqualTo: club.id)
+        .getDocuments()
+        .then((value) => value.documents.length);
+
+    List<Player> players;
+    if (local != 0) {
+      players = await _maroziLocal.getPlayersByClub(club);
+    }
+    if (local == 0 || local != firebase) {
+      players = await _updatePlayersByClub(club);
+    }
+    return players;
+  }
+
+  Future<List<Player>> _updatePlayersByClub(Club club) async {
+    final playerRepo = PlayerRepository();
+    List<Player> players = [];
+
+    await _firestoreInstance
+        .collection('Player')
+        .where('club_id', isEqualTo: club.id)
+        .getDocuments()
+        .then((value) {
+      value.documents.forEach((element) {
+        Player player = Player();
+        player.id = element.documentID;
+        player.name = element.data['player_name'];
+        player.clubId = element.data['club_id'];
+        player.clubName = element.data['club_name'];
+        player.age = element.data['date_of_birth_age'];
+        player.position = element.data['position'];
+        player.ovr = element.data['overall_potential'].toString();
+        player.number = element.data['shirt_number'];
+        player.nation = element.data['citizenship'];
+        player.wage = element.data['market_wert'];
+        player.footPrefer = element.data['club_id'];
+        player.birthday = element.data['date_of_birth_age'];
+        player.weight = element.data['club_id'];
+        player.height = element.data['height'];
+        player.avatarUrl = element.data['player_avatar_url'];
+        player.ballSkill = element.data['ball_skills'].toString();
+        player.defence = element.data['defence'].toString();
+        player.shooting = element.data['shooting'].toString();
+        player.physical = element.data['physical'].toString();
+        player.passing = element.data['passing'].toString();
+        player.isExpand = false;
+        player.offset = Offset.zero;
+        players.add(player);
+        playerRepo.insertPlayer(player);
+      });
+    });
+
+    return players;
   }
 }

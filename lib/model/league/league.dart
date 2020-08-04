@@ -10,17 +10,17 @@ class League {
   String id;
   String name;
   String nation;
-  String logUrl;
+  String logoUrl;
   bool isExpand;
 
 
-  League({this.id, this.name, this.nation, this.logUrl, this.isExpand});
+  League({this.id, this.name, this.nation, this.logoUrl, this.isExpand});
 
   League.fromMap(Map<String, dynamic> map) {
     id = map[leagueId];
     name = map[leagueName];
     nation = map[leagueNation];
-    logUrl = map[leagueLogoUrl];
+    logoUrl = map[leagueLogoUrl];
     isExpand = map[leagueIsExpand] == 0 ? false : true;
   }
 
@@ -29,7 +29,7 @@ class League {
       leagueId: id,
       leagueName: name,
       leagueNation: nation,
-      leagueLogoUrl: logUrl,
+      leagueLogoUrl: logoUrl,
       leagueIsExpand: isExpand == false ? "0" : "1",
     };
     return map;

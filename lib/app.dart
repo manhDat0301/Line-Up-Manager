@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/orientation/adding.dart';
 import 'package:marozi/orientation/home_page.dart';
+import 'package:marozi/orientation/position.dart';
 import 'package:marozi/orientation/table.dart';
 import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
+import 'package:marozi/resources/fonts.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,16 +17,23 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => TableBloc(TableInitial()),
         ),
         BlocProvider<AddingBloc>(
-          create: (BuildContext context) => AddingBloc(AddingInitial()),
+          create: (BuildContext context) =>
+              AddingBloc(AddingInitial())..add(GetLeagueByNation()),
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.orange,
+          accentColor: Colors.orange,
+          fontFamily: fontSFDisplayRegular,
+        ),
         initialRoute: '/homepage',
         routes: <String, WidgetBuilder>{
           '/homepage': (BuildContext context) => HomePage(),
           '/table': (BuildContext context) => PlayerTable(),
           '/adding': (BuildContext context) => Adding(),
+          '/position': (BuildContext context) => Position(),
         },
       ),
     );

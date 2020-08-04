@@ -82,7 +82,7 @@ class DatabaseHelper {
     $playerHeight TEXT,
     $playerAvatarUrl TEXT,
     $playerBallSkill TEXT,
-    $playerDefense TEXT,
+    $playerDefence TEXT,
     $playerShooting TEXT,
     $playerPhysical TEXT,
     $playerPassing TEXT,

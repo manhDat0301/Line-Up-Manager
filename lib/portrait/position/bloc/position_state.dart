@@ -1,12 +1,12 @@
-part of 'adding_bloc.dart';
-
-class AddingEvent extends Equatable {
+part of 'position_bloc.dart';
+class PositionState extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [];
+
 }
 
-class GetLeagueByNation extends AddingEvent {
+class PositionInitial extends PositionState {
   @override
   // TODO: implement props
   List<Object> get props => [];

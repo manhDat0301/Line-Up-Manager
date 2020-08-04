@@ -9,8 +9,8 @@ class ClubRepository {
 
   Future insertClub(Club club) => clubDao.createClub(club);
 
-  Future<List<Club>> getClubsByLeague({@required League league}) =>
-      clubDao.getClubsByLeagueId(leagueId: league.id);
+  Future<List<Club>> getClubsByLeague({@required League league}) async=>
+      await clubDao.getClubsByLeagueId(leagueId: league.id);
 
   Future<int> countClubByLeagueId({@required League league}) =>
       clubDao.countClubByLeagueId(league.id);

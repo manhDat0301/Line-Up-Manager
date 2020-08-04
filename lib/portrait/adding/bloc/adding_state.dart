@@ -7,12 +7,18 @@ class AddingState extends Equatable {
 }
 
 class AddingInitial extends AddingState {
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+}
+class LeagueByNationInitial extends AddingState {
   final Map<String, List<League>> leagueByNation;
 
-  AddingInitial({this.leagueByNation});
+  LeagueByNationInitial({this.leagueByNation});
 
-  AddingInitial copyWith({Map<String, List<League>> leagueByNation}) {
-    return AddingInitial(leagueByNation: leagueByNation ?? this.leagueByNation);
+  LeagueByNationInitial copyWith({Map<String, List<League>> leagueByNation}) {
+    return LeagueByNationInitial(leagueByNation: leagueByNation ?? this.leagueByNation);
   }
 
   @override

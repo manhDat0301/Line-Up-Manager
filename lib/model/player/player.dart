@@ -8,7 +8,7 @@ String playerClubId = 'club_id';
 String playerClubName = 'club_name';
 String playerPosition = 'position';
 String playerOvr = 'ovr';
-String playerNumber = 'number';
+String playerNumber = 'shirt_number';
 String playerNation = 'nation';
 String playerWage = 'wage';
 String playerFootPrefer = 'foot_prefer';
@@ -17,9 +17,10 @@ String playerWeight = 'weight';
 String playerHeight = 'height';
 String playerAvatarUrl = 'avatar_url';
 String playerBallSkill = 'ball_skill';
-String playerDefense = 'defense';
+String playerDefence = 'defence';
 String playerShooting = 'shooting';
 String playerPhysical = 'physical';
+String playerAvatar = 'image_url';
 String playerPassing = 'passing';
 String playerIsExpand = 'isExpand';
 String playerOffset = 'offset';
@@ -41,7 +42,7 @@ class Player {
   String height;
   String avatarUrl;
   String ballSkill;
-  String defense;
+  String defence;
   String shooting;
   String physical;
   String passing;
@@ -65,7 +66,7 @@ class Player {
     this.height,
     this.avatarUrl,
     this.ballSkill,
-    this.defense,
+    this.defence,
     this.shooting,
     this.physical,
     this.passing,
@@ -74,28 +75,28 @@ class Player {
   });
 
   Player.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    name = map['name'];
-    age = map['age'];
-    clubId = map['club_id'];
-    clubName = map['club_name'];
-    position = map['position'];
-    ovr = map['ovr'];
-    number = map['number'];
-    nation = map['nation'];
-    wage = map['wage'];
-    footPrefer = map['footPrefer'];
-    birthday = map['birthday'];
-    weight = map['weight'];
-    height = map['height'];
-    avatarUrl = map['imageUrl'];
-    ballSkill = map['ballSkill'];
-    defense = map['defense'];
-    shooting = map['shooting'];
-    physical = map['physical'];
-    passing = map['passing'];
-    isExpand = map['isExpand'] == 0 ? false : true;
-    offset = map['offset'];
+    id = map[playerId];
+    name = map[playerName];
+    age = map[playerAge];
+    clubId = map[playerClubId];
+    clubName = map[playerClubName];
+    position = map[playerPosition];
+    ovr = map[playerOvr].toString();
+    number = map[playerNumber];
+    nation = map[playerNation];
+    wage = map[playerWage];
+    footPrefer = map[playerFootPrefer];
+    birthday = map[playerBirthday];
+    weight = map[playerWeight];
+    height = map[playerHeight];
+    avatarUrl = map[playerAvatarUrl];
+    ballSkill = map[playerBallSkill];
+    defence = map[playerDefence];
+    shooting = map[playerShooting];
+    physical = map[playerPhysical];
+    passing = map[playerPassing];
+    isExpand = map[playerIsExpand] == 0 ? false : true;
+    offset = Offset.zero;
   }
 
   Map<String, dynamic> toMap() {
@@ -116,12 +117,12 @@ class Player {
       playerHeight: height,
       playerAvatarUrl: avatarUrl,
       playerBallSkill: ballSkill,
-      playerDefense: defense,
+      playerDefence: defence,
       playerShooting: shooting,
       playerPhysical: physical,
       playerPassing: passing,
       playerIsExpand: isExpand == true ? 0 : 1,
-      playerOffset: offset,
+      playerOffset: offset.toString(),
     };
   }
 }

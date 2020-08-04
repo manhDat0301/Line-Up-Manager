@@ -54,28 +54,25 @@ class LeagueDao {
   }
 
   Future<Map<String, List<League>>> getLeagueByNation() async {
+
     final db = await helper.database;
     Map<String, List<League>> result = Map();
     List<Map<String, dynamic>> data;
 
-    data = await db.query(tableLeagues, columns: ['nation'], distinct: true);
+    data = await db.query(tableLeagues);
 
-    data.forEach((map) {
-      map.values.forEach((nation) {
-        result[nation] = [];
-      });
-    });
+    for (var map in data) {
+      result[map['nation']] = [];
+    }
 
-    result.keys.forEach((nation) async {
-      await db.query(tableLeagues,
-          where: 'nation = ?', whereArgs: ['$nation']).then((value) {
-        for (var map in value) {
-          if (map['nation'] == nation) {
-            result[nation].add(League.fromMap(map));
-          }
+    for (String nation in result.keys) {
+      for (var map in data) {
+        if (nation == map['nation']) {
+          result[map['nation']].add(League.fromMap(map));
         }
-      });
-    });
+      }
+    }
+
     return result;
   }
 

@@ -9,25 +9,25 @@ class PlayerDao {
   Future<int> createPlayer(Player player) async {
     Database db = await helper.database;
 
-    var result = 0;
-    bool isExist = false;
-
-    if (AddingConstants.listPlayers.length == 0) {
-      db.insert(tablePlayer, player.toMap());
-    } else {
-      AddingConstants.listPlayers.forEach((item) {
-        if (item.id == player.id) {
-          isExist = true;
-        } else {
-          isExist = false;
-        }
-      });
-      if (!isExist) {
-        db.insert(tablePlayer, player.toMap());
-        isExist = false;
-      }
-    }
-
+//    var result = 0;
+//    bool isExist = false;
+//
+//    if (AddingConstants.listPlayers.length == 0) {
+//      db.insert(tablePlayer, player.toMap());
+//    } else {
+//      AddingConstants.listPlayers.forEach((item) {
+//        if (item.id == player.id) {
+//          isExist = true;
+//        } else {
+//          isExist = false;
+//        }
+//      });
+//      if (!isExist) {
+//        db.insert(tablePlayer, player.toMap());
+//        isExist = false;
+//      }
+//    }
+    var result = await db.insert(tablePlayer, player.toMap());
     return result;
   }
 
@@ -48,8 +48,6 @@ class PlayerDao {
 
   Future<int> countPlayersByClubId(String clubId) async {
     Database db = await helper.database;
-    print('countPlayersByClubId: ${Sqflite.firstIntValue(await db.rawQuery(
-        'SELECT COUNT() from $tablePlayer WHERE club_id = \'$clubId\''))}');
     return Sqflite.firstIntValue(await db.rawQuery(
         'SELECT COUNT() from $tablePlayer WHERE club_id = \'$clubId\''));
   }
@@ -59,6 +57,8 @@ class PlayerDao {
     List<Map<String, dynamic>> result;
     result =
         await db.query(tablePlayer, where: 'club_id = ?', whereArgs: [clubId]);
-    print('$result');
+    List<Player> players =
+        result.isNotEmpty ? result.map((e) => Player.fromMap(e)).toList() : [];
+    return players;
   }
 }

@@ -1,9 +1,12 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/model/club/club.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/league/league.dart';
+import 'package:marozi/portrait/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/portrait/adding/ui/expansion_club.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/utils/firestore_service.dart';
 
 class ExpansionLeague extends StatefulWidget {
   final List<League> leagues;
@@ -60,40 +63,59 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
   }
 
   Widget _leagueWidget(int index, League league) {
-    return ExpansionTile(
-      key: Key('${index}'),
-      title: MyText(
-        text: league.name,
-        color: null,
-        fontSize: 19,
-        textAlign: TextAlign.start,
-      ),
-      onExpansionChanged: (bool) {
-        if (bool) {
-        } else {
-        }
-      },
-      initiallyExpanded:
-      selected == index && nation == widget.nation ? true : false,
-      leading: Image.asset('assets/images/premier.png'),
-      children: <Widget>[
-        Container(
-          height: 180,
-          child: SingleChildScrollView(
-            child: Column(
-              children: _buildListClub([], league),
+    return BlocProvider<ClubBloc>(
+      create: (BuildContext context) => ClubBloc(ClubInitial()),
+      child: BlocBuilder<ClubBloc, ClubState>(
+        builder: (BuildContext context, ClubState state) {
+          return ExpansionTile(
+            key: Key('${index}'),
+            title: MyText(
+              text: league.name,
+              color: null,
+              fontSize: 19,
+              textAlign: TextAlign.start,
             ),
-          ),
-        ),
-      ],
+            onExpansionChanged: (bool) {
+              if (bool) {
+                context.bloc<ClubBloc>().add(GetClubByLeague(league));
+              } else {}
+            },
+            initiallyExpanded:
+                selected == index && nation == widget.nation ? true : false,
+            leading: FutureBuilder(
+              initialData: '',
+              future:
+                  FireStorageService.loadFromStorage(context, league.logoUrl),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                return CachedNetworkImage(
+                  imageUrl: snapshot.data,
+                );
+              },
+            ),
+            children: <Widget>[
+              BlocBuilder<ClubBloc, ClubState>(
+                builder: (BuildContext context, ClubState state) {
+                  if (state is ClubByLeagueState) {
+                    return SingleChildScrollView(
+                      child: Container(
+                        height: 280,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.clubs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ExpansionClub(club: state.clubs[index]);
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  return BottomLoader();
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
-  }
-
-  List<Widget> _buildListClub(List<Club> list, League league) {
-    return Iterable<int>.generate(list.length)
-        .map(
-          (i) => ExpansionClub(club: list[i]),
-    )
-        .toList();
   }
 }
