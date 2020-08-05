@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_lib//auto_complete_tf.dart';
+import 'package:marozi/resources/custom_lib/my_text.dart';
 
 class SearchPlayer extends StatefulWidget {
   @override
@@ -24,8 +24,8 @@ class _SearchPlayerState extends State<SearchPlayer> {
       minHeight: customMinPrefixIconSize,
     );
     return Container(
-      height: 58,
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 12),
+      height: 85,
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 30),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -47,13 +47,27 @@ class _SearchPlayerState extends State<SearchPlayer> {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-        prefixIcon: Icon(Icons.search, size: 26),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(left: 28),
+          child: Icon(
+            Icons.search,
+            size: 26,
+            color: Colors.black38,
+          ),
+        ),
         prefixIconConstraints: iconConstraints,
         enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
       ),
       clearOnSubmit: false,
-      suggestions: ['', ''],
+      suggestions: [
+        'abc',
+        'aaaaaa',
+        'asdasd',
+        'asdasd',
+        'asdasd',
+        'asdasd',
+      ],
       itemFilter: (suggestion, String query) {
         return suggestion
             .toString()

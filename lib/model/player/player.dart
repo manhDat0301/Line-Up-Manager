@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
+String tableFavorite = 'Favorite';
 String tablePlayer = 'Players';
 String playerId = 'id';
 String playerName = 'name';
@@ -7,7 +8,8 @@ String playerAge = 'age';
 String playerClubId = 'club_id';
 String playerClubName = 'club_name';
 String playerPosition = 'position';
-String playerOvr = 'ovr';
+String playerOverall = 'overall';
+String playerPotential = 'potential';
 String playerNumber = 'shirt_number';
 String playerNation = 'nation';
 String playerWage = 'wage';
@@ -32,7 +34,8 @@ class Player {
   String clubId;
   String clubName;
   String position;
-  String ovr;
+  String overall;
+  String potential;
   String number;
   String nation;
   String wage;
@@ -56,7 +59,8 @@ class Player {
     this.clubName,
     this.age,
     this.position,
-    this.ovr,
+    this.overall,
+    this.potential,
     this.number,
     this.nation,
     this.wage,
@@ -81,7 +85,8 @@ class Player {
     clubId = map[playerClubId];
     clubName = map[playerClubName];
     position = map[playerPosition];
-    ovr = map[playerOvr].toString();
+    overall = map[playerOverall].toString();
+    potential = map[playerPotential].toString();
     number = map[playerNumber];
     nation = map[playerNation];
     wage = map[playerWage];
@@ -107,7 +112,8 @@ class Player {
       playerClubId: clubId,
       playerClubName: clubName,
       playerPosition: position,
-      playerOvr: ovr,
+      playerOverall: overall,
+      playerPotential: potential,
       playerNumber: number,
       playerNation: nation,
       playerWage: wage,

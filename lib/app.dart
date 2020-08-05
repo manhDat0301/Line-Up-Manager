@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/orientation/adding.dart';
+import 'package:marozi/orientation/detail.dart';
 import 'package:marozi/orientation/home_page.dart';
 import 'package:marozi/orientation/position.dart';
 import 'package:marozi/orientation/table.dart';
@@ -37,7 +38,6 @@ class MyApp extends StatelessWidget {
                   builder: (BuildContext context) => HomePage());
               break;
             case '/position':
-              print(settings.arguments);
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       Position(settings.arguments));
@@ -49,6 +49,10 @@ class MyApp extends StatelessWidget {
             case '/adding':
               return MaterialPageRoute(
                   builder: (BuildContext context) => Adding());
+              break;
+            case '/detail':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => PlayerDetail(settings.arguments));
               break;
             default:
               return MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/portrait/adding/repository/adding_constants.dart';
 import 'package:marozi/utils/database_helpers.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,32 +7,12 @@ class PlayerDao {
 
   Future<int> createPlayer(Player player) async {
     Database db = await helper.database;
-
-//    var result = 0;
-//    bool isExist = false;
-//
-//    if (AddingConstants.listPlayers.length == 0) {
-//      db.insert(tablePlayer, player.toMap());
-//    } else {
-//      AddingConstants.listPlayers.forEach((item) {
-//        if (item.id == player.id) {
-//          isExist = true;
-//        } else {
-//          isExist = false;
-//        }
-//      });
-//      if (!isExist) {
-//        db.insert(tablePlayer, player.toMap());
-//        isExist = false;
-//      }
-//    }
     var result = await db.insert(tablePlayer, player.toMap());
     return result;
   }
 
   Future<List<Player>> getAllPlayers() async {
     Database db = await helper.database;
-
     List<Map<String, dynamic>> result;
     try {
       result = await db.query(tablePlayer);
@@ -60,5 +39,13 @@ class PlayerDao {
     List<Player> players =
         result.isNotEmpty ? result.map((e) => Player.fromMap(e)).toList() : [];
     return players;
+  }
+
+  Future<Player> getPlayer(String playerId) async {
+    Database db = await helper.database;
+    List<Map<String, dynamic>> result;
+    result =
+        await db.query(tablePlayer, where: 'id = ?', whereArgs: [playerId]);
+    return result.isNotEmpty ? Player.fromMap(result[0]) : Player();
   }
 }

@@ -27,13 +27,52 @@ class MyChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Offset> pixel2 = [
+      Offset(10, 103),
+      Offset(76, 143),
+      Offset(136, 95),
+      Offset(107, 17),
+      Offset(26, 22),
+    ];
+    List<double> degrees = [
+      37 / 360,
+      286 / 360,
+      360 / 360,
+      70 / 360,
+      324 / 360,
+    ];
     return LimitedBox(
       maxWidth: fallbackWidth,
       maxHeight: fallbackHeight,
-      child: CustomPaint(
-        size: size,
-        painter: SkillChart(maxValue, data, labels, showData),
-      ),
+      child: labels != null
+          ? Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 13),
+                  child: CustomPaint(
+                    size: size,
+                    painter: SkillChart(maxValue, data, showData),
+                  ),
+                ),
+                ...Iterable<int>.generate(labels.length).map((i) {
+                  return Positioned(
+                    top: pixel2[i].dx,
+                    left: pixel2[i].dy,
+                    child: RotationTransition(
+                      turns: AlwaysStoppedAnimation(degrees[i]),
+                      child: Text(labels[i]),
+                    ),
+                  );
+                }),
+              ],
+            )
+          : Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 13),
+              child: CustomPaint(
+                size: size,
+                painter: SkillChart(maxValue, data, showData),
+              ),
+            ),
     );
   }
 }
@@ -41,10 +80,9 @@ class MyChart extends StatelessWidget {
 class SkillChart extends CustomPainter {
   final double maxValue;
   final List<double> data;
-  final List<String> labels;
   final bool showData;
 
-  SkillChart(this.maxValue, this.data, this.labels, this.showData);
+  SkillChart(this.maxValue, this.data, this.showData);
 
   final Paint spokes = Paint()..color = Colors.black45;
 
@@ -85,9 +123,9 @@ class SkillChart extends CustomPainter {
       outerPoints.add(Offset(x, y) + center);
     }
 
-    if (labels != null) {
-      paintLabels(canvas, center, outerPoints, labels);
-    }
+//    if (labels != null) {
+//      paintLabels(canvas, center, outerPoints, labels);
+//    }
 
     if (showData) {
       paintDataPoints(canvas, dataPoints);

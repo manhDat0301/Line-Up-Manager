@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/portrait/position/bloc/position_bloc.dart';
 import 'package:marozi/repository/constants.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_lib/my_text.dart';
 
 class PositionPortrait extends StatefulWidget {
   final List<Player> players;

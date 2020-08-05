@@ -32,8 +32,7 @@ class DatabaseHelper {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, dbName);
     // Open the db. Can also add an onUpdate callback parameter
-    return await openDatabase(path,
-        version: dbVersion, onCreate: _onCreate);
+    return await openDatabase(path, version: dbVersion, onCreate: _onCreate);
   }
 
   // SQL string to create the database
@@ -72,7 +71,8 @@ class DatabaseHelper {
     $playerClubId TEXT,
     $playerClubName TEXT,
     $playerPosition TEXT,
-    $playerOvr TEXT,
+    $playerOverall TEXT,
+    $playerPotential TEXT,
     $playerNumber TEXT,
     $playerNation TEXT,
     $playerWage TEXT,
@@ -88,6 +88,13 @@ class DatabaseHelper {
     $playerPassing TEXT,
     $playerIsExpand TEXT,
     $playerOffset TEXT
+    )
+    ''');
+    db.execute('''
+    CREATE TABLE $tableFavorite(
+    $playerId TEXT PRIMARY KEY,
+    $playerName TEXT,
+    $playerAvatarUrl TEXT
     )
     ''');
   }

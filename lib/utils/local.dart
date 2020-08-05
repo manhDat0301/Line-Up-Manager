@@ -11,16 +11,12 @@ import 'package:sqflite/sqflite.dart';
 class MaroziLocal {
   Future<int> countLeagueLocal() async {
     final leagueRepo = LeagueRepository();
-
     return await leagueRepo.count();
   }
 
   Future<int> countClubByLeague({@required League league}) async {
     final clubRepo = ClubRepository();
-
-    int count = await clubRepo.countClubByLeagueId(league: league);
-
-    return count;
+    return await clubRepo.countClubByLeagueId(league: league);
   }
 
   Future<List<Club>> getClubsByLeague(League league) async {
@@ -52,13 +48,8 @@ class MaroziLocal {
     db.delete(tablePlayer);
   }
 
-  Future clearLeagueContent() async {
-    final leagueRepo = LeagueRepository();
-    leagueRepo.clearContent();
-  }
-
-  Future clearClubContent() async {
-    final clubRepo = ClubRepository();
-    clubRepo.clearContent();
+  Future deleteDB() async {
+    final helper = DatabaseHelper.instance;
+    helper.deleteDB();
   }
 }

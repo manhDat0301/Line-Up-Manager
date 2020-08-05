@@ -63,7 +63,8 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                 onTap: () {
                   if (state is PlayerAdded) {
                     if (state.map.keys.length == 3) {
-                      Navigator.pushNamed(context, '/position', arguments: state.map.values.toList());
+                      Navigator.pushNamed(context, '/position',
+                          arguments: state.map.values.toList());
                     }
                     if (state.map.isEmpty) {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -300,10 +301,6 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                 context.bloc<TableBloc>().add(AddButtonPress(key));
                 Navigator.of(context).pushNamed('/adding');
               },
-              onDoubleTap: () {
-//            Navigator.of(context).push(MaterialPageRoute(
-//                builder: (BuildContext context) => PlayerDetail(0)));
-              },
             );
           },
         ),
@@ -323,19 +320,31 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
     return Container(
       width: 65,
       height: 65,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10000.0),
-        child: FutureBuilder(
-          initialData: '',
-          future: FireStorageService.loadFromStorage(context, player.avatarUrl),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return CachedNetworkImage(
-              errorWidget: (context, string, dynamic) {
-                return Icon(Icons.error);
-              },
-              imageUrl: snapshot.data,
-            );
-          },
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/detail', arguments: player.id);
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10000.0),
+          child: FutureBuilder(
+            initialData: '',
+            future:
+                FireStorageService.loadFromStorage(context, player.avatarUrl),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              return CachedNetworkImage(
+                errorWidget: (context, string, dynamic) {
+                  return Icon(
+                    Icons.error,
+                    color: Colors.orange,
+                  );
+                },
+                placeholder: (context, string) {
+                  return CircularProgressIndicator();
+                },
+                imageUrl: snapshot.data,
+              );
+            },
+          ),
         ),
       ),
     );

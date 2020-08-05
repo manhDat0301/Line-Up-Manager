@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/portrait/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/portrait/adding/ui/expansion_club.dart';
-import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_lib/bottom_loader.dart';
+import 'package:marozi/resources/custom_lib/my_text.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
 class ExpansionLeague extends StatefulWidget {
@@ -88,7 +88,15 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
                   FireStorageService.loadFromStorage(context, league.logoUrl),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 return CachedNetworkImage(
+                  errorWidget: (context, string, dynamic) {
+                    return Container(
+                      child: Icon(Icons.error),
+                    );
+                  },
                   imageUrl: snapshot.data,
+                  placeholder: (context, string) {
+                    return CircularProgressIndicator();
+                  },
                 );
               },
             ),
@@ -99,7 +107,7 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
                     return SingleChildScrollView(
                       child: Container(
                         height: 265,
-                        padding: EdgeInsets.only(left: 15),
+                        padding: EdgeInsets.only(left: 0),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.clubs.length,

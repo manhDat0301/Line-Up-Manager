@@ -9,7 +9,7 @@ class ClubRepository {
 
   Future insertClub(Club club) => clubDao.createClub(club);
 
-  Future<List<Club>> getClubsByLeague({@required League league}) async=>
+  Future<List<Club>> getClubsByLeague({@required League league}) async =>
       await clubDao.getClubsByLeagueId(leagueId: league.id);
 
   Future<int> countClubByLeagueId({@required League league}) =>
@@ -17,9 +17,10 @@ class ClubRepository {
 
   Future getAllClubs() => clubDao.getAllClubs();
 
-  Future clearContent() => clubDao.clearContent();
+  Future<String> getAColOfClub({@required String clubId, List<String> columns}) =>
+      clubDao.getAColOfClub(clubId, columns: columns);
 
   Future updateClub(Club club) => clubDao.updateClub(club);
 
-  Future deleteClub(Club club) => clubDao.deleteTodo(club);
+  Future deleteClub(Club club) => clubDao.deleteClub(club);
 }

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/portrait/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
-import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_lib/bottom_loader.dart';
+import 'package:marozi/resources/custom_lib/my_text.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
 class ExpansionClub extends StatefulWidget {
@@ -36,7 +36,13 @@ class _ExpansionClubState extends State<ExpansionClub> {
                   context, widget.club.logoUrl),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 return CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) => Icon(Icons.error),
+                  errorWidget: (context, string, dynamic) => Icon(
+                    Icons.error,
+                    color: Colors.orange,
+                  ),
+                  placeholder: (context, string) {
+                    return CircularProgressIndicator();
+                  },
                   imageUrl: snapshot.data,
                 );
               },
@@ -73,7 +79,7 @@ class _ExpansionClubState extends State<ExpansionClub> {
                             onTap: () {
                               context
                                   .bloc<TableBloc>()
-                                  .add(PlayerSelect(state.players[index]));
+                                  .add(PlayerSelect(state.players[index].id));
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   '/table', ModalRoute.withName('/homepage'));
                             },

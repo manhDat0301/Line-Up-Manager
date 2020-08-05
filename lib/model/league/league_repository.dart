@@ -7,8 +7,8 @@ class LeagueRepository {
 
   Future getAllLeagues({String query}) => leagueDao.getLeagues(query: query);
 
-  Future<Map<String, List<League>>> getLeagueByNation() async =>
-      await leagueDao.getLeagueByNation();
+  Future<Map<String, List<League>>> getLeagueByNation() =>
+      leagueDao.getLeagueByNation();
 
   Future<int> count() => leagueDao.count();
 

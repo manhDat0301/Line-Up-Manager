@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_lib/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
 
 class ModePortrait extends StatefulWidget {
@@ -124,8 +124,7 @@ class _ModePortraitState extends State<ModePortrait> {
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: () {
-//          Navigator.of(context).push(MaterialPageRoute(
-//              builder: (BuildContext context) => PlayerTable()));
+          Navigator.pushNamed(context, '/table');
         },
         textColor: Colors.white,
         padding: const EdgeInsets.all(0.0),
