@@ -15,10 +15,8 @@ class FirebaseOrLocal {
   static final _firestoreInstance = Firestore.instance;
 
   static splashDataLoading() async {
-    _maroziFirebase.getCurrentUser();
-    if (await _leagueNeedUpdate()) {
-      _localUpdateAllLeague();
-    }
+    await _maroziFirebase.getCurrentUser();
+    _localUpdateAllLeague();
   }
 
   static Future<bool> _leagueNeedUpdate() async {

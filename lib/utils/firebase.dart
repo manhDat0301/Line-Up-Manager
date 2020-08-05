@@ -5,9 +5,9 @@ class MaroziFirebase {
   static FirebaseAuth mAuth;
   static Firestore firestoreInstance = Firestore.instance;
 
-  getCurrentUser() {
+  getCurrentUser() async {
     mAuth = FirebaseAuth.instance;
-    mAuth
+    await mAuth
         .signInWithEmailAndPassword(
             email: "marozi@gmail.com", password: "Marozi@123")
         .whenComplete(() async {
