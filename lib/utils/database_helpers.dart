@@ -12,7 +12,7 @@ class DatabaseHelper {
   // Make this a singleton class.
   DatabaseHelper._();
 
-  final String dbName = 'MaroziDatabase.db';
+  final String dbName = 'Marozi.db';
   final int dbVersion = 1;
 
   static final DatabaseHelper instance = DatabaseHelper._();
@@ -36,14 +36,13 @@ class DatabaseHelper {
   }
 
   // SQL string to create the database
-  Future _onCreate(Database db, int version) async {
-    createTable();
+  void _onCreate(Database db, int version) async {
+    await _createTable(db);
   }
 
 // Database helper methods:
 
-  Future createTable() async {
-    Database db = await database;
+  Future _createTable(Database db) async {
     db.execute('''
     CREATE TABLE $tableLeagues(
     $leagueId TEXT PRIMARY KEY,
@@ -53,7 +52,7 @@ class DatabaseHelper {
     $leagueIsExpand INTEGER
     )
     ''');
-    db.execute('''
+    await db.execute('''
     CREATE TABLE $tableClubs(
     $clubId TEXT PRIMARY KEY,
     $clubName TEXT,
@@ -63,7 +62,7 @@ class DatabaseHelper {
     $clubIsExpand INTEGER
     )
     ''');
-    db.execute('''
+    await db.execute('''
     CREATE TABLE $tablePlayer(
     $playerId TEXT PRIMARY KEY,
     $playerName TEXT,

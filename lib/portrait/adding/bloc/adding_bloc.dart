@@ -14,7 +14,7 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
   @override
   Stream<AddingState> mapEventToState(AddingEvent event) async* {
     if (event is GetLeagueByNation) {
-      final getData = FirebaseOrLocal();
+      final getData = FirebaseToLocal();
       yield LeagueByNationInitial(
           leagueByNation: await getData.getLeagueByNation());
     }

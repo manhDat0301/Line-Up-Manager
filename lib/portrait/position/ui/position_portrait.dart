@@ -1,44 +1,37 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/model/player/player.dart';
-import 'package:marozi/portrait/position/bloc/position_bloc.dart';
+import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/repository/constants.dart';
-import 'package:marozi/resources/custom_lib/my_text.dart';
+import 'package:marozi/resources/custom_lib/bottom_loader.dart';
 
 class PositionPortrait extends StatefulWidget {
-  final List<Player> players;
-
-  PositionPortrait(this.players);
-
   @override
   _PositionPortraitState createState() => _PositionPortraitState();
 }
 
 class _PositionPortraitState extends State<PositionPortrait> {
   final CarouselController _carouselController = CarouselController();
-  int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => PositionBloc(PositionInitial()),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          top: true,
-          left: true,
-          right: true,
-          child: Container(
-            padding: EdgeInsets.only(bottom: 0),
-            child: Column(
-              children: <Widget>[
-                _topBar(),
-                _carousel(context),
-                _textFormation(),
-                _bottomFormation(context),
-              ],
-            ),
+    print(
+        'width: ${MediaQuery.of(context).size.width} height: ${MediaQuery.of(context).size.height}');
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        top: true,
+        left: true,
+        right: true,
+        child: Container(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Column(
+            children: <Widget>[
+              _topBar(),
+              _carousel(context),
+              _textFormation(),
+              _bottomFormation(context),
+            ],
           ),
         ),
       ),
@@ -85,9 +78,7 @@ class _PositionPortraitState extends State<PositionPortrait> {
             items: Constants.carouselPortrait,
             options: CarouselOptions(
               onPageChanged: (int, reason) {
-//                context
-//                    .bloc<PositionBloc>()
-//                    .add(CarouselPageChange(currentPage: int));
+                context.bloc<PositionBloc>().add(FormationChange(int));
               },
               height: double.infinity,
               viewportFraction: 1.0,
@@ -116,43 +107,54 @@ class _PositionPortraitState extends State<PositionPortrait> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Expanded(
-          child: Card(
-            child: Container(
-              height: 58,
-              child: BlocBuilder<PositionBloc, PositionState>(
-                builder: (BuildContext context, PositionState state) {
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.players.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-//                              context
-//                                  .bloc<PositionBloc>()
-//                                  .add(TypeFormationChange(i));
-//                              _carouselController.animateToPage(i);
+          child: BlocBuilder<PositionBloc, PositionState>(
+            builder: (BuildContext context, PositionState state) {
+              return Card(
+                  child: state is PositionSuccess
+                      ? Container(
+                          height: 58,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.formations.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Row(
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () {
+                                      _carouselController.animateToPage(index);
+                                      context
+                                          .bloc<PositionBloc>()
+                                          .add(FormationChange(index));
+                                      print(
+                                          'position_portrait: $index currentPage ${state.currentPage}');
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 6.0),
+                                        child: Text(
+                                          state.formations[index],
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: state.currentPage == index
+                                                ? Colors.orange
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  index < state.offsets.length - 1
+                                      ? VerticalDivider()
+                                      : Container(),
+                                ],
+                              );
                             },
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: MyText(
-                                text: widget.players[index].name,
-                                color: Colors.red,
-                                fontSize: 17,
-                              ),
-                            ),
                           ),
-                          index < widget.players.length - 1
-                              ? VerticalDivider()
-                              : Container(),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                        )
+                      : BottomLoader());
+            },
           ),
         ),
       ],

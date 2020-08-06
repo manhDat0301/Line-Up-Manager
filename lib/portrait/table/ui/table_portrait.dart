@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/player/player.dart';
+import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -62,10 +63,6 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
               return InkWell(
                 onTap: () {
                   if (state is PlayerAdded) {
-                    if (state.map.keys.length == 3) {
-                      Navigator.pushNamed(context, '/position',
-                          arguments: state.map.values.toList());
-                    }
                     if (state.map.isEmpty) {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content:
@@ -88,6 +85,9 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                               'Need at least 5 Starting and 3 Substitutes ${state.map.values.map((e) => (e.name))}'),
                         ));
                       } else {
+                        context
+                            .bloc<PositionBloc>()
+                            .add(CreateFormation(state.map.values.toList()));
                         Navigator.pushNamed(context, '/position');
                       }
                     }
@@ -299,7 +299,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
               ),
               onTap: () {
                 context.bloc<TableBloc>().add(AddButtonPress(key));
-                Navigator.of(context).pushNamed('/adding');
+                Navigator.of(context).pushReplacementNamed('/adding');
               },
             );
           },

@@ -8,12 +8,9 @@ class LeagueDao {
 
   Future<int> createLeague(League league) async {
     final db = await helper.database;
-
     List<League> listLeague = await getLeagues();
-
     var result = 400;
     bool isExist = false;
-
     if (listLeague.length > 0) {
       listLeague.forEach((item) {
         if (item.id == league.id) {
@@ -21,20 +18,16 @@ class LeagueDao {
         }
       });
     }
-
     if (!isExist && league.id != null) {
       result = await db.insert(tableLeagues, league.toMap());
     }
-
     return result;
   }
 
   Future<int> count() async {
     final db = await helper.database;
-
     int count = Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $tableLeagues'));
-
     return count;
   }
 
@@ -79,7 +72,6 @@ class LeagueDao {
   Future<List<League>> getLeagues({List<String> columns, String query}) async {
     final db = await helper.database;
     List<Map<String, dynamic>> result;
-
     try {
       if (query != null) {
         if (query.isNotEmpty) {
@@ -92,11 +84,9 @@ class LeagueDao {
     } catch (e) {
       print('############################# getLeagues Error');
     }
-
-    List<League> leagues = result.isNotEmpty
+    List<League> leagues = result.isNotEmpty && result != null
         ? result.map((item) => League.fromMap(item)).toList()
         : [];
-
     return leagues;
   }
 

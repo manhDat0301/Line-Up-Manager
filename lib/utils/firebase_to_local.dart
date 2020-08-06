@@ -9,21 +9,26 @@ import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/utils/firebase.dart';
 import 'package:marozi/utils/local.dart';
 
-class FirebaseOrLocal {
+class FirebaseToLocal {
   static final _maroziFirebase = MaroziFirebase();
   static final _maroziLocal = MaroziLocal();
+  static final leagueRepo = LeagueRepository();
+  static final clubRepo = ClubRepository();
+  static final playerRepo = PlayerRepository();
   static final _firestoreInstance = Firestore.instance;
 
   static splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
-    _localUpdateAllLeague();
+    if (await _leagueNeedUpdate()) {
+      _localUpdateAllLeague();
+    }
   }
 
   static Future<bool> _leagueNeedUpdate() async {
     int firebase = await _maroziFirebase.countLeagueFirebase();
     int local;
     try {
-      local = await _maroziLocal.countLeagueLocal();
+      local = await leagueRepo.count();
     } on Exception catch (e) {
       local = 0;
     }
@@ -108,18 +113,15 @@ class FirebaseOrLocal {
 
   Future<List<Player>> getPlayersByClub(Club club) async {
     int local = await _maroziLocal.countPlayersByClub(club: club);
-    int firebase = await _firestoreInstance
-        .collection('Player')
-        .where('club_id', isEqualTo: club.id)
-        .getDocuments()
-        .then((value) => value.documents.length);
-
+    List<Player> firebaseList = await _updatePlayersByClub(club);
+    int firebase = firebaseList.length;
     List<Player> players;
     if (local != 0) {
       players = await _maroziLocal.getPlayersByClub(club);
     }
     if (local == 0 || local != firebase) {
       players = await _updatePlayersByClub(club);
+      return firebaseList;
     }
     return players;
   }
@@ -127,7 +129,6 @@ class FirebaseOrLocal {
   Future<List<Player>> _updatePlayersByClub(Club club) async {
     final playerRepo = PlayerRepository();
     List<Player> players = [];
-
     await _firestoreInstance
         .collection('Player')
         .where('club_id', isEqualTo: club.id)
@@ -163,7 +164,6 @@ class FirebaseOrLocal {
         playerRepo.insertPlayer(player);
       });
     });
-
     return players;
   }
 

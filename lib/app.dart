@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/model/favorite/favorite_repository.dart';
+import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/orientation/adding.dart';
 import 'package:marozi/orientation/detail.dart';
 import 'package:marozi/orientation/home_page.dart';
 import 'package:marozi/orientation/position.dart';
 import 'package:marozi/orientation/table.dart';
 import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
+import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
 
 class MyApp extends StatelessWidget {
+  final favRepo = FavoriteRepository();
+  final playerRepo = PlayerRepository();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -21,6 +27,10 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               AddingBloc(AddingInitial())..add(GetLeagueByNation()),
         ),
+        BlocProvider<PositionBloc>(
+          create: (BuildContext context) =>
+              PositionBloc(PositionInitial())..add(PositionTestEvent()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,18 +39,16 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: '/homepage',
+        initialRoute: '/position',
         onGenerateRoute: (settings) {
-          print('onGenerateRoute ${settings.name}');
           switch (settings.name) {
-            case '/':
+            case '/homepage':
               return MaterialPageRoute(
                   builder: (BuildContext context) => HomePage());
               break;
             case '/position':
               return MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      Position(settings.arguments));
+                  builder: (BuildContext context) => Position());
               break;
             case '/table':
               return MaterialPageRoute(
@@ -52,7 +60,8 @@ class MyApp extends StatelessWidget {
               break;
             case '/detail':
               return MaterialPageRoute(
-                  builder: (BuildContext context) => PlayerDetail(settings.arguments));
+                  builder: (BuildContext context) =>
+                      PlayerDetail(settings.arguments));
               break;
             default:
               return MaterialPageRoute(

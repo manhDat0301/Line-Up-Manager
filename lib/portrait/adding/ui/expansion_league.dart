@@ -101,10 +101,8 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
               },
             ),
             children: <Widget>[
-              BlocBuilder<ClubBloc, ClubState>(
-                builder: (BuildContext context, ClubState state) {
-                  if (state is ClubByLeagueState) {
-                    return SingleChildScrollView(
+              state is ClubByLeagueState
+                  ? SingleChildScrollView(
                       child: Container(
                         height: 265,
                         padding: EdgeInsets.only(left: 0),
@@ -116,11 +114,8 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
                           },
                         ),
                       ),
-                    );
-                  }
-                  return BottomLoader();
-                },
-              ),
+                    )
+                  : BottomLoader(),
             ],
           );
         },

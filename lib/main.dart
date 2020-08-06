@@ -6,7 +6,7 @@ import 'package:marozi/utils/firebase_to_local.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseOrLocal.splashDataLoading();
+  FirebaseToLocal.splashDataLoading();
   Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }

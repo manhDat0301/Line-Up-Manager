@@ -14,7 +14,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   @override
   Stream<PlayerState> mapEventToState(PlayerEvent event) async* {
     if (event is GetPlayerByClub) {
-      final getData = FirebaseOrLocal();
+      final getData = FirebaseToLocal();
       List<Player> players = await getData.getPlayersByClub(event.club);
       yield PlayersByClub(players: players);
     }

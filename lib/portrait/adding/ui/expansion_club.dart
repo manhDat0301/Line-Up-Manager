@@ -24,37 +24,49 @@ class _ExpansionClubState extends State<ExpansionClub> {
       create: (BuildContext context) => PlayerBloc(PlayerInitial()),
       child: BlocBuilder<PlayerBloc, PlayerState>(
         builder: (BuildContext context, PlayerState state) {
-          return ExpansionTile(
-            onExpansionChanged: (bool) {
-              if (bool) {
-                context.bloc<PlayerBloc>().add(GetPlayerByClub(widget.club));
-              }
-            },
-            leading: FutureBuilder(
-              initialData: '',
-              future: FireStorageService.loadFromStorage(
-                  context, widget.club.logoUrl),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) => Icon(
-                    Icons.error,
-                    color: Colors.orange,
-                  ),
-                  placeholder: (context, string) {
-                    return CircularProgressIndicator();
-                  },
-                  imageUrl: snapshot.data,
-                );
+          return Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 5),
+            child: ExpansionTile(
+              initiallyExpanded: false,
+              onExpansionChanged: (bool) {
+                if (bool) {
+                  context.bloc<PlayerBloc>().add(GetPlayerByClub(widget.club));
+                }
               },
+              leading: Container(
+                width: 40,
+                height: 40,
+                child: FutureBuilder(
+                  initialData: '',
+                  future: FireStorageService.loadFromStorage(
+                      context, widget.club.logoUrl),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    return CachedNetworkImage(
+                      width: 45,
+                      height: 45,
+                      errorWidget: (context, string, dynamic) => Icon(
+                        Icons.error,
+                        size: 10,
+                        color: Colors.orange,
+                      ),
+                      placeholder: (context, string) {
+                        return CircularProgressIndicator();
+                      },
+                      imageUrl: snapshot.data,
+                    );
+                  },
+                ),
+              ),
+              title: MyText(
+                text: widget.club.name,
+                color: null,
+                textAlign: TextAlign.start,
+                fontSize: 18,
+                isTitleCase: true,
+              ),
+              children: <Widget>[_player(state)],
             ),
-            title: MyText(
-              text: widget.club.name,
-              color: null,
-              textAlign: TextAlign.start,
-              fontSize: 18,
-              isTitleCase: true,
-            ),
-            children: <Widget>[_player(state)],
           );
         },
       ),
@@ -80,8 +92,8 @@ class _ExpansionClubState extends State<ExpansionClub> {
                               context
                                   .bloc<TableBloc>()
                                   .add(PlayerSelect(state.players[index].id));
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/table', ModalRoute.withName('/homepage'));
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/table');
                             },
                             child: Container(
                               height: 40,
