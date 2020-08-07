@@ -5,6 +5,7 @@ import 'package:marozi/portrait/adding/favorite_bloc/favorite_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/custom_lib/bottom_loader.dart';
 import 'package:marozi/resources/custom_lib/my_text.dart';
+import 'package:marozi/resources/strings.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
 class FavoritePlayers extends StatefulWidget {
@@ -40,7 +41,7 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
                 },
                 children: <Widget>[
                   Container(
-                    height: state.list.length < 5 ? null : 210,
+                    height: state.list.length < 5 ? null : 230,
                     padding: const EdgeInsets.only(left: 15.5, bottom: 13),
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -51,8 +52,8 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
                             context
                                 .bloc<TableBloc>()
                                 .add(PlayerSelect(state.list[index].favId));
-                            Navigator.pushNamedAndRemoveUntil(context, '/table',
-                                ModalRoute.withName('/homepage'));
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, table, ModalRoute.withName(homepage));
                           },
                           child: Row(
                             children: [

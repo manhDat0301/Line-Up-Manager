@@ -11,6 +11,7 @@ import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
 import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
+import 'package:marozi/resources/strings.dart';
 
 class MyApp extends StatelessWidget {
   final favRepo = FavoriteRepository();
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: '/position',
+        initialRoute: homepage,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
-class Offset4231 {
+import 'package:flutter/cupertino.dart';
+
+class CalculateOffset {
 //  static final List<double> percentWidth4CB = [12, 37, 61, 86];
 //  static final List<double> percentWidth2CDM = [36, 62];
 //  static final List<double> percentWidth3CAM = [20, 50, 78];
@@ -16,34 +18,6 @@ class Offset4231 {
   static double _halfPlayerHeight = 75 / 2;
   static double _halfPlayerWidth = 83 / 2;
 
-  static final List<double> _dxPercent = [
-    50,
-    20,
-    50,
-    78,
-    36,
-    62,
-    12,
-    37,
-    61,
-    86,
-    50,
-  ];
-
-  static final List<double> _dyPercent = [
-    1,
-    16,
-    16,
-    16,
-    32,
-    32,
-    45,
-    48,
-    48,
-    45,
-    64,
-  ];
-
   static double _dxPortrait(double width, double per) {
     return width * per / 100 - _halfPlayerWidth;
   }
@@ -52,11 +26,15 @@ class Offset4231 {
     return height * per / 100;
   }
 
-  static List<Offset> getListOffset(double width, double height) {
+  static List<Offset> getListOffset({
+    @required double width,
+    @required double height,
+    @required List<Offset> percent,
+  }) {
     List<Offset> offsets = [];
     for (int i = 0; i < 11; i++) {
-      double dx = _dxPortrait(width, _dxPercent[i]);
-      double dy = _dyPortrait(height, _dyPercent[i]);
+      double dx = _dxPortrait(width, percent[i].dx);
+      double dy = _dyPortrait(height, percent[i].dy);
       offsets.add(Offset(dx, dy));
     }
     return offsets;

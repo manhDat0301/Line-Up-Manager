@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
+import 'package:marozi/portrait/position/ui/formation.dart';
 import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_lib/bottom_loader.dart';
 
@@ -73,19 +74,10 @@ class _PositionPortraitState extends State<PositionPortrait> {
     return Expanded(
       child: BlocBuilder<PositionBloc, PositionState>(
         builder: (BuildContext context, PositionState state) {
-          return CarouselSlider(
-            carouselController: _carouselController,
-            items: Constants.carouselPortrait,
-            options: CarouselOptions(
-              onPageChanged: (int, reason) {
-                context.bloc<PositionBloc>().add(FormationChange(int));
-              },
-              height: double.infinity,
-              viewportFraction: 1.0,
-              enlargeCenterPage: false,
-              initialPage: 0,
-              enableInfiniteScroll: false,
-            ),
+          return PageView(
+            children: <Widget>[
+              Formation(),
+            ],
           );
         },
       ),
@@ -121,12 +113,9 @@ class _PositionPortraitState extends State<PositionPortrait> {
                                 children: <Widget>[
                                   InkWell(
                                     onTap: () {
-                                      _carouselController.animateToPage(index);
                                       context
                                           .bloc<PositionBloc>()
                                           .add(FormationChange(index));
-                                      print(
-                                          'position_portrait: $index currentPage ${state.currentPage}');
                                     },
                                     child: Align(
                                       alignment: Alignment.centerLeft,

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/portrait/position/ui/formation_ui/4_2_3_1.dart';
-import 'package:marozi/portrait/position/ui/formation_ui/4_3_3.dart';
+import 'package:marozi/portrait/position/ui/formation.dart';
 import 'package:marozi/resources/strings.dart';
 
 class Constants {
@@ -17,8 +16,11 @@ class Constants {
 //  static double height = 720.0;
 
   // Pixel 2
-  static double width = 411.42857142857144;
-  static double height = 683.4285714285714;
+//  static double width = 411.42857142857144;
+//  static double height = 683.4285714285714;
+
+  static double width;
+  static double height;
 
   // Pixel 3 XL
 //  static double widthPortrait = 411.42857142857144;
@@ -79,47 +81,17 @@ class Constants {
     'RDM': Offset(_landscapeW(72.5), _landscapeH(39.5)),
   };
 
-  static List<Player> listPlayers = [
-    Player(
-        name: 'Martial', avatarUrl: playerAnthonyMartial, offset: Offset.zero),
-    Player(name: 'Bruno', avatarUrl: playerBrunoFernandes, offset: Offset.zero),
-    Player(
-        name: 'Rashford', avatarUrl: playerMarcusRashford, offset: Offset.zero),
-    Player(
-        name: 'Greenwood',
-        avatarUrl: playerMasonGreenwood,
-        offset: Offset.zero),
-    Player(name: 'Pogba', avatarUrl: playerPaulPogba1, offset: Offset.zero),
-    Player(
-        name: 'McTominay',
-        avatarUrl: playerScottMcTominay,
-        offset: Offset.zero),
-    Player(
-        name: 'Wan-bisaka',
-        avatarUrl: playerAaronWanBissaka,
-        offset: Offset.zero),
-    Player(name: 'Shaw', avatarUrl: playerLukeShaw, offset: Offset.zero),
-    Player(name: 'Bailly', avatarUrl: playerEricBailly1, offset: Offset.zero),
-    Player(
-        name: 'Maguire', avatarUrl: playerHarryMaguire1, offset: Offset.zero),
-    Player(name: 'De Gea', avatarUrl: playerDeGea1, offset: Offset.zero),
-    Player(name: 'LDM', avatarUrl: null, offset: Offset.zero),
-    Player(name: 'RDM', avatarUrl: null, offset: Offset.zero),
-    Player(name: 'LS', avatarUrl: null, offset: Offset.zero),
-    Player(name: 'RS', avatarUrl: null, offset: Offset.zero),
-  ];
-
   static List<Widget> carouselPortrait = [
-    Portrait4231(),
-    Portrait433(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
-    Portrait4231(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
+    Formation(),
   ];
 
 //  static List<Widget> initFormationLandscape(List<Widget> list) {

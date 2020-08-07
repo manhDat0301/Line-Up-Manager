@@ -6,6 +6,7 @@ import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
+import 'package:marozi/resources/strings.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
 class PlayerTablePortrait extends StatefulWidget {
@@ -88,7 +89,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                         context
                             .bloc<PositionBloc>()
                             .add(CreateFormation(state.map.values.toList()));
-                        Navigator.pushNamed(context, '/position');
+                        Navigator.pushNamed(context, position);
                       }
                     }
                   }
@@ -299,7 +300,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
               ),
               onTap: () {
                 context.bloc<TableBloc>().add(AddButtonPress(key));
-                Navigator.of(context).pushReplacementNamed('/adding');
+                Navigator.of(context).pushReplacementNamed(adding);
               },
             );
           },

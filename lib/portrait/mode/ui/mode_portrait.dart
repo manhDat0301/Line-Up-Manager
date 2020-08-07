@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_lib/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
+import 'package:marozi/resources/strings.dart';
 
 class ModePortrait extends StatefulWidget {
   @override
@@ -71,7 +72,7 @@ class _ModePortraitState extends State<ModePortrait> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed('/table');
+              Navigator.of(context).pushNamed(table);
             },
             child: Image.asset('assets/images/portrait.png', height: 500),
           ),
@@ -124,7 +125,7 @@ class _ModePortraitState extends State<ModePortrait> {
       child: RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: () {
-          Navigator.pushNamed(context, '/table');
+          Navigator.pushNamed(context, table);
         },
         textColor: Colors.white,
         padding: const EdgeInsets.all(0.0),

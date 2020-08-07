@@ -8,6 +8,16 @@ class PositionEvent extends Equatable {
 
 class PositionTestEvent extends PositionEvent {}
 
+class CreateFormation extends PositionEvent {
+  final List<Player> list;
+
+  CreateFormation(this.list);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [list];
+}
+
 class FormationChange extends PositionEvent {
   final int i;
 
@@ -18,12 +28,24 @@ class FormationChange extends PositionEvent {
   List<Object> get props => [i];
 }
 
-class CreateFormation extends PositionEvent {
-  final List<Player> list;
+class PositionSwap extends PositionEvent {
+  final int first;
+  final int second;
 
-  CreateFormation(this.list);
+  PositionSwap(this.first, this.second);
 
   @override
   // TODO: implement props
-  List<Object> get props => [list];
+  List<Object> get props => [first, second];
+}
+
+class DropPlayer extends PositionEvent {
+  final Offset offset;
+  final int index;
+
+  DropPlayer(this.offset, this.index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [offset, index];
 }
