@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/player/player.dart';
+import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
 import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
@@ -24,6 +25,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
@@ -65,14 +67,11 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                 onTap: () {
                   if (state is PlayerAdded) {
                     if (state.map.isEmpty) {
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content:
-                            Text('Need at least 5 Starting and 3 Substitutes'),
-                      ));
+                      _showSnackBar();
                     } else {
                       int start = 0;
                       int subs = 0;
-                      for (int i = 0; i < state.map.length; i++) {
+                      for (int i = 0; i < 18; i++) {
                         if (i <= 10 && state.map.containsKey(i)) {
                           start++;
                         }
@@ -81,10 +80,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                         }
                       }
                       if (start + subs < 8) {
-                        _scaffoldKey.currentState.showSnackBar(SnackBar(
-                          content: Text(
-                              'Need at least 5 Starting and 3 Substitutes ${state.map.values.map((e) => (e.name))}'),
-                        ));
+                        _showSnackBar();
                       } else {
                         context
                             .bloc<PositionBloc>()
@@ -92,6 +88,8 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                         Navigator.pushNamed(context, position);
                       }
                     }
+                  } else {
+                    _showSnackBar();
                   }
                 },
                 child: Icon(
@@ -299,8 +297,8 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
                 ),
               ),
               onTap: () {
+                Navigator.of(context).pushNamed(adding);
                 context.bloc<TableBloc>().add(AddButtonPress(key));
-                Navigator.of(context).pushReplacementNamed(adding);
               },
             );
           },
@@ -349,5 +347,11 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
         ),
       ),
     );
+  }
+
+  void _showSnackBar() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text('Need at least 5 Starting and 3 Substitutes'),
+    ));
   }
 }

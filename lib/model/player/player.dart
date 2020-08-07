@@ -131,33 +131,4 @@ class Player {
       playerOffset: offset.toString(),
     };
   }
-
-  @override
-  String toString() {
-    return '''
-    ${this.id}
-    ${this.name} {
-    ${this.clubId}
-    ${this.clubName}
-    ${this.age}
-    ${this.position}
-    ${this.overall}
-    ${this.potential}
-    ${this.number}
-    ${this.nation}
-    ${this.wage}
-    ${this.footPrefer}
-    ${this.birthday}
-    ${this.weight}
-    ${this.height}
-    ${this.avatarUrl}
-    ${this.ballSkill}
-    ${this.defence}
-    ${this.shooting}
-    ${this.physical}
-    ${this.passing}
-    ${this.isExpand}
-    ${this.offset}
-    ''';
-  }
 }

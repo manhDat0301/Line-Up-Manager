@@ -8,6 +8,7 @@ import 'package:marozi/orientation/home_page.dart';
 import 'package:marozi/orientation/position.dart';
 import 'package:marozi/orientation/table.dart';
 import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
+import 'package:marozi/portrait/adding/favorite_bloc/favorite_bloc.dart';
 import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
 import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -31,6 +32,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<PositionBloc>(
           create: (BuildContext context) =>
               PositionBloc(PositionInitial())..add(PositionTestEvent()),
+        ),
+        BlocProvider<FavoriteBloc>(
+          create: (BuildContext context) =>
+              FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
         ),
       ],
       child: MaterialApp(

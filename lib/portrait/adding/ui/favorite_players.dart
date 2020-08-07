@@ -15,46 +15,50 @@ class FavoritePlayers extends StatefulWidget {
 
 class _FavoritePlayersState extends State<FavoritePlayers> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider<FavoriteBloc>(
-      create: (BuildContext context) =>
-          FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: BlocBuilder<FavoriteBloc, FavoriteState>(
-          builder: (BuildContext context, FavoriteState state) {
-            if (state is FavoriteLoadSuccess) {
-              return ExpansionTile(
-                title: MyText(
-                  textAlign: TextAlign.start,
-                  text: '${state.list.length} player(s)',
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-                onExpansionChanged: (bool) {
-                  if (bool) {
-                    context.bloc<FavoriteBloc>().add(FavoriteFetch());
-                  }
-                },
-                children: <Widget>[
-                  Container(
-                    height: state.list.length < 5 ? null : 230,
-                    padding: const EdgeInsets.only(left: 15.5, bottom: 13),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.list.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            context
-                                .bloc<TableBloc>()
-                                .add(PlayerSelect(state.list[index].favId));
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, table, ModalRoute.withName(homepage));
-                          },
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: BlocBuilder<FavoriteBloc, FavoriteState>(
+        builder: (BuildContext context, FavoriteState state) {
+          if (state is FavoriteLoadSuccess) {
+            return ExpansionTile(
+              title: MyText(
+                textAlign: TextAlign.start,
+                text: '${state.list.length} player(s)',
+                color: Colors.black,
+                fontSize: 18,
+              ),
+              onExpansionChanged: (bool) {
+                if (bool) {
+                  context.bloc<FavoriteBloc>().add(FavoriteFetch());
+                }
+              },
+              children: <Widget>[
+                Container(
+                  height: state.list.length < 5 ? null : 230,
+                  padding: const EdgeInsets.only(left: 15.5, bottom: 13),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.list.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, table, ModalRoute.withName(homepage));
+                          context
+                              .bloc<TableBloc>()
+                              .add(PlayerSelect(state.list[index].favId));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
                           child: Row(
                             children: [
                               FutureBuilder(
@@ -64,17 +68,15 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<dynamic> snapshot) {
                                   return Container(
-                                    width: 53,
-                                    height: 53,
-                                    padding: EdgeInsets.only(top: 3),
+                                    width: 50,
+                                    height: 50,
                                     child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(10000.0),
                                       child: CachedNetworkImage(
                                         placeholder: (context, url) =>
                                             BottomLoader(),
-                                        errorWidget:
-                                            (context, string, dynamic) {
+                                        errorWidget: (context, string, dynamic) {
                                           return Icon(
                                             Icons.error,
                                             color: Colors.orange,
@@ -99,16 +101,17 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
                               ),
                             ],
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              );
-            }
-            return Container(height: 80, child: BottomLoader());
-          },
-        ),
+                ),
+              ],
+            );
+          } else {
+            return Container(height: 60, child: BottomLoader());
+          }
+        },
       ),
     );
   }

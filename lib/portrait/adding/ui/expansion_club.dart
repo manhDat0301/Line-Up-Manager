@@ -25,7 +25,7 @@ class _ExpansionClubState extends State<ExpansionClub> {
       child: BlocBuilder<PlayerBloc, PlayerState>(
         builder: (BuildContext context, PlayerState state) {
           return Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 5),
+            padding: const EdgeInsets.only(left: 25.0, top: 5),
             child: ExpansionTile(
               initiallyExpanded: false,
               onExpansionChanged: (bool) {
@@ -51,7 +51,7 @@ class _ExpansionClubState extends State<ExpansionClub> {
                         color: Colors.orange,
                       ),
                       placeholder: (context, string) {
-                        return CircularProgressIndicator();
+                        return BottomLoader();
                       },
                       imageUrl: snapshot.data,
                     );

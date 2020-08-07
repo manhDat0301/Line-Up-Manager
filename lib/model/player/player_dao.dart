@@ -7,7 +7,11 @@ class PlayerDao {
 
   Future<int> createPlayer(Player player) async {
     Database db = await helper.database;
-    var result = await db.insert(tablePlayer, player.toMap());
+    int result = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) FROM $tablePlayer WHERE $playerId = \'${player.id}\''));
+    if (result < 1) {
+      result = await db.insert(tablePlayer, player.toMap());
+    }
     return result;
   }
 

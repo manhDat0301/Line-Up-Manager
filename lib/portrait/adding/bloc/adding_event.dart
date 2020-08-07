@@ -7,7 +7,4 @@ class AddingEvent extends Equatable {
 }
 
 class GetLeagueByNation extends AddingEvent {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
 }

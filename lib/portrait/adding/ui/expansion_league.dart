@@ -21,7 +21,7 @@ class ExpansionLeague extends StatefulWidget {
 }
 
 class _ExpansionLeagueState extends State<ExpansionLeague> {
-//  final _scrollController = ScrollController();
+  final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   int selected = -1;
   String nation = '';
@@ -29,7 +29,7 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
   @override
   void initState() {
     super.initState();
-//    _scrollController..addListener(() => _scrollListener);
+    _scrollController..addListener(() => _scrollListener);
   }
 
   void _scrollListener() {}
@@ -37,7 +37,7 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
   @override
   void dispose() {
     super.dispose();
-//    _scrollController.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -48,11 +48,10 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
         color: Colors.white,
       ),
       child: SingleChildScrollView(
-//      controller: _scrollController,
+        controller: _scrollController,
         child: ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-//          key: Key('${nation}${(selected).toString()}'),
           itemCount: widget.leagues.length,
           itemBuilder: (context, index) {
             return _leagueWidget(index, widget.leagues[index]);
@@ -87,16 +86,20 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
               future:
                   FireStorageService.loadFromStorage(context, league.logoUrl),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) {
-                    return Container(
-                      child: Icon(Icons.error),
-                    );
-                  },
-                  imageUrl: snapshot.data,
-                  placeholder: (context, string) {
-                    return CircularProgressIndicator();
-                  },
+                return Container(
+                  width: 45,
+                  height: 45,
+                  child: CachedNetworkImage(
+                    errorWidget: (context, string, dynamic) {
+                      return Container(
+                        child: Icon(Icons.error),
+                      );
+                    },
+                    imageUrl: snapshot.data,
+                    placeholder: (context, string) {
+                      return BottomLoader();
+                    },
+                  ),
                 );
               },
             ),
@@ -104,8 +107,7 @@ class _ExpansionLeagueState extends State<ExpansionLeague> {
               state is ClubByLeagueState
                   ? SingleChildScrollView(
                       child: Container(
-                        height: 265,
-                        padding: EdgeInsets.only(left: 0),
+                        height: 300,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.clubs.length,

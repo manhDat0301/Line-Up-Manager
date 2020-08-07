@@ -7,21 +7,32 @@ class AddingState extends Equatable {
 }
 
 class AddingInitial extends AddingState {
-
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
-class LeagueByNationInitial extends AddingState {
+
+class LeagueByNationSuccess extends AddingState {
   final Map<String, List<League>> leagueByNation;
+  final bool hasReachedMax;
 
-  LeagueByNationInitial({this.leagueByNation});
+  LeagueByNationSuccess({this.leagueByNation, this.hasReachedMax});
 
-  LeagueByNationInitial copyWith({Map<String, List<League>> leagueByNation}) {
-    return LeagueByNationInitial(leagueByNation: leagueByNation ?? this.leagueByNation);
+  LeagueByNationSuccess copyWith({
+    Map<String, List<League>> leagueByNation,
+    bool hasReachedMax,
+  }) {
+    return LeagueByNationSuccess(
+      leagueByNation: leagueByNation ?? this.leagueByNation,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [leagueByNation];
+  List<Object> get props => [leagueByNation, hasReachedMax];
+}
+
+class LeagueByNationFailed extends AddingState {
+
 }
