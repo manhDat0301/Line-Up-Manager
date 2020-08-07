@@ -19,6 +19,7 @@ class FirebaseToLocal {
 
   static splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
+    _maroziLocal.clearAllContent();
     if (await _leagueNeedUpdate()) {
       _localUpdateAllLeague();
     }
@@ -36,7 +37,11 @@ class FirebaseToLocal {
   }
 
   static _localUpdateAllLeague() async {
-    _firestoreInstance.collection('League').getDocuments().then((value) {
+    _firestoreInstance
+        .collection('League')
+        .orderBy('league_nation')
+        .getDocuments()
+        .then((value) {
       for (var element in value.documents) {
         League league = League();
         league.id = element.documentID;
@@ -64,7 +69,9 @@ class FirebaseToLocal {
       clubs = await _maroziLocal.getClubsByLeague(league);
     }
     if (local == 0 || local != listFirebase.length) {
-      _updateClubsByLeague(league);
+      listFirebase.forEach((club) {
+        clubRepo.insertClub(club);
+      });
       return listFirebase;
     }
     return clubs;
@@ -74,6 +81,7 @@ class FirebaseToLocal {
     List<Club> clubs = [];
     await _firestoreInstance
         .collection('Club')
+        .orderBy('club_name')
         .where('league_id', isEqualTo: league.id)
         .getDocuments()
         .then((value) {
@@ -91,46 +99,28 @@ class FirebaseToLocal {
     return clubs;
   }
 
-  Future _updateClubsByLeague(League league) async {
-    final clubRepo = ClubRepository();
-    _firestoreInstance
-        .collection('Club')
-        .where('league_id', isEqualTo: league.id)
-        .getDocuments()
-        .then((value) {
-      value.documents.forEach((element) {
-        Club club = Club();
-        club.id = element.documentID;
-        club.name = element.data['club_name'];
-        club.leagueId = element.data['league_id'];
-        club.leagueName = element.data['league_name'];
-        club.logoUrl = element.data['club_logo_url'];
-        club.isExpand = false;
-        clubRepo.insertClub(club);
-      });
-    });
-  }
-
   Future<List<Player>> getPlayersByClub(Club club) async {
     int local = await _maroziLocal.countPlayersByClub(club: club);
-    List<Player> firebaseList = await _updatePlayersByClub(club);
+    List<Player> firebaseList = await _playersByClubFirebase(club);
     int firebase = firebaseList.length;
     List<Player> players;
     if (local != 0) {
       players = await _maroziLocal.getPlayersByClub(club);
     }
     if (local == 0 || local != firebase) {
-      players = await _updatePlayersByClub(club);
+      firebaseList.forEach((player) {
+        playerRepo.insertPlayer(player);
+      });
       return firebaseList;
     }
     return players;
   }
 
-  Future<List<Player>> _updatePlayersByClub(Club club) async {
-    final playerRepo = PlayerRepository();
+  Future<List<Player>> _playersByClubFirebase(Club club) async {
     List<Player> players = [];
     await _firestoreInstance
         .collection('Player')
+        .orderBy('player_name')
         .where('club_id', isEqualTo: club.id)
         .getDocuments()
         .then((value) {
@@ -161,7 +151,6 @@ class FirebaseToLocal {
         player.isExpand = false;
         player.offset = Offset.zero;
         players.add(player);
-        playerRepo.insertPlayer(player);
       });
     });
     return players;

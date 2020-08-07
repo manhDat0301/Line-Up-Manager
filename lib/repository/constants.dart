@@ -1,41 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/model/player/player.dart';
-import 'package:marozi/portrait/position/ui/formation.dart';
-import 'package:marozi/resources/strings.dart';
 
 class Constants {
+  static int key;
+  static double width;
+  static double height;
   // This is the actual db filename: that is saved in the docs dir
   static final dbName = "MaroziDatabase.db";
 
   // Increment this version when you need to change the schema
   static final dbVersion = 1;
 
-  // Xiaomi A6
-//  static double width = 360;
-//  static double height = 720.0;
-
-  // Pixel 2
-//  static double width = 411.42857142857144;
-//  static double height = 683.4285714285714;
-
-  static double width;
-  static double height;
-
-  // Pixel 3 XL
-//  static double widthPortrait = 411.42857142857144;
-//  static double heightPortrait = 797.7142857142857;
-
-  static double _halfPlayerHeight = 36.5;
   static double _halfPlayerWidth = 32.5;
-
-  static double portraitW(double per) {
-    return width * per / 100 - _halfPlayerWidth;
-  }
-
-  static double portraitH(double per) {
-    return height * per / 100;
-  }
 
   static double _landscapeW(double per) {
     return height * per / 100 - _halfPlayerWidth;
@@ -44,24 +20,6 @@ class Constants {
   static double _landscapeH(double per) {
     return width * per / 100;
   }
-
-  static Map<String, Offset> portrait_4_2_3_1 = {
-    'Martial': Offset(portraitW(50), portraitH(3)),
-    'Rashford': Offset(portraitW(20), portraitH(18)),
-    'Bruno': Offset(portraitW(50), portraitH(18)),
-    'Greenwood': Offset(portraitW(78), portraitH(18)),
-    'Pogba': Offset(portraitW(36), portraitH(35)),
-    'McTominay': Offset(portraitW(62), portraitH(35)),
-    'Shaw': Offset(portraitW(12), portraitH(48)),
-    'Maguire': Offset(portraitW(37), portraitH(52)),
-    'Bailly': Offset(portraitW(61), portraitH(52)),
-    'Wan-bisaka': Offset(portraitW(86), portraitH(48)),
-    'De Gea': Offset(portraitW(50), portraitH(67)),
-    'LS': Offset(portraitW(20), portraitH(3)),
-    'RS': Offset(portraitW(78), portraitH(3)),
-    'LDM': Offset(portraitW(12), portraitH(35)),
-    'RDM': Offset(portraitW(86), portraitH(35)),
-  };
 
   static Map<String, Offset> offsetLandscape = {
     'Martial': Offset(_landscapeW(41.45), _landscapeH(0.2)),
@@ -80,30 +38,6 @@ class Constants {
     'LDM': Offset(_landscapeW(10.5), _landscapeH(39.5)),
     'RDM': Offset(_landscapeW(72.5), _landscapeH(39.5)),
   };
-
-  static List<Widget> carouselPortrait = [
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-    Formation(),
-  ];
-
-//  static List<Widget> initFormationLandscape(List<Widget> list) {
-//    return list = [
-//      Landscape433(),
-//      Landscape433(),
-//      Landscape433(),
-//      Landscape433(),
-//      Landscape433(),
-//      Landscape433(),
-//    ];
-//  }
 
   static List<String> formations = [
     '4-2-3-1',
@@ -126,79 +60,6 @@ class Constants {
       'The Bleu',
       'Royal White',
       'Red Devils'
-    ];
-  }
-
-  static List<String> initPremierLeague(List<String> list) {
-    return [
-      'Arsenal',
-      'Aston Villa',
-      'Bournemouth',
-      'Brighton & Hove Albion',
-      'Burnley',
-      'Chelsea',
-      'Crystal Palace',
-      'Everton',
-      'Leicester City',
-      'Liverpool',
-      'Manchester City',
-      'Manchester United',
-      'Newcastle United',
-      'Norwich City',
-      'Sheffield United',
-      'Southampton',
-      'Tottenham Hotspur',
-      'Watford',
-      'West Ham United',
-      'Wolverhampton Wanderers',
-    ];
-  }
-
-  static List<String> initManUnitedPlayers(List<String> list) {
-    return [
-      'Paul Pogba',
-      'Marcus Rashford',
-      'Bruno Fernandes',
-      'Odion Ighalo',
-      'Anthony Martial',
-      'Bournemouth',
-      'Mason Greenwood',
-      'Daniel James',
-      'Angel Gomes',
-      'Harry Maguire',
-      'Fred',
-      'David De Gea',
-      'Jesse Lingard',
-      'Brandon Williams',
-      'Juan Mata',
-      'Aaron Wan-Bissaka',
-      'Scott McTominay',
-      'Andreas Pereira',
-      'Tahith Chong',
-      'Nemanja Matić',
-      'Diogo Dalot',
-      'Eric Bertrand Bailly',
-      'Luke Shaw',
-      'Phil Jones',
-      'Victor Lindelöf',
-      'Teden Mengi',
-      'Sergio Romero',
-      'James Garner',
-      'Axel Tuanzebe',
-      'Largie Ramazani',
-      'Lee Grant',
-      'Timothy Fosu-Mensah',
-      'Joel Castro Pereira',
-      'Ethan Laird',
-      'Dylan Levitt',
-      'Cameron Borthwick-Jackson',
-      'Ethan Galbraith',
-      'Matej Kovar',
-      'Di\'Shon Bernard',
-      'D\'Mani Mellor',
-      'Arnau Puigmal',
-      'Ethan Hamilton',
-      'Max Dunne',
     ];
   }
 

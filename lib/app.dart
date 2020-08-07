@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
+import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
+import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/favorite/favorite_repository.dart';
 import 'package:marozi/model/player/player_repository.dart';
-import 'package:marozi/orientation/adding.dart';
-import 'package:marozi/orientation/detail.dart';
-import 'package:marozi/orientation/home_page.dart';
-import 'package:marozi/orientation/position.dart';
-import 'package:marozi/orientation/table.dart';
-import 'package:marozi/portrait/adding/bloc/adding_bloc.dart';
-import 'package:marozi/portrait/adding/favorite_bloc/favorite_bloc.dart';
-import 'package:marozi/portrait/position/position_bloc/position_bloc.dart';
-import 'package:marozi/portrait/table/bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/orientation/adding.dart';
+import 'package:marozi/ui/orientation/detail.dart';
+import 'package:marozi/ui/orientation/export.dart';
+import 'package:marozi/ui/orientation/home_page.dart';
+import 'package:marozi/ui/orientation/position.dart';
+import 'package:marozi/ui/orientation/table.dart';
 
 class MyApp extends StatelessWidget {
   final favRepo = FavoriteRepository();
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: homepage,
+        initialRoute: export,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':
@@ -68,6 +69,10 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       PlayerDetail(settings.arguments));
+              break;
+            case '/export':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => Export());
               break;
             default:
               return MaterialPageRoute(

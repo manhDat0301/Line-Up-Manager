@@ -8,17 +8,9 @@ class LeagueDao {
 
   Future<int> createLeague(League league) async {
     final db = await helper.database;
-    List<League> listLeague = await getLeagues();
-    var result = 400;
-    bool isExist = false;
-    if (listLeague.length > 0) {
-      listLeague.forEach((item) {
-        if (item.id == league.id) {
-          isExist = true;
-        }
-      });
-    }
-    if (!isExist && league.id != null) {
+    int result = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) FROM $tableLeagues WHERE id = \'${league.id}\''));
+    if (result < 1) {
       result = await db.insert(tableLeagues, league.toMap());
     }
     return result;
@@ -47,7 +39,6 @@ class LeagueDao {
   }
 
   Future<Map<String, List<League>>> getLeagueByNation() async {
-
     final db = await helper.database;
     Map<String, List<League>> result = Map();
     List<Map<String, dynamic>> data;

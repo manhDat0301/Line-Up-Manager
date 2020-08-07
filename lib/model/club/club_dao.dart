@@ -9,17 +9,9 @@ class ClubDao {
 
   Future<int> createClub(Club club) async {
     final db = await helper.database;
-    var result = 0;
-    bool isExists = false;
-    List<Club> listClub = await getClubsByLeagueId(leagueId: club.leagueId);
-    if (listClub.length > 0) {
-      listClub.forEach((item) {
-        if (item.id == club.id) {
-          isExists = true;
-        }
-      });
-    }
-    if (!isExists && club.id != null) {
+    int result = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) from $tableClubs WHERE id = \'${club.id}\''));
+    if (result < 1) {
       result = await db.insert(tableClubs, club.toMap());
     }
     return result;

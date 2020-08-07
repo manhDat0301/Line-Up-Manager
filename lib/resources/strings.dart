@@ -6,3 +6,4 @@ final position = '/position';
 final table = '/table';
 final adding = '/adding';
 final detail = '/detail';
+final export = '/export';
