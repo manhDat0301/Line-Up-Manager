@@ -67,9 +67,15 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => PlayerTable()));
             },
-            child: Image.asset(
-              'assets/images/landscape.png',
-              fit: BoxFit.fill,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                topLeft: Radius.circular(8),
+              ),
+              child: Image.asset(
+                'assets/images/landscape.png',
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         ),
@@ -148,7 +154,7 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
       child: Container(
         alignment: Alignment.center,
         height: 40,
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width * 0.85 - 8,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: <Color>[

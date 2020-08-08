@@ -53,19 +53,19 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
 
   Widget _pageView() {
     return Container(
-      height: 480,
+      height: MediaQuery.of(context).size.height * 0.69,
       child: PageView(
         controller: _pageController,
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          _portraitMode(),
+          _portrait(),
           _landscape(),
         ],
       ),
     );
   }
 
-  Widget _portraitMode() {
+  Widget _portrait() {
     return Card(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +74,12 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
             onTap: () {
               Navigator.of(context).pushNamed(table);
             },
-            child: Image.asset('assets/images/portrait.png'),
+            child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: Image.asset('assets/images/portrait.png')),
           ),
           Expanded(
             child: Center(
@@ -100,7 +105,12 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Image.asset('assets/images/landscape.png'),
+                ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: Image.asset('assets/images/landscape.png')),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6.0),
                   child: Center(
