@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/ui/portrait/position/formation.dart';
+import 'package:marozi/ui/portrait/position/portrait_formation.dart';
 
-class PositionPortrait extends StatefulWidget {
+class PortraitPosition extends StatefulWidget {
   @override
-  _PositionPortraitState createState() => _PositionPortraitState();
+  _PortraitPositionState createState() => _PortraitPositionState();
 }
 
-class _PositionPortraitState extends State<PositionPortrait> {
+class _PortraitPositionState extends State<PortraitPosition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

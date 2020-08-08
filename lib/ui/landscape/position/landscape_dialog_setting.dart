@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class DialogSettingLandscape extends StatefulWidget {
+class LandscapeDialogSetting extends StatefulWidget {
   @override
-  _DialogSettingLandscapeState createState() => _DialogSettingLandscapeState();
+  _LandscapeDialogSettingState createState() => _LandscapeDialogSettingState();
 }
 
-class _DialogSettingLandscapeState extends State<DialogSettingLandscape> {
+class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
   bool isShowCoach = false;
   bool isShowCaptain = false;
   bool isShowSubs = false;

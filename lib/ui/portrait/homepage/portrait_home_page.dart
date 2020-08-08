@@ -4,12 +4,12 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
 
-class HomePagePortrait extends StatefulWidget {
+class PortraitHomePage extends StatefulWidget {
   @override
-  _HomePagePortraitState createState() => _HomePagePortraitState();
+  _PortraitHomePageState createState() => _PortraitHomePageState();
 }
 
-class _HomePagePortraitState extends State<HomePagePortrait> {
+class _PortraitHomePageState extends State<PortraitHomePage> {
   PageController _pageController = PageController(
     viewportFraction: 0.7,
     initialPage: 0,

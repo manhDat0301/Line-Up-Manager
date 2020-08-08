@@ -5,6 +5,7 @@ class Constants {
   static int key;
   static double width;
   static double height;
+
   // This is the actual db filename: that is saved in the docs dir
   static final dbName = "MaroziDatabase.db";
 
@@ -52,16 +53,14 @@ class Constants {
     '5-3-2',
   ];
 
-  static List<String> initStyle(List<String> list) {
-    return list = [
-      'Braven',
-      'Glory Red',
-      'B&W',
-      'The Bleu',
-      'Royal White',
-      'Red Devils'
-    ];
-  }
+  static List<String> listExport = [
+    'Braven',
+    'Glory Red',
+    'B&W',
+    'The Bleu',
+    'Royal White',
+    'Red Devils'
+  ];
 
   static List<String> playersName() {
     return [

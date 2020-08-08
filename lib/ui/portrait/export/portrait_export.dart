@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
 
-class ExportPortrait extends StatefulWidget {
+class PortraitExport extends StatefulWidget {
   @override
-  _ExportPortraitState createState() => _ExportPortraitState();
+  _PortraitExportState createState() => _PortraitExportState();
 }
 
-class _ExportPortraitState extends State<ExportPortrait> {
+class _PortraitExportState extends State<PortraitExport> {
   @override
   void initState() {
     super.initState();
@@ -100,15 +101,11 @@ class _ExportPortraitState extends State<ExportPortrait> {
                   RichText(
                     text: TextSpan(
                       text: '1',
-                      style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: 17),
+                      style: TextStyle(color: Colors.orange, fontSize: 17),
                       children: <TextSpan>[
                         TextSpan(
                           text: '\\15',
-                          style: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 17),
+                          style: TextStyle(color: Colors.black38, fontSize: 17),
                         ),
                       ],
                     ),
@@ -137,35 +134,33 @@ class _ExportPortraitState extends State<ExportPortrait> {
     return Container(
       height: 60,
       child: Card(
-        child: ListView(
-          children: <Widget>[
-//            ...Iterable<int>.generate(
-//                    Provider.of<Data>(context).listStyle.length)
-//                .map((int index) => Row(
-//                      children: <Widget>[
-//                        FlatButton(
-//                          onPressed: () {},
-//                          child: Text(
-//                            Provider.of<Data>(context).listStyle[index],
-//                            style: TextStyle(
-//                              fontWeight: FontWeight.normal,
-//                              fontFamily: fontSFDisplayRegular,
-//                              fontSize: 17,
-//                            ),
-//                          ),
-//                        ),
-//                        index < Provider.of<Data>(context).listStyle.length - 1
-//                            ? VerticalDivider(
-//                                color: Colors.black,
-//                                thickness: 0.15,
-//                                indent: 12,
-//                                endIndent: 12,
-//                              )
-//                            : SizedBox(),
-//                      ],
-//                    )),
-          ],
+        child: ListView.builder(
           scrollDirection: Axis.horizontal,
+          itemCount: Constants.listExport.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    Constants.listExport[index],
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+                index < Constants.listExport.length - 1
+                    ? VerticalDivider(
+                        color: Colors.black,
+                        thickness: 0.15,
+                        indent: 12,
+                        endIndent: 12,
+                      )
+                    : SizedBox(),
+              ],
+            );
+          },
         ),
       ),
     );

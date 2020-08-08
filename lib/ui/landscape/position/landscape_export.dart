@@ -3,12 +3,12 @@ import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
 
-class ExportLandscape extends StatefulWidget {
+class LandscapeExport extends StatefulWidget {
   @override
-  _ExportLandscapeState createState() => _ExportLandscapeState();
+  _LandscapeExportState createState() => _LandscapeExportState();
 }
 
-class _ExportLandscapeState extends State<ExportLandscape> {
+class _LandscapeExportState extends State<LandscapeExport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

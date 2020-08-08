@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/ui/orientation/export.dart';
 
-class PositionLandscape extends StatefulWidget {
+class LandscapePosition extends StatefulWidget {
   @override
-  _PositionLandscapeState createState() => _PositionLandscapeState();
+  _LandscapePositionState createState() => _LandscapePositionState();
 }
 
-class _PositionLandscapeState extends State<PositionLandscape> {
+class _LandscapePositionState extends State<LandscapePosition> {
 
   @override
   Widget build(BuildContext context) {

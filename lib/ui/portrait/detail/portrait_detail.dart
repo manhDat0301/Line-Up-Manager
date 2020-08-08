@@ -4,19 +4,19 @@ import 'package:marozi/bloc/detail/detail_bloc/detail_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/detail/player_info.dart';
-import 'package:marozi/ui/portrait/detail/player_stat.dart';
+import 'package:marozi/ui/portrait/detail/portrait_player_info.dart';
+import 'package:marozi/ui/portrait/detail/portrait_player_stat.dart';
 
-class PlayerDetailPortrait extends StatefulWidget {
+class PortraitPlayerDetail extends StatefulWidget {
   final String playerId;
 
-  PlayerDetailPortrait(this.playerId);
+  PortraitPlayerDetail(this.playerId);
 
   @override
-  _PlayerDetailPortraitState createState() => _PlayerDetailPortraitState();
+  _PortraitPlayerDetailState createState() => _PortraitPlayerDetailState();
 }
 
-class _PlayerDetailPortraitState extends State<PlayerDetailPortrait> {
+class _PortraitPlayerDetailState extends State<PortraitPlayerDetail> {
   @override
   void initState() {
     super.initState();

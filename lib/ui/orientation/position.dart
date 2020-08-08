@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/repository/constants.dart';
-import 'package:marozi/ui/landscape/position/position_landscape.dart';
-import 'package:marozi/ui/portrait/position/position_portrait.dart';
+import 'package:marozi/ui/landscape/position/landscape_position.dart';
+import 'package:marozi/ui/portrait/position/portrait_position.dart';
 
 class Position extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class Position extends StatelessWidget {
     Constants.width = MediaQuery.of(context).size.width;
     Constants.height = MediaQuery.of(context).size.height;
     return Orientation.portrait == MediaQuery.of(context).orientation
-        ? PositionPortrait()
-        : PositionLandscape();
+        ? PortraitPosition()
+        : LandscapePosition();
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class DialogSettingPortrait extends StatelessWidget {
+class PortraitDialogSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyCustomDialog();

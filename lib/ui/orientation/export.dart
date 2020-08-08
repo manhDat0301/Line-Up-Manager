@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/ui/landscape/position/export_landscape.dart';
-import 'package:marozi/ui/portrait/export/export_portrait.dart';
+import 'package:marozi/ui/landscape/position/landscape_export.dart';
+import 'package:marozi/ui/portrait/export/portrait_export.dart';
 
 class Export extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait
-        ? ExportPortrait()
-        : ExportLandscape();
+        ? PortraitExport()
+        : LandscapeExport();
   }
 }

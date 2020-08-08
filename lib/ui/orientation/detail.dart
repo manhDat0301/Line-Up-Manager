@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/ui/portrait/detail/detail_portrait.dart';
+import 'package:marozi/ui/portrait/detail/portrait_detail.dart';
 
 class PlayerDetail extends StatelessWidget {
   final String playerId;
@@ -8,6 +8,6 @@ class PlayerDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlayerDetailPortrait(playerId);
+    return PortraitPlayerDetail(playerId);
   }
 }

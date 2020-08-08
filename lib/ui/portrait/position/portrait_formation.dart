@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
-import 'file:///C:/Users/Admin/AndroidStudioProjects/marozi-flutter/lib/resources/custom_widgets/drag_player.dart';
+import 'package:marozi/resources/custom_widgets/drag_player.dart';
 
 class Formation extends StatefulWidget {
   @override

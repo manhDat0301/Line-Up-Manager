@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/model/league/league.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/adding/expansion_league.dart';
+import 'package:marozi/ui/portrait/adding/portrait_expansion_league.dart';
 
-class LeagueByNation extends StatefulWidget {
+class LeagueByNationPortrait extends StatefulWidget {
   @override
-  _LeagueByNationState createState() => _LeagueByNationState();
+  _LeagueByNationPortraitState createState() => _LeagueByNationPortraitState();
 }
 
-class _LeagueByNationState extends State<LeagueByNation> {
+class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
@@ -36,11 +37,7 @@ class _LeagueByNationState extends State<LeagueByNation> {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    ExpansionLeague(
-                      leagues: state.leagueByNation[nat],
-                      nation: '$nat',
-                      listIndex: i,
-                    ),
+                    _buildLeague(state.leagueByNation[nat]),
                   ],
                 );
               } else {
@@ -52,6 +49,25 @@ class _LeagueByNationState extends State<LeagueByNation> {
           return BottomLoader();
         }
       },
+    );
+  }
+
+  Widget _buildLeague(List<League> list){
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      child: SingleChildScrollView(
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return ExpansionLeaguePortrait(index: index, league: list[index]);
+          },
+        ),
+      ),
     );
   }
 }

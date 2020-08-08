@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/resources/colors.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/adding/favorite_players.dart';
-import 'package:marozi/ui/portrait/adding/league_by_nation.dart';
-import 'package:marozi/ui/portrait/adding/search_player.dart';
+import 'package:marozi/ui/portrait/adding/portrait_players_favorite.dart';
+import 'package:marozi/ui/portrait/adding/portrait_league_by_nation.dart';
+import 'package:marozi/ui/portrait/adding/portrait_search_player.dart';
 
-class AddingPortrait extends StatefulWidget {
+class PortraitAdding extends StatefulWidget {
   @override
-  _AddingPortraitState createState() => _AddingPortraitState();
+  _PortraitAddingState createState() => _PortraitAddingState();
 }
 
-class _AddingPortraitState extends State<AddingPortrait> {
+class _PortraitAddingState extends State<PortraitAdding> {
 
   @override
   void initState() {
@@ -30,10 +33,10 @@ class _AddingPortraitState extends State<AddingPortrait> {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 8),
             children: <Widget>[
-              SearchPlayer(),
+              SearchPlayerPortrait(),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
+                const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
                 child: MyText(
                     textAlign: TextAlign.start,
                     text: 'Favorite players',
@@ -41,7 +44,7 @@ class _AddingPortraitState extends State<AddingPortrait> {
                     fontSize: 16),
               ),
               FavoritePlayers(),
-              LeagueByNation(),
+              LeagueByNationPortrait(),
             ],
           ),
         ),

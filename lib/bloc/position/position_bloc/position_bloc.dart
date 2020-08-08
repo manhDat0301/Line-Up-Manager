@@ -7,7 +7,7 @@ import 'package:marozi/model/favorite/favorite_repository.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/repository/constants.dart';
-import 'package:marozi/ui/portrait/position/repository/offset_portrait.dart';
+import 'package:marozi/ui/portrait/position/repository/portrait_offset.dart';
 
 part 'position_event.dart';
 

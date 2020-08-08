@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
@@ -7,18 +6,18 @@ import 'package:marozi/model/club/club.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/utils/firestore_service.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/adding_club_image.dart';
 
-class ExpansionClub extends StatefulWidget {
+class ExpansionClubPortrait extends StatefulWidget {
   final Club club;
 
-  ExpansionClub({Key key, this.club}) : super(key: key);
+  ExpansionClubPortrait({Key key, this.club}) : super(key: key);
 
   @override
-  _ExpansionClubState createState() => _ExpansionClubState();
+  _ExpansionClubPortraitState createState() => _ExpansionClubPortraitState();
 }
 
-class _ExpansionClubState extends State<ExpansionClub> {
+class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PlayerBloc>(
@@ -34,31 +33,7 @@ class _ExpansionClubState extends State<ExpansionClub> {
                   context.bloc<PlayerBloc>().add(GetPlayerByClub(widget.club));
                 }
               },
-              leading: Container(
-                width: 40,
-                height: 40,
-                child: FutureBuilder(
-                  initialData: '',
-                  future: FireStorageService.loadFromStorage(
-                      context, widget.club.logoUrl),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    return CachedNetworkImage(
-                      width: 45,
-                      height: 45,
-                      errorWidget: (context, string, dynamic) => Icon(
-                        Icons.error,
-                        size: 10,
-                        color: Colors.orange,
-                      ),
-                      placeholder: (context, string) {
-                        return BottomLoader();
-                      },
-                      imageUrl: snapshot.data,
-                    );
-                  },
-                ),
-              ),
+              leading: AddingClubImage(widget.club),
               title: MyText(
                 text: widget.club.name,
                 color: null,

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
@@ -7,14 +6,16 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/utils/firestore_service.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/add_button.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/garbage_can.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/table_player_image.dart';
 
-class PlayerTablePortrait extends StatefulWidget {
+class PortraitPlayerTable extends StatefulWidget {
   @override
-  _PlayerTablePortraitState createState() => _PlayerTablePortraitState();
+  _PortraitPlayerTableState createState() => _PortraitPlayerTableState();
 }
 
-class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
+class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,24 +25,20 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
-        child: Container(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Column(
-            children: <Widget>[
-              _topBar(),
-              _starting(),
-              SizedBox(height: 10),
-              _substitutes(),
-              _bin(),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _topBar(),
+            _starting(),
+            _substitutes(),
+            GarbageCan(),
+          ],
         ),
       ),
     );
@@ -104,7 +101,8 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
   }
 
   Widget _starting() {
-    return Expanded(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.51,
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -113,10 +111,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
                 'Starting XI',
-                style: TextStyle(
-                  fontFamily: fontSFDisplayRegular,
-                  fontSize: 20,
-                ),
+                style: TextStyle(fontSize: 20),
               ),
             ),
             Expanded(
@@ -168,8 +163,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
   }
 
   Widget _substitutes() {
-    return Container(
-      height: 240,
+    return Expanded(
       child: Card(
         child: Column(
           children: <Widget>[
@@ -229,7 +223,7 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
       if (map != null && map.containsKey(i)) {
         list.add(_player(map[i], i));
       } else {
-        list.add(_add(i));
+        list.add(AddButton(i));
       }
     }
     return list;
@@ -242,109 +236,18 @@ class _PlayerTablePortraitState extends State<PlayerTablePortrait> {
       if (map != null && map.containsKey(i)) {
         list.add(_player(map[i], i));
       } else {
-        list.add(_add(i));
+        list.add(AddButton(i));
       }
     }
     list.add(SizedBox(width: 1));
     return list;
   }
 
-  Widget _bin() {
-    return Align(
-      alignment: Alignment.center,
-      child: DragTarget(
-        onAccept: (data) {
-          print('onAccept $data');
-          context.bloc<TableBloc>().add(PlayerDelete(data));
-        },
-        onWillAccept: (data) {
-          return true;
-        },
-        builder: (BuildContext context, List<int> candidateData,
-            List<dynamic> rejectedData) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: FloatingActionButton(
-              elevation: 5,
-              backgroundColor: Colors.white,
-              onPressed: () {},
-              child: Icon(
-                Icons.delete_forever,
-                color: Colors.orange,
-                size: 33,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _add(int key) {
-    return ClipOval(
-      child: Material(
-        child: BlocBuilder<TableBloc, TableState>(
-          builder: (BuildContext context, TableState state) {
-            return InkWell(
-              splashColor: Colors.orangeAccent, // inkwell color
-              child: SizedBox(
-                width: 65,
-                height: 65,
-                child: Icon(
-                  Icons.add_circle,
-                  color: Colors.orange,
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed(adding);
-                context.bloc<TableBloc>().add(AddButtonPress(key));
-              },
-            );
-          },
-        ),
-      ),
-    );
-  }
-
   Widget _player(Player player, int key) {
     return Draggable(
       data: key,
-      feedback: _image(player),
-      child: _image(player),
-    );
-  }
-
-  Widget _image(Player player) {
-    return Container(
-      width: 65,
-      height: 65,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/detail', arguments: player.id);
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10000.0),
-          child: FutureBuilder(
-            initialData: '',
-            future:
-                FireStorageService.loadFromStorage(context, player.avatarUrl),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return CachedNetworkImage(
-                errorWidget: (context, string, dynamic) {
-                  return Icon(
-                    Icons.error,
-                    color: Colors.orange,
-                  );
-                },
-                placeholder: (context, string) {
-                  return CircularProgressIndicator();
-                },
-                imageUrl: snapshot.data,
-              );
-            },
-          ),
-        ),
-      ),
+      feedback: TablePlayerImage(player),
+      child: TablePlayerImage(player),
     );
   }
 

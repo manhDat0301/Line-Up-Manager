@@ -3,12 +3,12 @@ import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/table.dart';
 
-class HomePageLandscape extends StatefulWidget {
+class LandscapeHomePage extends StatefulWidget {
   @override
   _ModeLandscapeState createState() => _ModeLandscapeState();
 }
 
-class _ModeLandscapeState extends State<HomePageLandscape> {
+class _ModeLandscapeState extends State<LandscapeHomePage> {
   PageController _pageController = PageController(
     viewportFraction: 0.85,
     initialPage: 0,

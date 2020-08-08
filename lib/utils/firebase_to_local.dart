@@ -40,6 +40,7 @@ class FirebaseToLocal {
     _firestoreInstance
         .collection('League')
         .orderBy('league_nation')
+        .orderBy('league_name')
         .getDocuments()
         .then((value) {
       for (var element in value.documents) {
