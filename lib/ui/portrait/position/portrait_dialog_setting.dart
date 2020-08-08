@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -26,6 +27,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -34,57 +36,91 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   }
 
   dialogContent(context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(5.0, 15, 5, 0),
-          child: Column(
-            children: <Widget>[
-              _textField('Team name'),
-              _showSubCoach(),
-              _textField('Coach name'),
-              _showCap(),
-              _bottom(),
-              _buttonOk(),
-            ],
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Column(
+        children: <Widget>[
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: _textField('Team name'),
+                      ),
+                      _showSubCoach(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: _textField('Coach name'),
+                      ),
+                      Divider(height: 0),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 18, top: 10),
+                        child: _showCap(),
+                      ),
+                      Divider(height: 0),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: _bottom(),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          _buttonOk(),
+        ],
+      ),
     );
   }
 
-  Widget _textField(String text) {
+  Widget _textField(String hint) {
     return Container(
+      height: 40,
+      width: MediaQuery.of(context).size.width * 0.7,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: colorInputBackground,
       ),
-      margin: EdgeInsets.all(8),
       child: TextFormField(
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          hintText: text,
+          hintText: hint,
+          isDense: true,
           contentPadding: EdgeInsets.all(0.0),
           hintStyle: TextStyle(
             fontStyle: FontStyle.italic,
-            fontSize: 17,
+            fontSize: 16,
           ),
-          enabledBorder: InputBorder.none,
+          border: InputBorder.none,
           focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
         ),
-        style: TextStyle(),
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.black38,
+          fontStyle: FontStyle.italic,
+        ),
         maxLines: 1,
       ),
     );
   }
 
   Widget _showSubCoach() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 10),
-      child: Column(
-        children: <Widget>[
-          Row(
+    return Column(
+      children: <Widget>[
+        Divider(height: 0),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               MyText(
@@ -93,7 +129,8 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                 fontSize: 17,
               ),
               Switch(
-                activeColor: Colors.orange,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                activeColor: Colors.deepOrangeAccent,
                 value: substitutesShow,
                 onChanged: (bool value) {
                   setState(() {
@@ -103,7 +140,11 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
               ),
             ],
           ),
-          Row(
+        ),
+        Divider(height: 0),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               MyText(
@@ -112,7 +153,8 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                 fontSize: 17,
               ),
               Switch(
-                activeColor: Colors.orange,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                activeColor: Colors.deepOrangeAccent,
                 value: coachShow,
                 onChanged: (bool value) {
                   setState(() {
@@ -122,60 +164,58 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _showCap() {
-    return Padding(
-      padding: EdgeInsets.only(left: 20, right: 10),
-      child: Column(
-        children: <Widget>[
-          Row(
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            MyText(
+              text: 'Show captain',
+              fontSize: 17,
+              color: Colors.black,
+            ),
+            Switch(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              value: captainShow,
+              onChanged: (value) {
+                setState(() {
+                  captainShow = value;
+                });
+              },
+              activeColor: Colors.deepOrangeAccent,
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               MyText(
-                text: 'Show captain',
+                text: 'Harry Maguire',
+                color: Colors.deepOrangeAccent,
                 fontSize: 17,
-                color: Colors.black,
               ),
-              Switch(
-                value: captainShow,
-                onChanged: (value) {
-                  setState(() {
-                    captainShow = value;
-                  });
-                },
-                activeColor: Colors.orange,
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: Colors.deepOrangeAccent,
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                MyText(
-                  text: 'Harry Maguire',
-                  color: Colors.orange,
-                  fontSize: 17,
-                ),
-                Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.orange,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _bottom() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+    return Container(
+      padding: const EdgeInsets.only(bottom: 15, left: 8, right: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -196,8 +236,8 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                   border: Border.all(
                       color: ratingSelected ? Colors.orange : Colors.black38),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    bottomLeft: Radius.circular(30),
+                    topLeft: Radius.circular(40),
+                    bottomLeft: Radius.circular(40),
                   ),
                 ),
                 child: MyText(
@@ -254,8 +294,8 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                   border: Border.all(
                       color: numberSelected ? Colors.orange : Colors.black38),
                   borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
+                    topRight: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
                   ),
                 ),
                 child: MyText(
@@ -273,8 +313,9 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
 
   Widget _buttonOk() {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width * 0.8 - 7,
       child: RaisedButton(
+        elevation: 12,
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -282,7 +323,12 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        child: MyText(text: 'OK', color: Colors.white, fontSize: 19),
+        child: MyText(
+          text: 'OK',
+          color: Colors.white,
+          fontSize: 19,
+          isTitleCase: false,
+        ),
       ),
     );
   }

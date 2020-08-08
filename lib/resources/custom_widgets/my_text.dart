@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:recase/recase.dart';
 
-
 class MyText extends StatelessWidget {
   final String text;
 
@@ -27,7 +26,7 @@ class MyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      isTitleCase ? text.titleCase : null,
+      isTitleCase ? text.titleCase : text,
       textAlign: textAlign != null ? textAlign : TextAlign.center,
       style: TextStyle(
         fontFamily: fontSFDisplayRegular,

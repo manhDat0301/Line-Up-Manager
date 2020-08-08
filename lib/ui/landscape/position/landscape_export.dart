@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
@@ -123,40 +124,17 @@ class _LandscapeExportState extends State<LandscapeExport> {
                 width: 130,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.fromLTRB(25, 10, 0, 10),
-                child: ListView(
-                  children: <Widget>[
-//                    ...Iterable<int>.generate(
-//                            Provider.of<Data>(context).listTypeFormation.length)
-//                        .map(
-//                      (i) => Column(
-//                        children: <Widget>[
-//                          InkWell(
-//                            onTap: () {},
-//                            child: Container(
-//                              alignment: Alignment.centerLeft,
-//                              height: 48,
-//                              child: MyText(
-//                                text: Provider.of<Data>(context)
-//                                    .listTypeFormation[i],
-//                                color: Colors.black,
-//                                fontSize: 18,
-//                              ),
-//                            ),
-//                          ),
-//                          i <
-//                                  Provider.of<Data>(context)
-//                                          .listTypeFormation
-//                                          .length -
-//                                      1
-//                              ? Divider(
-//                                  height: 0,
-//                                  thickness: 0.2,
-//                                  color: Colors.black)
-//                              : Container(),
-//                        ],
-//                      ),
-//                    )
-                  ],
+                child: ListView.builder(
+                  itemCount: Constants.listExport.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: <Widget>[
+                        Text(
+                          Constants.listExport[index],
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

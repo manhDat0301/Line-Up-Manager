@@ -19,7 +19,6 @@ class FirebaseToLocal {
 
   static splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
-//    _maroziLocal.deleteDB();
     if (await _leagueNeedUpdate()) {
       _localUpdateAllLeague();
     }

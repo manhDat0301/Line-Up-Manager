@@ -1,270 +1,145 @@
-
 import 'package:flutter/material.dart';
-import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_icons/custom_icon_icons.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class ExportButton extends StatelessWidget {
+class ExportButton extends StatefulWidget {
+  @override
+  _ExportButtonState createState() => _ExportButtonState();
+}
+
+class _ExportButtonState extends State<ExportButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showBottomSheet(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(8),
+              ),
             ),
+            backgroundColor: Colors.transparent,
             context: context,
-            builder: (context) => _exportPort(context));
+            builder: (context) => _export());
       },
       child: Icon(CustomIcon.export_icon, color: Colors.orange),
     );
   }
 
-  Widget _exportPort(context) {
+  Widget _export() {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    double width = MediaQuery.of(context).size.width;
     return Container(
-      width: MediaQuery.of(context).orientation == Orientation.portrait
-          ? MediaQuery.of(context).size.width
-          : MediaQuery.of(context).size.width / 2,
-      padding: EdgeInsets.only(left: 7, right: 7, top: 7),
+      width: width,
       decoration: BoxDecoration(
-        color: colorPlayerBackground,
-//        color: Colors.red,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(8),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.image, color: Colors.orange),
-                        SizedBox(width: 15),
-                        MyText(
-                          text: 'Save to camera rolls',
-                          color: Colors.black,
-                          fontSize: 17,
-                        ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("facebook");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.facebook, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Facebook',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("instagram");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.instagram, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Instagram',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("twitter");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.twitter, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Twitter',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 57,
-            padding: EdgeInsets.only(top: 10),
-            child: InkWell(
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: MyText(
-                  text: 'Cancel',
-                  color: Colors.orange,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          _typeExport(),
+          _cancel(),
         ],
       ),
     );
   }
 
-  Widget _exportLand(context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2,
-      padding: EdgeInsets.only(left: 7, right: 7, top: 7),
-      decoration: BoxDecoration(
-        color: colorPlayerBackground,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      print('camera roll');
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.image, color: Colors.orange),
-                        SizedBox(width: 15),
-                        MyText(
-                          text: 'Save to camera rolls',
-                          color: Colors.black,
-                          fontSize: 17,
-                        ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("facebook");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.facebook, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Facebook',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("instagram");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.instagram, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Instagram',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print("twitter");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(CustomIcon.twitter, color: Colors.orange),
-                          SizedBox(width: 15),
-                          MyText(
-                            text: 'Twitter',
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 57,
-            padding: EdgeInsets.only(top: 10),
-            child: InkWell(
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pop();
+  Widget _typeExport() {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        width: isLandscape ? width * 0.5 : width,
+        height: isLandscape ? height * 0.57 : height * 0.38,
+        padding: EdgeInsets.all(20),
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  print('Save to camera roll');
                 },
-                child: MyText(
-                  text: 'Cancel',
-                  color: Colors.orange,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                child: _type(icon: Icons.image, text: 'Save to camera roll'),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  print('Facebook');
+                },
+                child: _type(icon: CustomIcon.facebook, text: 'Facebook'),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  print('Instagram');
+                },
+                child: _type(icon: CustomIcon.instagram, text: 'Instagram'),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  print('Twitter');
+                },
+                child: _type(icon: CustomIcon.twitter, text: 'Twitter'),
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _cancel() {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      width: isLandscape ? width * 0.5 : width,
+      height: 57,
+      padding: EdgeInsets.only(top: 10),
+      child: InkWell(
+        child: RaisedButton(
+          padding: EdgeInsets.all(0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: MyText(
+            text: 'Cancel',
+            color: Colors.orange,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _type({IconData icon, String text}) {
+    return Row(
+      children: <Widget>[
+        Icon(icon, color: Colors.orange),
+        SizedBox(width: 15),
+        MyText(
+          text: text,
+          color: Colors.black,
+          fontSize: 17,
+          isTitleCase: false,
+        ),
+      ],
     );
   }
 }

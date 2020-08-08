@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -9,8 +8,8 @@ class LandscapeDialogSetting extends StatefulWidget {
 }
 
 class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
-  bool isShowCoach = false;
-  bool isShowCaptain = false;
+  bool showCoach = false;
+  bool showCaptain = false;
   bool isShowSubs = false;
 
   bool isOvrSelect = false;
@@ -28,7 +27,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       children: [
         Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           child: _dialogContent(context),
         ),
       ],
@@ -37,215 +36,151 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
 
   Widget _dialogContent(context) {
     return Container(
-      width: 330,
-      margin: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+      width: MediaQuery.of(context).size.width * 0.74,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: Column(
         children: <Widget>[
-          _row1(),
-          SizedBox(height: 8),
-          _row2(),
-          SizedBox(height: 8),
-          _row3(),
-          SizedBox(height: 8),
-          _rowOvr(),
-          SizedBox(height: 15),
+          Expanded(
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(45, 0, 45, 0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          _column1(),
+                          _column2(),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: _rowOvr(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 4),
           _okBtn(),
         ],
       ),
     );
   }
 
-  Widget _rowOvr() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+  Widget _column1() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         InkWell(
           onTap: () {
             setState(() {
-              isOvrSelect = !isOvrSelect;
-              isPotentialSelect = false;
-              isNumbSelect = false;
+              showCoach = !showCoach;
             });
           },
           child: Container(
-            width: 110,
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: isOvrSelect ? Colors.orange : Colors.black54),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
-              ),
-              color: isOvrSelect ? Colors.orange : Colors.white,
-            ),
-            child: MyText(
-              text: 'Overall',
-              color: isOvrSelect ? Colors.white : Colors.black45,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            setState(() {
-              isPotentialSelect = !isPotentialSelect;
-              isOvrSelect = false;
-              isNumbSelect = false;
-            });
-          },
-          child: Container(
-            width: 110,
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                    color: isPotentialSelect ? Colors.orange : Colors.black54),
-                bottom: BorderSide(
-                    color: isPotentialSelect ? Colors.orange : Colors.black54),
-              ),
-              color: isPotentialSelect ? Colors.orange : Colors.white,
-            ),
-            child: MyText(
-              text: 'Potential',
-              color: isPotentialSelect ? Colors.white : Colors.black45,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            setState(() {
-              isNumbSelect = !isNumbSelect;
-              isOvrSelect = false;
-              isPotentialSelect = false;
-            });
-          },
-          child: Container(
-            width: 110,
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: isNumbSelect ? Colors.orange : Colors.black54),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-              color: isNumbSelect ? Colors.orange : Colors.white,
-            ),
-            child: MyText(
-              text: 'Number',
-              color: isNumbSelect ? Colors.white : Colors.black45,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _row1() {
-    return Container(
-      width: 330,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          _container(
-            InkWell(
-              onTap: () {
-                setState(() {
-                  isShowCoach = !isShowCoach;
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  MyText(
+            width: MediaQuery.of(context).size.width * 0.28,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: MyText(
                     text: 'Show coach',
                     color: Colors.black,
+                    textAlign: TextAlign.start,
                     fontSize: 16,
                   ),
-                  Switch(
-                    onChanged: (bool value) {
-                      setState(() {
-                        isShowCoach = !isShowCoach;
-                      });
-                    },
-                    value: isShowCoach,
-                    activeColor: Colors.orange,
-                  ),
-                ],
-              ),
+                ),
+                Switch(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onChanged: (bool value) {
+                    setState(() {
+                      showCoach = !showCoach;
+                    });
+                  },
+                  value: showCoach,
+                  activeColor: Colors.deepOrangeAccent,
+                ),
+              ],
             ),
-          ),
-          _container(
-            InkWell(
-              onTap: () {
-                setState(() {
-                  isShowCaptain = !isShowCaptain;
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  MyText(
-                    text: 'Show captain',
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
-                  Switch(
-                    onChanged: (bool value) {
-                      setState(() {
-                        isShowCaptain = !isShowCaptain;
-                      });
-                    },
-                    value: isShowCaptain,
-                    activeColor: Colors.orange,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _row2() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        _container(_textField('Coach name')),
-        _container(
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              MyText(
-                text: 'Harry Maguire',
-                color: Colors.orange,
-                fontSize: 16,
-              ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: Colors.orange,
-              ),
-            ],
           ),
         ),
+        _textField('Coach name'),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.28,
+          child: Divider(
+            height: 0,
+            thickness: 0.6,
+          ),
+        ),
+        _textField('Team name'),
       ],
     );
   }
 
-  Widget _row3() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        _container(_textField('Team name')),
-        _container(
+  Widget _column2() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.28,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              setState(() {
+                showCaptain = !showCaptain;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                MyText(
+                  text: 'Show captain',
+                  color: Colors.black,
+                  fontSize: 16,
+                  textAlign: TextAlign.start,
+                ),
+                Switch(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onChanged: (bool value) {
+                    setState(() {
+                      showCaptain = !showCaptain;
+                    });
+                  },
+                  value: showCaptain,
+                  activeColor: Colors.deepOrangeAccent,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                MyText(
+                  text: 'Harry Maguire',
+                  color: Colors.deepOrangeAccent,
+                  fontSize: 16,
+                ),
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.deepOrangeAccent,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.28,
+            child: Divider(
+              height: 0,
+              thickness: 0.6,
+            ),
+          ),
           InkWell(
             onTap: () {
               setState(() {
@@ -256,32 +191,131 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 MyText(
-                  text: 'Show subs.',
+                  text: 'Show subs\.',
                   color: Colors.black,
                   fontSize: 16,
+                  isTitleCase: false,
                 ),
                 Switch(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onChanged: (bool value) {
                     setState(() {
                       isShowSubs = !isShowSubs;
                     });
                   },
                   value: isShowSubs,
-                  activeColor: Colors.orange,
+                  activeColor: Colors.deepOrangeAccent,
                 ),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _container(Widget child) {
+  Widget _rowOvr() {
     return Container(
-      width: 140,
-      alignment: Alignment.centerLeft,
-      child: child,
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isOvrSelect = !isOvrSelect;
+                  isPotentialSelect = false;
+                  isNumbSelect = false;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color:
+                        isOvrSelect ? Colors.deepOrangeAccent : Colors.black54,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                  ),
+                  color: isOvrSelect ? Colors.deepOrangeAccent : Colors.white,
+                ),
+                child: MyText(
+                  text: 'Overall',
+                  color: isOvrSelect ? Colors.white : Colors.black45,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isPotentialSelect = !isPotentialSelect;
+                  isOvrSelect = false;
+                  isNumbSelect = false;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                        color: isPotentialSelect
+                            ? Colors.deepOrangeAccent
+                            : Colors.black54),
+                    bottom: BorderSide(
+                        color: isPotentialSelect
+                            ? Colors.deepOrangeAccent
+                            : Colors.black54),
+                  ),
+                  color: isPotentialSelect
+                      ? Colors.deepOrangeAccent
+                      : Colors.white,
+                ),
+                child: MyText(
+                  text: 'Potential',
+                  color: isPotentialSelect ? Colors.white : Colors.black45,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isNumbSelect = !isNumbSelect;
+                  isOvrSelect = false;
+                  isPotentialSelect = false;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: isNumbSelect
+                          ? Colors.deepOrangeAccent
+                          : Colors.black54),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                  color: isNumbSelect ? Colors.deepOrangeAccent : Colors.white,
+                ),
+                child: MyText(
+                  text: 'Number',
+                  color: isNumbSelect ? Colors.white : Colors.black45,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -297,8 +331,8 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       ),
       child: Container(
         height: 40,
+        width: MediaQuery.of(context).size.width * 0.74 - 7,
         padding: EdgeInsets.all(0.0),
-        width: 330,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: <Color>[
@@ -309,11 +343,12 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
             end: Alignment.topCenter,
           ),
           borderRadius: BorderRadius.circular(8),
-          color: Colors.orange,
+          color: Colors.deepOrangeAccent,
         ),
         alignment: Alignment.center,
         child: MyText(
           text: 'OK',
+          isTitleCase: false,
           color: Colors.white,
           fontSize: 19,
         ),
@@ -321,38 +356,9 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
     );
   }
 
-  Widget _switch(String text, bool show) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          show = !show;
-        });
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          MyText(
-            text: text,
-            color: Colors.black,
-            fontSize: 16,
-          ),
-          Switch(
-            onChanged: (bool value) {
-              setState(() {
-                show = !show;
-              });
-            },
-            value: show,
-            activeColor: Colors.orange,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _textField(String hint) {
     return Container(
-      width: 140,
+      width: MediaQuery.of(context).size.width * 0.28,
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

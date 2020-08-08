@@ -13,10 +13,11 @@ class LandscapeFormation extends StatefulWidget {
 class _LandscapeFormationState extends State<LandscapeFormation> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.72,
-        height: double.infinity,
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.82,
+      height: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
         child: Card(
           child: BlocBuilder<PositionBloc, PositionState>(
             builder: (BuildContext context, PositionState state) {
