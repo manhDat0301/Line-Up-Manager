@@ -53,7 +53,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
 
   Widget _pageView() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.69,
+      height: 470,
       child: PageView(
         controller: _pageController,
         scrollDirection: Axis.horizontal,
@@ -75,11 +75,12 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
               Navigator.of(context).pushNamed(table);
             },
             child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                child: Image.asset('assets/images/portrait.png')),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: Image.asset('assets/images/portrait.png'),
+            ),
           ),
           Expanded(
             child: Center(
@@ -140,7 +141,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
         textColor: Colors.white,
         padding: const EdgeInsets.all(0.0),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
+          width: MediaQuery.of(context).size.width * 0.69,
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

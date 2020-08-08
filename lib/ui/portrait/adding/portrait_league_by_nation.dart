@@ -64,7 +64,7 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
           physics: NeverScrollableScrollPhysics(),
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return ExpansionLeaguePortrait(index: index, league: list[index]);
+            return PortraitExpansionLeague(index: index, league: list[index]);
           },
         ),
       ),

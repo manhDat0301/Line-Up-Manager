@@ -7,18 +7,18 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_league_image.dart';
 import 'package:marozi/ui/portrait/adding/portrait_expansion_club.dart';
 
-class ExpansionLeaguePortrait extends StatefulWidget {
+class PortraitExpansionLeague extends StatefulWidget {
   final League league;
   final int index;
 
-  ExpansionLeaguePortrait({this.league, this.index});
+  PortraitExpansionLeague({this.league, this.index});
 
   @override
-  _ExpansionLeaguePortraitState createState() =>
-      _ExpansionLeaguePortraitState();
+  _PortraitExpansionLeagueState createState() =>
+      _PortraitExpansionLeagueState();
 }
 
-class _ExpansionLeaguePortraitState extends State<ExpansionLeaguePortrait> {
+class _PortraitExpansionLeagueState extends State<PortraitExpansionLeague> {
   int selected = 0;
 
   @override
@@ -46,12 +46,12 @@ class _ExpansionLeaguePortraitState extends State<ExpansionLeaguePortrait> {
               state is ClubByLeagueState
                   ? SingleChildScrollView(
                       child: Container(
-                        height: 300,
+                        height: 380,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.clubs.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ExpansionClubPortrait(
+                            return PortraitExpansionClub(
                                 club: state.clubs[index]);
                           },
                         ),

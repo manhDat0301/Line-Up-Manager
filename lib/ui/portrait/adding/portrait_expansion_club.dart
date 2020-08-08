@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
@@ -8,16 +9,16 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_club_image.dart';
 
-class ExpansionClubPortrait extends StatefulWidget {
+class PortraitExpansionClub extends StatefulWidget {
   final Club club;
 
-  ExpansionClubPortrait({Key key, this.club}) : super(key: key);
+  PortraitExpansionClub({Key key, this.club}) : super(key: key);
 
   @override
-  _ExpansionClubPortraitState createState() => _ExpansionClubPortraitState();
+  _PortraitExpansionClubState createState() => _PortraitExpansionClubState();
 }
 
-class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
+class _PortraitExpansionClubState extends State<PortraitExpansionClub> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PlayerBloc>(
@@ -25,7 +26,7 @@ class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
       child: BlocBuilder<PlayerBloc, PlayerState>(
         builder: (BuildContext context, PlayerState state) {
           return Padding(
-            padding: const EdgeInsets.only(left: 25.0, top: 5),
+            padding: const EdgeInsets.only(left: 25.0, top: 18),
             child: ExpansionTile(
               initiallyExpanded: false,
               onExpansionChanged: (bool) {
@@ -56,7 +57,7 @@ class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
         child: SingleChildScrollView(
           child: state.players.length != 0
               ? Container(
-                  height: state.players.length < 2 ? 30 : 170,
+                  height: 250,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.players.length,
@@ -71,14 +72,24 @@ class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
                               Navigator.pushNamedAndRemoveUntil(context, table,
                                   ModalRoute.withName(homepage));
                             },
-                            child: Container(
-                              height: 40,
-                              alignment: Alignment.centerLeft,
-                              child: MyText(
-                                color: Colors.black,
-                                text: '${state.players[index].name}',
-                                fontSize: 17,
-                              ),
+                            child: Column(
+                              children: <Widget>[
+                                index != 0 && index < state.players.length
+                                    ? Padding(
+                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      child: Divider(height: 1),
+                                    )
+                                    : Container(),
+                                Container(
+                                  height: 52,
+                                  alignment: Alignment.centerLeft,
+                                  child: MyText(
+                                    color: Colors.black,
+                                    text: state.players[index].name,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },
