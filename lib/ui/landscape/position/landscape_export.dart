@@ -17,7 +17,9 @@ class _LandscapeExportState extends State<LandscapeExport> {
       body: SafeArea(
         top: true,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
           child: Column(
             children: <Widget>[
               _topBar(),

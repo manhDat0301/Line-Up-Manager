@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: export,
+        initialRoute: homepage,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

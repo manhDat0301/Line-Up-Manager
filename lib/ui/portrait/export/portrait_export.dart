@@ -22,7 +22,9 @@ class _PortraitExportState extends State<PortraitExport> {
       body: SafeArea(
         top: true,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
           child: Column(
             children: <Widget>[
               _topBar(),
