@@ -13,15 +13,20 @@ class ClubInitial extends ClubState {
 }
 
 class ClubByLeagueState extends ClubState {
+  final League league;
   final List<Club> clubs;
 
-  ClubByLeagueState({this.clubs});
+  ClubByLeagueState({this.clubs, this.league});
 
-  ClubByLeagueState copyWith({List<Club> clubs}) {
-    return ClubByLeagueState(clubs: clubs ?? this.clubs);
+  ClubByLeagueState copyWith({
+    List<Club> clubs,
+    League league,
+  }) {
+    return ClubByLeagueState(
+        clubs: clubs ?? this.clubs, league: league ?? this.league);
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [clubs];
+  List<Object> get props => [clubs, league];
 }

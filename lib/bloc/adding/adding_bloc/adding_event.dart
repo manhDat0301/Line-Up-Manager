@@ -6,5 +6,14 @@ class AddingEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetLeagueByNation extends AddingEvent {
+class GetLeagueByNation extends AddingEvent {}
+
+class LeagueSelect extends AddingEvent {
+  final int index;
+
+  LeagueSelect(this.index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [index];
 }

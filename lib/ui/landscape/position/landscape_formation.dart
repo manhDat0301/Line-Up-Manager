@@ -5,18 +5,18 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/drag_player.dart';
 
-class PortraitFormation extends StatefulWidget {
+class LandscapeFormation extends StatefulWidget {
   @override
-  _PortraitFormationState createState() => _PortraitFormationState();
+  _LandscapeFormationState createState() => _LandscapeFormationState();
 }
 
-class _PortraitFormationState extends State<PortraitFormation> {
+class _LandscapeFormationState extends State<LandscapeFormation> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.only(bottom: 5.0),
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width * 0.72,
+        height: double.infinity,
         child: Card(
           child: BlocBuilder<PositionBloc, PositionState>(
             builder: (BuildContext context, PositionState state) {

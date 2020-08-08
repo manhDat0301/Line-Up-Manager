@@ -16,7 +16,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     if (event is GetPlayerByClub) {
       final getData = FirebaseToLocal();
       List<Player> players = await getData.getPlayersByClub(event.club);
-      yield PlayersByClub(players: players);
+      yield PlayersByClub(players: players, club: event.club);
     }
   }
 }

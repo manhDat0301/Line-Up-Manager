@@ -61,7 +61,7 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.29,
+        width: MediaQuery.of(context).size.width * 0.289,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

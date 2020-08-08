@@ -68,7 +68,6 @@ class _ExpansionClubPortraitState extends State<ExpansionClubPortrait> {
                               context
                                   .bloc<TableBloc>()
                                   .add(PlayerSelect(state.players[index].id));
-                              print(adding);
                               Navigator.pushNamedAndRemoveUntil(context, table,
                                   ModalRoute.withName(homepage));
                             },

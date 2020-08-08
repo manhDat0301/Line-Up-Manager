@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/adding_club_image.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/landscape_adding_divider.dart';
 
 class LandscapeClubsColumn extends StatefulWidget {
@@ -48,11 +49,30 @@ class _LandscapeClubsColumnState extends State<LandscapeClubsColumn> {
                             : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 6.5),
-                          child: MyText(
-                            text: state.clubs[index].name,
-                            color: Colors.black,
-                            fontSize: 16,
-                            textAlign: TextAlign.start,
+                          child: BlocBuilder<PlayerBloc, PlayerState>(
+                            builder: (BuildContext context,
+                                PlayerState playerState) {
+                              return Row(
+                                children: <Widget>[
+                                  AddingClubImage(state.clubs[index]),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0,right: 6),
+                                      child: MyText(
+                                        text: state.clubs[index].name,
+                                        color: playerState is PlayersByClub &&
+                                                playerState.club ==
+                                                    state.clubs[index]
+                                            ? Colors.deepOrangeAccent
+                                            : Colors.black,
+                                        fontSize: 16,
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ],

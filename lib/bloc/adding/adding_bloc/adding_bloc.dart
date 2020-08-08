@@ -12,11 +12,17 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   @override
   Stream<AddingState> mapEventToState(AddingEvent event) async* {
-    if (event is GetLeagueByNation && !_hasReachedMax(state)) {
+    if (event is GetLeagueByNation) {
       try {
         var currentState = state;
         if (currentState is AddingInitial) {
           yield* _mapGetLeagueByNationToInitial();
+        }
+        if (currentState is LeagueByNationSuccess) {
+          if (event is LeagueSelect) {
+            print((event as LeagueSelect).index);
+            yield currentState.copyWith(index: (event as LeagueSelect).index);
+          }
         }
       } catch (e) {
         yield LeagueByNationFailed();

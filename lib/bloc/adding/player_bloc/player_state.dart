@@ -14,14 +14,21 @@ class PlayerInitial extends PlayerState {
 
 class PlayersByClub extends PlayerState {
   final List<Player> players;
+  final Club club;
 
-  PlayersByClub({this.players});
+  PlayersByClub({this.players, this.club});
 
-  PlayersByClub copyWith({List<Player> players}) {
-    return PlayersByClub(players: players ?? this.players);
+  PlayersByClub copyWith({
+    List<Player> players,
+    Club club,
+  }) {
+    return PlayersByClub(
+      players: players ?? this.players,
+      club: club ?? this.club,
+    );
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [players];
+  List<Object> get props => [players, club];
 }

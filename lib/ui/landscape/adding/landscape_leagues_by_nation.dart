@@ -52,7 +52,7 @@ class _LandscapeLeaguesByNationState extends State<LandscapeLeaguesByNation> {
 
   Widget _buildLeague(List<League> list) {
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 8, 8, 8),
+      padding: EdgeInsets.fromLTRB(20, 8, 8, 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
         color: Colors.white,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
-import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/favorite/favorite_repository.dart';
@@ -34,10 +33,6 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               PositionBloc(PositionInitial())..add(PositionTestEvent()),
         ),
-        BlocProvider<FavoriteBloc>(
-          create: (BuildContext context) =>
-              FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
-        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,7 +41,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: adding,
+        initialRoute: position,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

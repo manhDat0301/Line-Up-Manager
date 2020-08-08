@@ -11,8 +11,7 @@ class LandscapeLeaguesColumn extends StatefulWidget {
   LandscapeLeaguesColumn(this.league);
 
   @override
-  _LandscapeLeaguesColumnState createState() =>
-      _LandscapeLeaguesColumnState();
+  _LandscapeLeaguesColumnState createState() => _LandscapeLeaguesColumnState();
 }
 
 class _LandscapeLeaguesColumnState extends State<LandscapeLeaguesColumn> {
@@ -27,15 +26,25 @@ class _LandscapeLeaguesColumnState extends State<LandscapeLeaguesColumn> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              AddingLeagueImage(widget.league),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: AddingLeagueImage(widget.league),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: MyText(
-                    text: widget.league.name,
-                    color: Colors.black,
-                    fontSize: 15,
-                    textAlign: TextAlign.start,
+                  child: BlocBuilder<ClubBloc, ClubState>(
+                    builder: (BuildContext context, ClubState state) {
+                      return MyText(
+                        text: widget.league.name,
+                        color: state is ClubByLeagueState &&
+                                state.league.id == widget.league.id
+                            ? Colors.deepOrangeAccent
+                            : Colors.black,
+                        fontSize: 16,
+                        textAlign: TextAlign.start,
+                      );
+                    },
                   ),
                 ),
               ),

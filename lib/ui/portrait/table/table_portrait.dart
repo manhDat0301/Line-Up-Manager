@@ -67,8 +67,10 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
                     } else {
                       int start = 0;
                       int subs = 0;
+                      List<Player> list = [];
                       for (int i = 0; i < 18; i++) {
                         if (i <= 10 && state.map.containsKey(i)) {
+                          list.add(state.map[i]);
                           start++;
                         }
                         if (10 < i && i < 18 && state.map.containsKey(i)) {
@@ -78,9 +80,7 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
                       if (start + subs < 8) {
                         _showSnackBar();
                       } else {
-                        context
-                            .bloc<PositionBloc>()
-                            .add(CreateFormation(state.map.values.toList()));
+                        context.bloc<PositionBloc>().add(CreateFormation(list));
                         Navigator.pushNamed(context, position);
                       }
                     }

@@ -7,6 +7,8 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/landscape/table/landscape_starting.dart';
+import 'package:marozi/ui/landscape/table/landscape_substitutes.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/add_button.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/garbage_can.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/table_player_image.dart';
@@ -100,173 +102,13 @@ class _LandscapePlayerTableState extends State<LandscapePlayerTable> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           GarbageCan(),
-          _startingXI(),
-          _substitutes(),
+          LandscapeStarting(),
+          LandscapeSubstitutes(),
         ],
       ),
     );
   }
 
-  Widget _startingXI() {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.51,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.symmetric(vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: <Widget>[
-          MyText(text: 'Starting XI', color: Colors.black, fontSize: 18),
-          Expanded(
-            child: BlocBuilder<TableBloc, TableState>(
-              builder: (BuildContext context, TableState state) {
-                if (state is PlayerAdded) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(0, map: state.map),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(3, map: state.map),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(6, map: state.map),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add2(9, map: state.map),
-                      ),
-                    ],
-                  );
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: _add3(0),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: _add3(3),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: _add3(6),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: _add2(9),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _substitutes() {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: <Widget>[
-            MyText(text: 'Substitutes', color: Colors.black, fontSize: 18),
-            Expanded(
-              child: BlocBuilder<TableBloc, TableState>(
-                builder: (BuildContext context, TableState state) {
-                  if (state is PlayerAdded) {
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(11, map: state.map),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(14, map: state.map),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[AddButton(17)],
-                        ),
-                      ],
-                    );
-                  }
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(11),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(14),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[AddButton(17)],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _add3(int start, {Map<int, Player> map}) {
-    List<Widget> list = [];
-    for (int i = start; i < start + 3; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
-      } else {
-        list.add(AddButton(i));
-      }
-    }
-    return list;
-  }
-
-  List<Widget> _add2(int start, {Map<int, Player> map}) {
-    List<Widget> list = [];
-    list.add(SizedBox(height: 10));
-    for (int i = start; i < start + 2; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
-      } else {
-        list.add(AddButton(i));
-      }
-    }
-    list.add(SizedBox(height: 10));
-    return list;
-  }
-
-  Widget _player(Player player, int key) {
-    return Draggable(
-      data: key,
-      feedback: TablePlayerImage(player),
-      child: TablePlayerImage(player),
-    );
-  }
 
   void _showSnackBar() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -16,7 +16,9 @@ class ClubBloc extends Bloc<ClubEvent, ClubState> {
     if (event is GetClubByLeague) {
       final getData = FirebaseToLocal();
       yield ClubByLeagueState(
-          clubs: await getData.getClubsByLeague(event.league));
+        clubs: await getData.getClubsByLeague(event.league),
+        league: event.league,
+      );
     }
   }
 }
