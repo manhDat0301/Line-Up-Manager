@@ -69,10 +69,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
       alignment: Alignment.center,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8),
-            topLeft: Radius.circular(8),
-          ),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -110,10 +107,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
       alignment: Alignment.center,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -123,7 +117,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(8),
                 ),
-                child: Image.asset('assets/images/landscape.png')),
+                child: Image.asset('assets/images/landscape.png'),),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Center(
