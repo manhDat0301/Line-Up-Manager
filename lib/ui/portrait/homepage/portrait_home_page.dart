@@ -116,7 +116,7 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ClipRRect(
                 borderRadius: BorderRadius.only(
