@@ -44,100 +44,111 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
         scrollDirection: Axis.horizontal,
         controller: _pageController,
         pageSnapping: true,
-        onPageChanged: (bool) {
-//            SystemChrome.setPreferredOrientations([
-//              DeviceOrientation.portraitUp,
-//              DeviceOrientation.portraitDown,
-//            ]);
-        },
+        onPageChanged: (bool) {},
         children: <Widget>[
-          Card(child: _landscapeMode()),
-          Card(child: _portraitMode()),
+          _landscape(),
+          _portrait(),
         ],
       ),
     );
   }
 
-  Widget _landscapeMode() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => PlayerTable()));
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                topLeft: Radius.circular(8),
-              ),
-              child: Image.asset(
-                'assets/images/landscape.png',
-                fit: BoxFit.fill,
+  Widget _landscape() {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          topLeft: Radius.circular(8),
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => PlayerTable()));
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8),
+                  topLeft: Radius.circular(8),
+                ),
+                child: Image.asset(
+                  'assets/images/landscape.png',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  child: MyText(
+                    text: 'Landscape',
+                    color: Colors.black,
+                    fontSize: 17,
+                  ),
+                ),
+                Flexible(
+                  child: MyText(
+                    text: 'Mode',
+                    color: Colors.black,
+                    fontSize: 17,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _portrait() {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Image.asset(
+              'assets/images/portrait.png',
+              alignment: Alignment.center,
+              colorBlendMode: BlendMode.darken,
+            ),
+          ),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Flexible(
-                child: MyText(
-                  text: 'Landscape',
+              Container(
+                width: MediaQuery.of(context).size.width * 0.85 - 15,
+                padding: EdgeInsets.only(top: 5),
+                child: Divider(
                   color: Colors.black,
-                  fontSize: 17,
+                  thickness: 0.4,
+                  height: 0,
                 ),
               ),
-              Flexible(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: MyText(
-                  text: 'Mode',
+                  text: 'Portrait Mode',
                   color: Colors.black,
                   fontSize: 17,
                 ),
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _portraitMode() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          child: Image.asset(
-            'assets/images/portrait.png',
-            alignment: Alignment.center,
-            colorBlendMode: BlendMode.darken,
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Divider(
-              color: Colors.black,
-              indent: 10,
-              thickness: 0.1,
-              height: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: MyText(
-                text: 'Portrait Mode',
-                color: Colors.black,
-                fontSize: 19,
-              ),
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -169,7 +180,7 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
         child: MyText(
           text: 'Go',
           color: Colors.white,
-          fontSize: 19,
+          fontSize: 20,
         ),
       ),
     );

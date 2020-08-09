@@ -68,6 +68,12 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
     return Container(
       alignment: Alignment.center,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(8),
+            topLeft: Radius.circular(8),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -100,36 +106,37 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
   }
 
   Widget _landscape() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Align(
-          alignment: Alignment.center,
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                    ),
-                    child: Image.asset('assets/images/landscape.png')),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Center(
-                    child: MyText(
-                      text: 'Landscape Mode',
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return Container(
+      alignment: Alignment.center,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
           ),
         ),
-      ],
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: Image.asset('assets/images/landscape.png')),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Center(
+                child: MyText(
+                  text: 'Landscape Mode',
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
