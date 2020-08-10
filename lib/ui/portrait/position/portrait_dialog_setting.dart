@@ -313,7 +313,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
 
   Widget _buttonOk() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8 - 7,
+      width: MediaQuery.of(context).size.width * 0.8 - 15,
       child: RaisedButton(
         elevation: 12,
         onPressed: () {

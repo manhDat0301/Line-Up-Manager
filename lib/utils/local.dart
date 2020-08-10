@@ -46,6 +46,7 @@ class MaroziLocal {
     db.delete(tableLeagues);
     db.delete(tableClubs);
     db.delete(tablePlayer);
+    db.delete(tableFavorite);
   }
 
   Future deleteDB() async {

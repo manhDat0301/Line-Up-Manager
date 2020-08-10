@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
+import 'package:marozi/ui/portrait/export/portrait_export_page.dart';
 
 class PortraitExport extends StatefulWidget {
   @override
@@ -30,11 +33,11 @@ class _PortraitExportState extends State<PortraitExport> {
               _topBar(),
               _center(),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 child: MyText(
                   text: 'Style',
                   color: Colors.black,
-                  fontSize: 19,
+                  fontSize: 17,
                 ),
               ),
               _bottom(),
@@ -46,20 +49,23 @@ class _PortraitExportState extends State<PortraitExport> {
   }
 
   Widget _topBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: Icon(Icons.arrow_back_ios, color: Colors.orange),
-        ),
-        MyText(
-          text: 'Export',
-          color: Colors.black,
-          fontSize: 19,
-        ),
-        ExportButton(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 3),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Icon(Icons.arrow_back_ios, color: Colors.orange),
+          ),
+          MyText(
+            text: 'Export',
+            color: Colors.black,
+            fontSize: 19,
+          ),
+          ExportButton(),
+        ],
+      ),
     );
   }
 
@@ -68,13 +74,9 @@ class _PortraitExportState extends State<PortraitExport> {
       child: Card(
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                color: Colors.white,
-              ),
-            ),
+            PortraitExportPage(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(13.0, 6, 13, 7),
+              padding: const EdgeInsets.fromLTRB(11, 3, 11, 3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -85,7 +87,7 @@ class _PortraitExportState extends State<PortraitExport> {
                         '1.99',
                         style: TextStyle(
                           color: Colors.orange,
-                          fontSize: 20,
+                          fontSize: 17,
                         ),
                       ),
                       Padding(
@@ -103,11 +105,17 @@ class _PortraitExportState extends State<PortraitExport> {
                   RichText(
                     text: TextSpan(
                       text: '1',
-                      style: TextStyle(color: Colors.orange, fontSize: 17),
+                      style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: 17,
+                      ),
                       children: <TextSpan>[
                         TextSpan(
                           text: '\\15',
-                          style: TextStyle(color: Colors.black38, fontSize: 17),
+                          style: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 17,
+                          ),
                         ),
                       ],
                     ),
@@ -134,33 +142,46 @@ class _PortraitExportState extends State<PortraitExport> {
 
   Widget _bottom() {
     return Container(
-      height: 60,
+      height: MediaQuery.of(context).size.height * 0.07,
       child: Card(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: Constants.listExport.length,
-          itemBuilder: (context, index) {
-            return Row(
-              children: <Widget>[
-                FlatButton(
-                  onPressed: () {},
-                  child: Text(
-                    Constants.listExport[index],
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-                index < Constants.listExport.length - 1
-                    ? VerticalDivider(
-                        color: Colors.black,
-                        thickness: 0.15,
-                        indent: 12,
-                        endIndent: 12,
-                      )
-                    : SizedBox(),
-              ],
+        child: BlocBuilder<ExportBloc, ExportState>(
+          builder: (BuildContext context, ExportState state) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: Constants.listExport.length,
+              itemBuilder: (context, index) {
+                if (state is ExportFromPositionSuccess) {
+                  return Row(
+                    children: <Widget>[
+                      FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () {
+                          context.bloc<ExportBloc>().add(SelectType(index));
+                        },
+                        child: Text(
+                          state.exportTypes[index],
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: state.currentPage == index
+                                ? Colors.deepOrangeAccent
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      index != 0 && index < state.exportTypes.length - 1
+                          ? VerticalDivider(
+                              color: Colors.black,
+                              thickness: 0.15,
+                              indent: 12,
+                              width: 1,
+                              endIndent: 12,
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+                }
+                return Container();
+              },
             );
           },
         ),

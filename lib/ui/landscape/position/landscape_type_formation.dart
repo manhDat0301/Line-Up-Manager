@@ -20,7 +20,7 @@ class _LandscapeTypeFormationState extends State<LandscapeTypeFormation> {
               child: state is PositionSuccess
                   ? ListView.builder(
                       scrollDirection: Axis.vertical,
-                      itemCount: state.formations.length,
+                      itemCount: state.listFormations.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.only(left: 22.0),
@@ -39,7 +39,7 @@ class _LandscapeTypeFormationState extends State<LandscapeTypeFormation> {
                                   height: 55,
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    state.formations[index],
+                                    state.listFormations[index],
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: state.currentPage == index

@@ -43,7 +43,6 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
                 ),
               ),
               _pageView(),
-              _goButton(),
             ],
           ),
         ),
@@ -67,37 +66,42 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
   Widget _portrait() {
     return Container(
       alignment: Alignment.center,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(table);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(table);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: Image.asset('assets/images/portrait.png'),
+                  ),
                 ),
-                child: Image.asset('assets/images/portrait.png'),
-              ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: MyText(
+                    text: 'Portrait Mode',
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: MyText(
-                text: 'Portrait Mode',
-                color: Colors.black,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+          ),
+          _goButton(),
+        ],
       ),
     );
   }
@@ -113,11 +117,12 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                child: Image.asset('assets/images/landscape.png'),),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: Image.asset('assets/images/landscape.png'),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Center(

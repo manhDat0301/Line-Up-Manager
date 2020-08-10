@@ -14,3 +14,4 @@ class HexColor extends Color {
 
 final colorPlayerBackground = HexColor('F0F0F0');
 final colorInputBackground = HexColor('EAEAEA');
+final colorPlayerNumberExport = HexColor('880000');

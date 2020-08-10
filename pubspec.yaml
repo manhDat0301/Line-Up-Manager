@@ -109,6 +109,9 @@ flutter:
     - family: BebasNeue Bold
       fonts:
         - asset: assets/fonts/BebasNeue-Bold.ttf
+    - family: BebasNeue Regular
+      fonts:
+        - asset: assets/fonts/BebasNeue-Regular.ttf
     - family: CustomIcon
       fonts:
         - asset: assets/fonts/CustomIcon.ttf

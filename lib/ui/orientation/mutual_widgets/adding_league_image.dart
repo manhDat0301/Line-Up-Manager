@@ -30,7 +30,7 @@ class _AddingLeagueImageState extends State<AddingLeagueImage> {
                 child: Icon(Icons.error),
               );
             },
-            imageUrl: snapshot.data,
+            imageUrl: snapshot.data ?? '',
             placeholder: (context, string) {
               return BottomLoader();
             },

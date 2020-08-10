@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
-import 'package:marozi/model/favorite/favorite_repository.dart';
-import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/orientation/adding.dart';
@@ -15,9 +14,6 @@ import 'package:marozi/ui/orientation/position.dart';
 import 'package:marozi/ui/orientation/table.dart';
 
 class MyApp extends StatelessWidget {
-  final favRepo = FavoriteRepository();
-  final playerRepo = PlayerRepository();
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -33,6 +29,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               PositionBloc(PositionInitial())..add(PositionTestEvent()),
         ),
+        BlocProvider<ExportBloc>(
+          create: (BuildContext context) => ExportBloc(ExportInitial()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: homepage,
+        initialRoute: position,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

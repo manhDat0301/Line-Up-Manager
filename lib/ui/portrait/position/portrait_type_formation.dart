@@ -21,45 +21,43 @@ class _PortraitTypeFormationState extends State<PortraitTypeFormation> {
               return Card(
                   child: state is PositionSuccess
                       ? Container(
-                    height: 58,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.formations.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Row(
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                context
-                                    .bloc<PositionBloc>()
-                                    .add(FormationChange(index));
-                              },
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 6.0),
-                                  child: Text(
-                                    state.formations[index],
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: state.currentPage == index
-                                          ? Colors.orange
-                                          : Colors.black,
+                          height: 45,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.listFormations.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Row(
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .bloc<PositionBloc>()
+                                          .add(FormationChange(index));
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        state.listFormations[index],
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: state.currentPage == index
+                                              ? Colors.orange
+                                              : Colors.black,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            index < state.offsets.length - 1
-                                ? VerticalDivider()
-                                : Container(),
-                          ],
-                        );
-                      },
-                    ),
-                  )
-                      : BottomLoader());
+                                  index < state.offsets.length - 1
+                                      ? VerticalDivider()
+                                      : Container(),
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      : Container(height: 45, child: BottomLoader()));
             },
           ),
         ),

@@ -9,6 +9,7 @@ class MyText extends StatelessWidget {
   final Color color;
   final TextAlign textAlign;
   final bool isTitleCase;
+  final String fontFamily;
 
   MyText({
     @required this.text,
@@ -18,6 +19,7 @@ class MyText extends StatelessWidget {
     this.isTitleCase = true,
     this.fontStyle,
     this.textAlign,
+    this.fontFamily
   });
 
   final FontWeight fontWeight;
@@ -29,7 +31,7 @@ class MyText extends StatelessWidget {
       isTitleCase ? text.titleCase : text,
       textAlign: textAlign != null ? textAlign : TextAlign.center,
       style: TextStyle(
-        fontFamily: fontSFDisplayRegular,
+        fontFamily: fontFamily ?? fontSFDisplayRegular,
         fontSize: fontSize,
         color: color,
         fontWeight: fontWeight != null ? fontWeight : FontWeight.normal,

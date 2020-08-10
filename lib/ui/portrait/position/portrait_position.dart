@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/portrait/position/portrait_formation.dart';
 import 'package:marozi/ui/portrait/position/portrait_type_formation.dart';
@@ -49,14 +52,22 @@ class _PortraitPositionState extends State<PortraitPosition> {
             fontSize: 20,
           ),
         ),
-        InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, export);
+        BlocBuilder<PositionBloc, PositionState>(
+          builder: (BuildContext context, PositionState state) {
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, export);
+                if (state is PositionSuccess)
+                  context
+                      .bloc<ExportBloc>()
+                      .add(ExportFromPosition(state.players, state.offsets));
+              },
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.orange,
+              ),
+            );
           },
-          child: Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.orange,
-          ),
         ),
       ],
     );

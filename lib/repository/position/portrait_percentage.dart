@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class PercentagePortrait {
   // percentage as Offset.dx and Offset.dy
   static final List<Offset> percent_4_2_3_1 = [
-    Offset(50, 1),
-    Offset(20, 16),
-    Offset(50, 16),
-    Offset(78, 16),
-    Offset(36, 32),
-    Offset(62, 32),
-    Offset(12, 45),
-    Offset(37, 48),
-    Offset(61, 48),
-    Offset(86, 45),
-    Offset(50, 64),
+    Offset(50, 3),
+    Offset(20, 18),
+    Offset(50, 18),
+    Offset(78, 18),
+    Offset(36, 34),
+    Offset(62, 34),
+    Offset(12, 47),
+    Offset(37, 50),
+    Offset(61, 50),
+    Offset(86, 47),
+    Offset(50, 66),
   ];
   static final List<Offset> percent_4_3_3 = [
     Offset(13, 10),
