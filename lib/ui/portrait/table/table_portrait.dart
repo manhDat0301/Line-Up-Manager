@@ -16,11 +16,17 @@ class PortraitPlayerTable extends StatefulWidget {
 }
 
 class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scaffoldKey.currentState.dispose();
+    super.dispose();
   }
 
   @override

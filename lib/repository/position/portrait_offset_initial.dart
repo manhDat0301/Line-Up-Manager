@@ -10,7 +10,7 @@ class PortraitOffsetInitial {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PercentagePortrait.percent_4_2_3_1,
+      percent: PortraitPercentage.percent_4_2_3_1,
     );
     return _formation;
   }
@@ -19,7 +19,7 @@ class PortraitOffsetInitial {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PercentagePortrait.percent_4_3_3,
+      percent: PortraitPercentage.percent_4_3_3,
     );
     return _formation;
   }
@@ -28,7 +28,7 @@ class PortraitOffsetInitial {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PercentagePortrait.percent_4_4_2,
+      percent: PortraitPercentage.percent_4_4_2,
     );
     return _formation;
   }

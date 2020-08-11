@@ -8,8 +8,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Constants.width = MediaQuery.of(context).size.width;
     Constants.height = MediaQuery.of(context).size.height;
-    print(Constants.width);
-    print(Constants.height);
     Orientation orientation = MediaQuery.of(context).orientation;
     return orientation == Orientation.portrait
         ? PortraitHomePage()

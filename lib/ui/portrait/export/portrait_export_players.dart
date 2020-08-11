@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
@@ -17,44 +18,39 @@ class PortraitExportPlayers extends StatefulWidget {
 class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExportBloc, ExportState>(
-      builder: (BuildContext context, ExportState state) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.514,
-          width: MediaQuery.of(context).size.width * 0.8,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fitWidth,
-              image: AssetImage('assets/images/mask_group.png'),
-            ),
-          ),
-          child: BlocBuilder<ExportBloc, ExportState>(
-            builder: (BuildContext context, ExportState state) {
-              if (state is ExportFromPositionSuccess) {
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ...Iterable<int>.generate(state.players.length).map(
-                      (index) => _player(
-                        offset: state.offsets[index],
-                        player: state.players[index],
-                      ),
+    return Expanded(
+      child: BlocBuilder<ExportBloc, ExportState>(
+        builder: (BuildContext context, ExportState state) {
+          if (state is ExportFromPositionSuccess) {
+            return Container(
+              alignment: Alignment.center,
+              child: Stack(
+                overflow: Overflow.visible,
+                children: [
+                  Image.asset(
+                    'assets/images/mask_group.png',
+                    height: MediaQuery.of(context).size.height * 0.49,
+                  ),
+                  ...Iterable<int>.generate(state.players.length).map(
+                    (index) => _player(
+                      offset: state.offsets[index],
+                      player: state.players[index],
                     ),
-                  ],
-                );
-              }
-              return Container();
-            },
-          ),
-        );
-      },
+                  ),
+                ],
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 
   Widget _player({@required Offset offset, @required Player player}) {
     return Positioned(
-      top: offset.dy,
       left: offset.dx,
+      top: offset.dy,
       child: Column(
         children: <Widget>[
           Container(
@@ -84,8 +80,8 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
                         },
                         errorWidget: (context, string, dynamic) {
                           return Container(
-                            width: 40,
-                            height: 40,
+                            width: 50,
+                            height: 50,
                             child: Icon(
                               Icons.error,
                               color: Colors.orange,
@@ -129,13 +125,12 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
           Padding(
             padding: const EdgeInsets.only(top: 2.0),
             child: MyText(
-              text: 'Player Name',
-//              player.name.lastIndexOf(' ') != null
-//                  ? player.name.substring(
-//                      player.name.lastIndexOf(' '),
-//                      player.name.length,
-//                    )
-//                  : player.name,
+              text: player.name.contains(' ')
+                  ? player.name.substring(
+                      player.name.lastIndexOf(' '),
+                      player.name.length,
+                    )
+                  : player.name,
               color: Colors.white,
               fontSize: 12,
               fontFamily: fontBebasNeueBold,

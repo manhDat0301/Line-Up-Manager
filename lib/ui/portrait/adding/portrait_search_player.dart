@@ -18,6 +18,21 @@ class _SearchPlayerPortraitState extends State<SearchPlayerPortrait> {
   TextEditingController _textController;
 
   @override
+  void dispose() {
+    super.dispose();
+    acfKey.currentState.dispose();
+    _focusNode.dispose();
+    _textController.dispose();
+  }
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _textController = TextEditingController();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double customMinPrefixIconSize = 32;
     BoxConstraints iconConstraints = BoxConstraints(
@@ -105,19 +120,5 @@ class _SearchPlayerPortraitState extends State<SearchPlayerPortrait> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _focusNode.dispose();
-    _textController.dispose();
-  }
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _textController = TextEditingController();
-    super.initState();
   }
 }

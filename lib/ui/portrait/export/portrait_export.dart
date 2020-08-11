@@ -14,11 +14,6 @@ class PortraitExport extends StatefulWidget {
 
 class _PortraitExportState extends State<PortraitExport> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -50,7 +45,7 @@ class _PortraitExportState extends State<PortraitExport> {
 
   Widget _topBar() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 3),
+      padding: const EdgeInsets.only(bottom: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

@@ -8,6 +8,7 @@ class Position extends StatelessWidget {
   Widget build(BuildContext context) {
     Constants.width = MediaQuery.of(context).size.width;
     Constants.height = MediaQuery.of(context).size.height;
+
     return Orientation.portrait == MediaQuery.of(context).orientation
         ? PortraitPosition()
         : LandscapePosition();

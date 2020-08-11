@@ -50,7 +50,8 @@ class _PortraitTypeFormationState extends State<PortraitTypeFormation> {
                                     ),
                                   ),
                                   index < state.offsets.length - 1
-                                      ? VerticalDivider()
+                                      ? VerticalDivider(
+                                          indent: 12, endIndent: 12)
                                       : Container(),
                                 ],
                               );

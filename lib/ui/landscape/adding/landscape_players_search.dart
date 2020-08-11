@@ -25,6 +25,7 @@ class _LandscapePlayersSearchState extends State<LandscapePlayersSearch> {
   void dispose() {
     super.dispose();
     _focusNode.dispose();
+    key.currentState.dispose();
     _textController.dispose();
   }
 
