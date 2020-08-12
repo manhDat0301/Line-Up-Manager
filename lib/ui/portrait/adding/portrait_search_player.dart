@@ -20,7 +20,6 @@ class _SearchPlayerPortraitState extends State<SearchPlayerPortrait> {
   @override
   void dispose() {
     super.dispose();
-    acfKey.currentState.dispose();
     _focusNode.dispose();
     _textController.dispose();
   }

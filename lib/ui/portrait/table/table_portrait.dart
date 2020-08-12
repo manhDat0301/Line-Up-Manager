@@ -24,12 +24,6 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
   }
 
   @override
-  void dispose() {
-    _scaffoldKey.currentState.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,

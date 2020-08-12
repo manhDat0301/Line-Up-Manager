@@ -6,7 +6,6 @@ import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
@@ -18,27 +17,28 @@ class PortraitExportPlayers extends StatefulWidget {
 class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height * 0.56,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fitWidth,
+          image: AssetImage('assets/images/mask_group.png'),
+        ),
+      ),
       child: BlocBuilder<ExportBloc, ExportState>(
         builder: (BuildContext context, ExportState state) {
           if (state is ExportFromPositionSuccess) {
-            return Container(
-              alignment: Alignment.center,
-              child: Stack(
-                overflow: Overflow.visible,
-                children: [
-                  Image.asset(
-                    'assets/images/mask_group.png',
-                    height: MediaQuery.of(context).size.height * 0.49,
+            return Stack(
+              overflow: Overflow.visible,
+              children: [
+                ...Iterable<int>.generate(state.offsets.length).map(
+                  (index) => _player(
+                    offset: state.offsets[index],
+                    player: state.players[index],
                   ),
-                  ...Iterable<int>.generate(state.players.length).map(
-                    (index) => _player(
-                      offset: state.offsets[index],
-                      player: state.players[index],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           }
           return Container();
@@ -51,12 +51,17 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
     return Positioned(
       left: offset.dx,
       top: offset.dy,
-      child: Column(
+      width: MediaQuery.of(context).size.width * 0.18,
+      height: MediaQuery.of(context).size.width * 0.157,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: 45,
-            height: 45,
+            width: MediaQuery.of(context).size.width * 0.12,
+            height: MediaQuery.of(context).size.width * 0.12,
             child: Stack(
+              overflow: Overflow.visible,
               children: [
                 FutureBuilder(
                   initialData: '',
@@ -80,8 +85,8 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
                         },
                         errorWidget: (context, string, dynamic) {
                           return Container(
-                            width: 50,
-                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.12,
+                            height: MediaQuery.of(context).size.width * 0.12,
                             child: Icon(
                               Icons.error,
                               color: Colors.orange,
@@ -98,8 +103,8 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    width: 16,
-                    height: 16,
+                    width: MediaQuery.of(context).size.width * 0.04,
+                    height: MediaQuery.of(context).size.width * 0.04,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10000.0),
                       color: Colors.yellow,
@@ -110,8 +115,9 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
                       child: Text(
                         '83',
                         textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: colorPlayerNumberExport,
                           fontFamily: fontBebasNeueBold,
                         ),
@@ -122,18 +128,21 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 2.0),
-            child: MyText(
-              text: player.name.contains(' ')
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              player.name.contains(' ')
                   ? player.name.substring(
                       player.name.lastIndexOf(' '),
                       player.name.length,
                     )
                   : player.name,
-              color: Colors.white,
-              fontSize: 12,
-              fontFamily: fontBebasNeueBold,
+              overflow: TextOverflow.clip,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: fontBebasNeueBold,
+              ),
             ),
           ),
         ],

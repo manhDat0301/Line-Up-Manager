@@ -4,9 +4,9 @@ class PortraitPercentage {
   // percentage as Offset.dx and Offset.dy
   static final List<Offset> percent_4_2_3_1 = [
     Offset(50, 3),
-    Offset(20, 18),
+    Offset(18, 18),
     Offset(50, 18),
-    Offset(78, 18),
+    Offset(80, 18),
     Offset(36, 34),
     Offset(62, 34),
     Offset(12.5, 47),
