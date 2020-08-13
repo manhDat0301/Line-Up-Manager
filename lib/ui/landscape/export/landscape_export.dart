@@ -4,6 +4,7 @@ import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/ui/landscape/export/preview/landscape_preview.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
 
 class LandscapeExport extends StatefulWidget {
@@ -65,68 +66,15 @@ class _LandscapeExportState extends State<LandscapeExport> {
               width: MediaQuery.of(context).size.width * 0.82,
               child: Card(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        color: Colors.white,
-                      ),
+                    LandscapePreview(),
+                    Column(
+                      children: <Widget>[
+                        Divider(indent: 15, endIndent: 15, height: 0),
+                        _settingBar(),
+                      ],
                     ),
-                    Divider(indent: 15, endIndent: 15, height: 14),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15.0, right: 15, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              MyText(
-                                text: '1.19',
-                                color: Colors.orange,
-                                fontSize: 16,
-                                isTitleCase: false,
-                              ),
-                              MyText(
-                                isTitleCase: false,
-                                text: '\$',
-                                color: Colors.orange,
-                                fontSize: 12,
-                              ),
-                            ],
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: '1',
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: 16,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '\\15',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => DialogSetting());
-                            },
-                            child: Icon(
-                              Icons.settings,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -134,6 +82,62 @@ class _LandscapeExportState extends State<LandscapeExport> {
             _bottom(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _settingBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(13, 5, 13, 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MyText(
+                text: '1.19',
+                color: Colors.orange,
+                fontSize: 16,
+                isTitleCase: false,
+              ),
+              MyText(
+                isTitleCase: false,
+                text: '\$',
+                color: Colors.orange,
+                fontSize: 12,
+              ),
+            ],
+          ),
+          RichText(
+            text: TextSpan(
+              text: '1',
+              style: TextStyle(
+                color: Colors.orange,
+                fontSize: 16,
+              ),
+              children: [
+                TextSpan(
+                  text: '\\15',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                )
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context, builder: (context) => DialogSetting());
+            },
+            child: Icon(
+              Icons.settings,
+              color: Colors.black54,
+            ),
+          ),
+        ],
       ),
     );
   }

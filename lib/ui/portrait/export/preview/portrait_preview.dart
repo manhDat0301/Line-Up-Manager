@@ -5,12 +5,12 @@ import 'package:marozi/ui/portrait/export/preview/blue_and_white/b_w.dart';
 import 'package:marozi/ui/portrait/export/preview/braven/braven.dart';
 import 'package:marozi/ui/portrait/export/preview/glory_red/glory_red.dart';
 
-class Preview extends StatefulWidget {
+class PortraitPreview extends StatefulWidget {
   @override
-  _PreviewState createState() => _PreviewState();
+  _PortraitPreviewState createState() => _PortraitPreviewState();
 }
 
-class _PreviewState extends State<Preview> {
+class _PortraitPreviewState extends State<PortraitPreview> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExportBloc, ExportState>(
