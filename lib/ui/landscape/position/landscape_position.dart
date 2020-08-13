@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
+import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/landscape/position/landscape_formation.dart';
 import 'package:marozi/ui/landscape/position/landscape_type_formation.dart';
-import 'package:marozi/ui/orientation/export.dart';
 
 class LandscapePosition extends StatefulWidget {
   @override
@@ -57,21 +60,26 @@ class _LandscapePositionState extends State<LandscapePosition> {
             fontSize: 20,
           ),
         ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => Export(),
+        BlocBuilder<PositionBloc, PositionState>(
+          builder: (BuildContext context, PositionState state) {
+            return Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, export);
+                  if (state is PositionSuccess) {
+                    context
+                        .bloc<ExportBloc>()
+                        .add(PositionToExport(state.players, state.offsets));
+                  }
+                },
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.orange,
                 ),
-              );
-            },
-            child: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.orange,
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ],
     );

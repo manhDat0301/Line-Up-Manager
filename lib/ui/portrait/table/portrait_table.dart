@@ -80,7 +80,9 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
                       if (start + subs < 8) {
                         _showSnackBar();
                       } else {
-                        context.bloc<PositionBloc>().add(CreateFormation(list));
+                        context
+                            .bloc<PositionBloc>()
+                            .add(CreateFormation(list, true));
                         Navigator.pushNamed(context, position);
                       }
                     }

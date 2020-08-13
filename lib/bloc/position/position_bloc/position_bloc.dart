@@ -8,6 +8,7 @@ import 'package:marozi/model/favorite/favorite_repository.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/repository/constants.dart';
+import 'package:marozi/repository/position/landscape_offset_user.dart';
 import 'package:marozi/repository/position/portrait_offset_user.dart';
 
 part 'position_event.dart';
@@ -21,7 +22,7 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
   Stream<PositionState> mapEventToState(PositionEvent event) async* {
     if (event is CreateFormation) yield* _mapCreateFormationToState(event);
 
-    if (event is PositionTestEvent) yield* _mapTestEventToState();
+    if (event is PositionTestEvent) yield* _mapTestEventToState(event);
 
     if (event is FormationChange) yield* _mapFormationChangeToState(event);
 
@@ -30,10 +31,13 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     if (event is DropPlayer) yield* _mapDropPlayerToState(event);
   }
 
-  Stream<PositionState> _mapTestEventToState() async* {
+  Stream<PositionState> _mapTestEventToState(PositionTestEvent event) async* {
     yield PositionSuccess(
       players: await _getListFav(),
-      offsets: PortraitOffsetUser.offset_4_2_3_1,
+      isPortrait: event.isPortrait,
+      offsets: event.isPortrait
+          ? PortraitOffsetUser.offset_4_2_3_1
+          : LandscapeOffsetUser.offset_4_2_3_1,
       listFormations: Constants.formations,
       currentPage: 0,
     );
@@ -44,7 +48,10 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
       listFormations: Constants.formations,
       currentPage: 0,
       players: event.list,
-      offsets: PortraitOffsetUser.offset_4_2_3_1,
+      isPortrait: event.isPortrait,
+      offsets: event.isPortrait
+          ? PortraitOffsetUser.offset_4_2_3_1
+          : LandscapeOffsetUser.offset_4_2_3_1,
     );
   }
 
@@ -57,7 +64,10 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
       offsets[event.second] = temp;
       yield currentState.copyWith(offsets: offsets);
       _updateOffset(
-          currentState.listFormations[currentState.currentPage], offsets);
+        currentState.listFormations[currentState.currentPage],
+        offsets,
+        currentState.isPortrait,
+      );
     }
   }
 
@@ -68,7 +78,10 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
       offsets[event.index] = event.offset - Offset(4, 51.5);
       yield currentState.copyWith(offsets: offsets);
       _updateOffset(
-          currentState.listFormations[currentState.currentPage], offsets);
+        currentState.listFormations[currentState.currentPage],
+        offsets,
+        currentState.isPortrait,
+      );
     }
   }
 
@@ -79,95 +92,128 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
         case 0:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_2_3_1,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_2_3_1
+                : LandscapeOffsetUser.offset_4_2_3_1,
           );
           break;
         case 1:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_3_3,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_3_3
+                : LandscapeOffsetUser.offset_4_3_3,
           );
           break;
         case 2:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 3:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 4:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 5:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 6:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 7:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 8:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 9:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 10:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         case 11:
           yield currentState.copyWith(
             currentPage: event.i,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
         default:
           yield currentState.copyWith(
             currentPage: 0,
-            offsets: PortraitOffsetUser.offset_4_4_2,
+            offsets: currentState.isPortrait
+                ? PortraitOffsetUser.offset_4_4_2
+                : LandscapeOffsetUser.offset_4_4_2,
           );
           break;
       }
     }
   }
 
-  void _updateOffset(String formation, List<Offset> offsets) {
+  void _updateOffset(String formation, List<Offset> offsets, bool isPortrait) {
+    print('_updateOffset $isPortrait');
     switch (formation) {
       case '4-2-3-1':
-        PortraitOffsetUser.offset_4_2_3_1 = offsets;
+        isPortrait
+            ? PortraitOffsetUser.offset_4_2_3_1 = offsets
+            : LandscapeOffsetUser.offset_4_2_3_1 = offsets;
         break;
       case '4-3-3':
-        PortraitOffsetUser.offset_4_3_3 = offsets;
+        isPortrait
+            ? PortraitOffsetUser.offset_4_3_3 = offsets
+            : LandscapeOffsetUser.offset_4_3_3 = offsets;
         break;
       case '4-4-2':
-        PortraitOffsetUser.offset_4_4_2 = offsets;
+        isPortrait
+            ? PortraitOffsetUser.offset_4_4_2 = offsets
+            : LandscapeOffsetUser.offset_4_4_2 = offsets;
         break;
     }
   }

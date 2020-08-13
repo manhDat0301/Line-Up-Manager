@@ -15,52 +15,51 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
 
   @override
   Stream<ExportState> mapEventToState(ExportEvent event) async* {
-    if (event is ExportFromPosition) {
-      final clubRepo = ClubRepository();
-      String _clubUrl = await clubRepo.getAColOfClub(
-          clubId: event.players[0].clubId, columns: [clubLogoUrl]);
-      String _clubName = await clubRepo.getAColOfClub(
-          clubId: event.players[0].clubId, columns: [clubName]);
-      print(_clubName);
-
-      double halfWidgetWidth =
-          Constants.width * 0.18 * 0.5; // 37.02857142857143
-      double halfWidgetHeight =
-          Constants.width * 0.157 * 0.5; // 32.29714285714286
-
-      List<Offset> list = _exportOffset(
-        position: event.offsets,
-        halfWidgetHeight: halfWidgetHeight,
-        halfWidgetWidth: halfWidgetWidth,
-      );
-
-      yield ExportFromPositionSuccess(
-        players: event.players,
-        offsets: list,
-        exportTypes: Constants.listExport,
-        currentPage: 0,
-        clubLogoUrl: _clubUrl,
-        clubName: _clubName,
-      );
+    if (event is PositionToExport) {
+      yield* _mapPositionToGloryRed(event);
+    }
+    if (event is SelectType) {
+      var currentState = state;
+      if (currentState is ExportFromPositionSuccess) {
+        yield currentState.copyWith(currentPage: event.select);
+      }
     }
   }
 
-  List<Offset> _exportOffset({
-    List<Offset> position,
-    double halfWidgetWidth,
-    double halfWidgetHeight,
-  }) {
+  Stream<ExportState> _mapSelectType() async* {}
+
+  Stream<ExportState> _mapPositionToGloryRed(PositionToExport event) async* {
+    final clubRepo = ClubRepository();
+
+    String _clubUrl = await clubRepo
+        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubLogoUrl]);
+    String _clubName = await clubRepo
+        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
+
+    List<Offset> offsets = _convertToExportOffset(position: event.offsets);
+
+    yield ExportFromPositionSuccess(
+      players: event.players,
+      offsets: offsets,
+      exportTypes: Constants.listExport,
+      currentPage: 0,
+      clubLogoUrl: _clubUrl,
+      clubName: _clubName,
+    );
+  }
+
+  List<Offset> _convertToExportOffset({List<Offset> position}) {
     List<Offset> result = [];
 
-    double width = Constants.width * 0.9;
-    double height = Constants.height * 0.705;
+    double width = Constants.width * 0.986;
+    double height = Constants.height * 0.66;
 
     for (int i = 0; i < position.length; i++) {
       double dx;
       double dy;
       if (false) {
       } else {
-        dx = position[i].dx / Constants.width * width;
+        dx = position[i].dx / Constants.width * width + 5;
         dy = position[i].dy / Constants.height * height;
       }
 

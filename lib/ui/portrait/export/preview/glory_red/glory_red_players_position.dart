@@ -9,17 +9,17 @@ import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
-class PortraitExportPlayers extends StatefulWidget {
+class GloryRedPlayersPosition extends StatefulWidget {
   @override
-  _PortraitExportPlayersState createState() => _PortraitExportPlayersState();
+  _GloryRedPlayersPositionState createState() => _GloryRedPlayersPositionState();
 }
 
-class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
+class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: MediaQuery.of(context).size.height * 0.56,
+      width: MediaQuery.of(context).size.width *0.986,
+      height: MediaQuery.of(context).size.height * 0.521,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fitWidth,
@@ -51,15 +51,15 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
     return Positioned(
       left: offset.dx,
       top: offset.dy,
-      width: MediaQuery.of(context).size.width * 0.18,
-      height: MediaQuery.of(context).size.width * 0.157,
+      width: MediaQuery.of(context).size.width * 0.186,
+      height: MediaQuery.of(context).size.width * 0.17,
       child: Stack(
         alignment: Alignment.topCenter,
         overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: MediaQuery.of(context).size.width * 0.12,
+            width: MediaQuery.of(context).size.width * 0.14,
+            height: MediaQuery.of(context).size.width * 0.14,
             child: Stack(
               overflow: Overflow.visible,
               children: [
@@ -103,8 +103,8 @@ class _PortraitExportPlayersState extends State<PortraitExportPlayers> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.04,
-                    height: MediaQuery.of(context).size.width * 0.04,
+                    width: MediaQuery.of(context).size.width * 0.045,
+                    height: MediaQuery.of(context).size.width * 0.045,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10000.0),
                       color: Colors.yellow,

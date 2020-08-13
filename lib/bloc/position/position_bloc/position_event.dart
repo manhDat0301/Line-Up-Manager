@@ -6,16 +6,25 @@ class PositionEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PositionTestEvent extends PositionEvent {}
+class PositionTestEvent extends PositionEvent {
+  final bool isPortrait;
 
-class CreateFormation extends PositionEvent {
-  final List<Player> list;
-
-  CreateFormation(this.list);
+  PositionTestEvent({@required this.isPortrait});
 
   @override
   // TODO: implement props
-  List<Object> get props => [list];
+  List<Object> get props => [isPortrait];
+}
+
+class CreateFormation extends PositionEvent {
+  final List<Player> list;
+  final bool isPortrait;
+
+  CreateFormation(this.list, this.isPortrait);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [list, isPortrait];
 }
 
 class FormationChange extends PositionEvent {
@@ -48,4 +57,14 @@ class DropPlayer extends PositionEvent {
   @override
   // TODO: implement props
   List<Object> get props => [offset, index];
+}
+
+class PositionOrientationChange extends PositionEvent {
+  final bool isPortrait;
+
+  PositionOrientationChange(this.isPortrait);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [isPortrait];
 }

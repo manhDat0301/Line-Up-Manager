@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
               AddingBloc(AddingInitial())..add(GetLeagueByNation()),
         ),
         BlocProvider<PositionBloc>(
-          create: (BuildContext context) =>
-              PositionBloc(PositionInitial())..add(PositionTestEvent()),
+          create: (BuildContext context) => PositionBloc(PositionInitial())
+            ..add(PositionTestEvent(isPortrait: false)),
         ),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),

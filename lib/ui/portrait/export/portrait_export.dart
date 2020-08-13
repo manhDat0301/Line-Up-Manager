@@ -5,7 +5,7 @@ import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
-import 'package:marozi/ui/portrait/export/portrait_export_page.dart';
+import 'package:marozi/ui/portrait/export/preview/preview.dart';
 
 class PortraitExport extends StatefulWidget {
   @override
@@ -69,7 +69,13 @@ class _PortraitExportState extends State<PortraitExport> {
       child: Card(
         child: Column(
           children: <Widget>[
-            PortraitExportPage(),
+            Spacer(),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.986,
+              height: MediaQuery.of(context).size.height * 0.756,
+              child: Preview(),
+            ),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.fromLTRB(11, 3, 11, 3),
               child: Row(

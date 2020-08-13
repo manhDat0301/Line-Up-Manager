@@ -115,3 +115,9 @@ flutter:
     - family: CustomIcon
       fonts:
         - asset: assets/fonts/CustomIcon.ttf
+    - family: Bruno Ace Regular
+      fonts:
+        - asset: assets/fonts/Bruno-Ace-Regular.ttf
+    - family: Cagliostro Regular
+      fonts:
+        - asset: assets/fonts/Cagliostro-Regular.ttf

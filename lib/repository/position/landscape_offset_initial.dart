@@ -1,16 +1,15 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:marozi/repository/position/calculate_offset.dart';
-import 'package:marozi/repository/position/portrait_percentage.dart';
+import 'package:marozi/repository/position/landscape_percentage.dart';
 
-class PortraitOffsetInitial {
+class LandscapeOffsetInitial {
   static List<Offset> _formation;
 
   static List<Offset> form_4_2_3_1(double width, double height) {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PortraitPercentage.percent_4_2_3_1,
+      percent: LandscapePercentage.percent_4_2_3_1,
     );
     return _formation;
   }
@@ -19,7 +18,7 @@ class PortraitOffsetInitial {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PortraitPercentage.percent_4_3_3,
+      percent: LandscapePercentage.percent_4_3_3,
     );
     return _formation;
   }
@@ -28,7 +27,7 @@ class PortraitOffsetInitial {
     _formation = CalculateOffset.getListOffset(
       width: width,
       height: height,
-      percent: PortraitPercentage.percent_4_4_2,
+      percent: LandscapePercentage.percent_4_4_2,
     );
     return _formation;
   }

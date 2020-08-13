@@ -1,18 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
-import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/landscape/table/landscape_starting.dart';
 import 'package:marozi/ui/landscape/table/landscape_substitutes.dart';
-import 'package:marozi/ui/orientation/mutual_widgets/add_button.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/garbage_can.dart';
-import 'package:marozi/ui/orientation/mutual_widgets/table_player_image.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class LandscapePlayerTable extends StatefulWidget {
   @override
@@ -74,9 +69,8 @@ class _LandscapePlayerTableState extends State<LandscapePlayerTable> {
                     if (start + subs < 8) {
                       _showSnackBar();
                     } else {
-                      context
-                          .bloc<PositionBloc>()
-                          .add(CreateFormation(state.map.values.toList()));
+                      context.bloc<PositionBloc>().add(
+                          CreateFormation(state.map.values.toList(), false));
                       Navigator.pushNamed(context, position);
                     }
                   }
@@ -108,7 +102,6 @@ class _LandscapePlayerTableState extends State<LandscapePlayerTable> {
       ),
     );
   }
-
 
   void _showSnackBar() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(

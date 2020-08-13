@@ -6,11 +6,11 @@ class ExportEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ExportFromPosition extends ExportEvent {
+class PositionToExport extends ExportEvent {
   final List<Player> players;
   final List<Offset> offsets;
 
-  ExportFromPosition(this.players, this.offsets);
+  PositionToExport(this.players, this.offsets);
 
   @override
   // TODO: implement props

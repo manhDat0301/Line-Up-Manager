@@ -15,7 +15,7 @@ class Constants {
   static double _halfPlayerWidth = 32.5;
 
   static double _landscapeW(double per) {
-    return height * per / 100 - _halfPlayerWidth;
+    return height * per / 100;
   }
 
   static double _landscapeH(double per) {
@@ -54,8 +54,8 @@ class Constants {
   ];
 
   static List<String> listExport = [
-    'Braven',
     'Glory Red',
+    'Braven',
     'B&W',
     'The Bleu',
     'Royal White',

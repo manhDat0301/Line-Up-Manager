@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/repository/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
@@ -56,13 +58,19 @@ class _LandscapeExportState extends State<LandscapeExport> {
     return Expanded(
       child: Container(
         width: MediaQuery.of(context).size.width,
+        height: double.infinity,
         child: Row(
           children: <Widget>[
-            Expanded(
+            Container(
+              width: MediaQuery.of(context).size.width * 0.82,
               child: Card(
                 child: Column(
                   children: <Widget>[
-                    Expanded(child: Container(color: Colors.white)),
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                      ),
+                    ),
                     Divider(indent: 15, endIndent: 15, height: 14),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -76,12 +84,14 @@ class _LandscapeExportState extends State<LandscapeExport> {
                               MyText(
                                 text: '1.19',
                                 color: Colors.orange,
-                                fontSize: 19,
+                                fontSize: 16,
+                                isTitleCase: false,
                               ),
                               MyText(
+                                isTitleCase: false,
                                 text: '\$',
                                 color: Colors.orange,
-                                fontSize: 13,
+                                fontSize: 12,
                               ),
                             ],
                           ),
@@ -121,26 +131,59 @@ class _LandscapeExportState extends State<LandscapeExport> {
                 ),
               ),
             ),
-            Card(
-              child: Container(
-                width: 130,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(25, 10, 0, 10),
-                child: ListView.builder(
-                  itemCount: Constants.listExport.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: <Widget>[
-                        Text(
-                          Constants.listExport[index],
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
+            _bottom(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _bottom() {
+    return Expanded(
+      child: Card(
+        child: BlocBuilder<ExportBloc, ExportState>(
+          builder: (BuildContext context, ExportState state) {
+            if (state is ExportFromPositionSuccess) {
+              return ListView.builder(
+                itemCount: state.exportTypes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: <Widget>[
+                      FlatButton(
+                        padding: EdgeInsets.all(0),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          context.bloc<ExportBloc>().add(SelectType(index));
+                        },
+                        child: Text(
+                          state.exportTypes[index],
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: state.currentPage == index
+                                ? Colors.deepOrangeAccent
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      index < state.exportTypes.length - 1
+                          ? Container(
+                              width: double.infinity,
+                              child: Divider(
+                                color: Colors.black,
+                                thickness: 0.15,
+                                height: 0,
+                                indent: 12,
+                                endIndent: 12,
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+                },
+              );
+            }
+            return BottomLoader();
+          },
         ),
       ),
     );

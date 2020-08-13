@@ -60,7 +60,7 @@ class _PortraitPositionState extends State<PortraitPosition> {
                 if (state is PositionSuccess) {
                   context
                       .bloc<ExportBloc>()
-                      .add(ExportFromPosition(state.players, state.offsets));
+                      .add(PositionToExport(state.players, state.offsets));
                 }
               },
               child: Icon(

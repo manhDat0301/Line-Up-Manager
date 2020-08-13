@@ -95,8 +95,8 @@ class _DragPlayerState extends State<DragPlayer> {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(10000.0),
                     child: Container(
-                      width: 75,
-                      height: 75,
+                      width: 65,
+                      height: 65,
                       child: CachedNetworkImage(
                         errorWidget: (context, string, dynamic) {
                           return Icon(

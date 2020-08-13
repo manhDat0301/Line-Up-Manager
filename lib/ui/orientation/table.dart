@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/ui/landscape/table/landscape_table.dart';
-import 'package:marozi/ui/portrait/table/table_portrait.dart';
+import 'package:marozi/ui/portrait/table/portrait_table.dart';
 
 class PlayerTable extends StatelessWidget {
   @override
