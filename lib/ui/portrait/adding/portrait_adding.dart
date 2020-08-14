@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/adding/portrait_players_favorite.dart';
 import 'package:marozi/ui/portrait/adding/portrait_league_by_nation.dart';
+import 'package:marozi/ui/portrait/adding/portrait_players_favorite.dart';
 import 'package:marozi/ui/portrait/adding/portrait_search_player.dart';
 
 class PortraitAdding extends StatefulWidget {
@@ -14,7 +11,6 @@ class PortraitAdding extends StatefulWidget {
 }
 
 class _PortraitAddingState extends State<PortraitAdding> {
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +32,7 @@ class _PortraitAddingState extends State<PortraitAdding> {
               SearchPlayerPortrait(),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
+                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
                 child: MyText(
                     textAlign: TextAlign.start,
                     text: 'Favorite players',

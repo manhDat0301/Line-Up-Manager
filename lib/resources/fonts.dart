@@ -3,3 +3,7 @@ final String fontBebasNeueBold = 'BebasNeue Bold';
 final String fontBebasNeueRegular = 'BebasNeue Regular';
 final String fontBrunoAceRegular = 'Bruno Ace Regular';
 final String fontCagliostroRegular = 'Cagliostro Regular';
+final String fontTekoRegular = 'Teko Regular';
+final String fontBlackOpsOneRegular = 'BlackOpsOne Regular';
+final String fontBangersRegular = 'Bangers Regular';
+final String fontConsolasBold = 'Consolas Bold';

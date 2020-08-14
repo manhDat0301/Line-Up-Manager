@@ -5,7 +5,6 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'club_event.dart';
-
 part 'club_state.dart';
 
 class ClubBloc extends Bloc<ClubEvent, ClubState> {

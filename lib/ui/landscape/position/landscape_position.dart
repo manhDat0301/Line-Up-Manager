@@ -68,9 +68,8 @@ class _LandscapePositionState extends State<LandscapePosition> {
                 onTap: () {
                   Navigator.pushNamed(context, export);
                   if (state is PositionSuccess) {
-                    context
-                        .bloc<ExportBloc>()
-                        .add(PositionToExport(state.players, state.offsets));
+                    context.bloc<ExportBloc>().add(
+                        PositionToExport(state.players, state.offsets, false));
                   }
                 },
                 child: Icon(

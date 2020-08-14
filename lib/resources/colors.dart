@@ -16,3 +16,5 @@ final colorPlayerBackground = HexColor('F0F0F0');
 final colorInputBackground = HexColor('EAEAEA');
 final colorPlayerNumberExport = HexColor('880000');
 final colorSubstitutesText = HexColor('CBCBCB');
+final colorExportBlueText = HexColor('0C538B');
+final colorSubstitutesLandscapeText = HexColor('ABAAAA');

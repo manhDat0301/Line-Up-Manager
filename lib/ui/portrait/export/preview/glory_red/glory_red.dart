@@ -27,7 +27,7 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
             alignment: Alignment.center,
             children: [
               Image.asset(
-                'assets/images/glory_red.png',
+                'assets/images/portrait_red.png',
                 fit: BoxFit.fitWidth,
               ),
               Column(

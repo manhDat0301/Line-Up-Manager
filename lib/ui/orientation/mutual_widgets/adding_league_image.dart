@@ -19,7 +19,7 @@ class _AddingLeagueImageState extends State<AddingLeagueImage> {
     return FutureBuilder(
       initialData: '',
       future:
-      FireStorageService.loadFromStorage(context, widget.league.logoUrl),
+          FireStorageService.loadFromStorage(context, widget.league.logoUrl),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Container(
           width: 45,

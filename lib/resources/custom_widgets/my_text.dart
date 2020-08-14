@@ -11,16 +11,15 @@ class MyText extends StatelessWidget {
   final bool isTitleCase;
   final String fontFamily;
 
-  MyText({
-    @required this.text,
-    @required this.fontSize,
-    @required this.color,
-    this.fontWeight,
-    this.isTitleCase = true,
-    this.fontStyle,
-    this.textAlign,
-    this.fontFamily
-  });
+  MyText(
+      {@required this.text,
+      @required this.fontSize,
+      @required this.color,
+      this.fontWeight,
+      this.isTitleCase = true,
+      this.fontStyle,
+      this.textAlign,
+      this.fontFamily});
 
   final FontWeight fontWeight;
   final FontStyle fontStyle;

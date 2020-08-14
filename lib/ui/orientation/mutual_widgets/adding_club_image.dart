@@ -21,10 +21,9 @@ class _AddingClubImageState extends State<AddingClubImage> {
       height: 40,
       child: FutureBuilder(
         initialData: '',
-        future: FireStorageService.loadFromStorage(
-            context, widget.club.logoUrl),
-        builder:
-            (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        future:
+            FireStorageService.loadFromStorage(context, widget.club.logoUrl),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return CachedNetworkImage(
             width: 45,
             height: 45,

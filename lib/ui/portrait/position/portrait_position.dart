@@ -58,9 +58,8 @@ class _PortraitPositionState extends State<PortraitPosition> {
               onTap: () {
                 Navigator.pushNamed(context, export);
                 if (state is PositionSuccess) {
-                  context
-                      .bloc<ExportBloc>()
-                      .add(PositionToExport(state.players, state.offsets));
+                  context.bloc<ExportBloc>().add(
+                      PositionToExport(state.players, state.offsets, true));
                 }
               },
               child: Icon(

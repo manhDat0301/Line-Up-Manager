@@ -76,9 +76,10 @@ class _PortraitExpansionClubState extends State<PortraitExpansionClub> {
                               children: <Widget>[
                                 index != 0 && index < state.players.length
                                     ? Padding(
-                                      padding: const EdgeInsets.only(bottom: 8.0),
-                                      child: Divider(height: 1),
-                                    )
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: Divider(height: 1),
+                                      )
                                     : Container(),
                                 Container(
                                   height: 52,

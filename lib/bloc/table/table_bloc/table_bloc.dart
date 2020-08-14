@@ -5,7 +5,6 @@ import 'package:marozi/model/player/player_repository.dart';
 import 'package:marozi/repository/constants.dart';
 
 part 'table_event.dart';
-
 part 'table_state.dart';
 
 class TableBloc extends Bloc<TableEvent, TableState> {
@@ -15,7 +14,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
   Stream<TableState> mapEventToState(TableEvent event) async* {
     if (event is AddButtonPress) {
       yield* _mapAddButtonToState(event);
-  }
+    }
 
     if (event is PlayerSelect) {
       yield* _mapPlayerSelectToState(event);

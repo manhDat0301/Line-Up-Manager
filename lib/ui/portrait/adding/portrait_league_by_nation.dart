@@ -52,7 +52,7 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
     );
   }
 
-  Widget _buildLeague(List<League> list){
+  Widget _buildLeague(List<League> list) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

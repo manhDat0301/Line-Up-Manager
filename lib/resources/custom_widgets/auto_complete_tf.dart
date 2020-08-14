@@ -326,21 +326,21 @@ class ScrollableAutoCompleteTextFieldState<T> extends State {
                             return new InkWell(
                                 child: itemBuilder(context, suggestion),
                                 onTap: () {
-                                    setState(() {
-                                      if (submitOnSuggestionTap) {
-                                        String text = suggestion.toString();
-                                        textField.controller.text = text;
-                                        textField.focusNode.unfocus();
-                                        itemSubmitted(suggestion);
-                                        if (clearOnSubmit) {
-                                          clear();
-                                        }
-                                      } else {
-                                        String text = suggestion.toString();
-                                        textField.controller.text = text;
-                                        textChanged(text);
+                                  setState(() {
+                                    if (submitOnSuggestionTap) {
+                                      String text = suggestion.toString();
+                                      textField.controller.text = text;
+                                      textField.focusNode.unfocus();
+                                      itemSubmitted(suggestion);
+                                      if (clearOnSubmit) {
+                                        clear();
                                       }
-                                    });
+                                    } else {
+                                      String text = suggestion.toString();
+                                      textField.controller.text = text;
+                                      textChanged(text);
+                                    }
+                                  });
                                 });
                           }).toList(),
                         ),

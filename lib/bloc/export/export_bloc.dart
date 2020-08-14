@@ -7,7 +7,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/repository/constants.dart';
 
 part 'export_event.dart';
-
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {
@@ -16,7 +15,9 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
   @override
   Stream<ExportState> mapEventToState(ExportEvent event) async* {
     if (event is PositionToExport) {
-      yield* _mapPositionToGloryRed(event);
+      yield* event.isPortrait
+          ? _mapPositionToGloryRed(event)
+          : _mapPositionToGloryBlue(event);
     }
     if (event is SelectType) {
       var currentState = state;
@@ -26,8 +27,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     }
   }
 
-  Stream<ExportState> _mapSelectType() async* {}
-
   Stream<ExportState> _mapPositionToGloryRed(PositionToExport event) async* {
     final clubRepo = ClubRepository();
 
@@ -36,7 +35,14 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     String _clubName = await clubRepo
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
 
-    List<Offset> offsets = _convertToExportOffset(position: event.offsets);
+    double width = Constants.width * 0.986;
+    double height = Constants.height * 0.66;
+
+    List<Offset> offsets = _convertToExportOffset(
+      position: event.offsets,
+      width: width,
+      height: height,
+    );
 
     yield ExportFromPositionSuccess(
       players: event.players,
@@ -48,11 +54,43 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     );
   }
 
-  List<Offset> _convertToExportOffset({List<Offset> position}) {
-    List<Offset> result = [];
+  Stream<ExportState> _mapPositionToGloryBlue(PositionToExport event) async* {
+    final clubRepo = ClubRepository();
 
-    double width = Constants.width * 0.986;
-    double height = Constants.height * 0.66;
+    String _clubUrl = await clubRepo
+        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubLogoUrl]);
+    String _clubName = await clubRepo
+        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
+
+    double width = Constants.width * 0.56;
+    double height = Constants.height * 0.92;
+
+    List<Offset> offsets = _convertToExportOffset(
+        position: event.offsets, width: width, height: height);
+
+    yield ExportFromPositionSuccess(
+        players: event.players,
+        offsets: offsets,
+        exportTypes: Constants.listExport,
+        currentPage: 0,
+        clubLogoUrl: _clubUrl,
+        clubName: _clubName,
+        subsName: [
+          'Romero',
+          'Lindelof',
+          'Williams',
+          'Fred',
+          'James',
+          'Mata',
+          'Ighalo',
+        ]);
+  }
+
+  List<Offset> _convertToExportOffset(
+      {@required List<Offset> position,
+      @required double width,
+      @required double height}) {
+    List<Offset> result = [];
 
     for (int i = 0; i < position.length; i++) {
       double dx;

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/repository/constants.dart';
 import 'package:marozi/ui/landscape/position/landscape_position.dart';
 import 'package:marozi/ui/portrait/position/portrait_position.dart';

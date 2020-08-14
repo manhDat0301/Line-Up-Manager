@@ -5,7 +5,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'player_event.dart';
-
 part 'player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {

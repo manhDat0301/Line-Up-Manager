@@ -13,7 +13,6 @@ class League {
   String logoUrl;
   bool isExpand;
 
-
   League({this.id, this.name, this.nation, this.logoUrl, this.isExpand});
 
   League.fromMap(Map<String, dynamic> map) {

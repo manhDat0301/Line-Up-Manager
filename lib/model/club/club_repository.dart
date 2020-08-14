@@ -17,7 +17,8 @@ class ClubRepository {
 
   Future getAllClubs() => clubDao.getAllClubs();
 
-  Future<String> getAColOfClub({@required String clubId, List<String> columns}) =>
+  Future<String> getAColOfClub(
+          {@required String clubId, List<String> columns}) =>
       clubDao.getAColOfClub(clubId, columns: columns);
 
   Future updateClub(Club club) => clubDao.updateClub(club);

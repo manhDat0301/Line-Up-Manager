@@ -16,5 +16,6 @@ class PlayerRepository {
   Future<List<Player>> getPlayersByClub({Club club}) =>
       playerDao.getPlayersByClubId(club.id);
 
-  Future<Player> getPlayer({@required String playerId}) => playerDao.getPlayer(playerId);
+  Future<Player> getPlayer({@required String playerId}) =>
+      playerDao.getPlayer(playerId);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
@@ -62,14 +63,15 @@ class _LandscapeExportState extends State<LandscapeExport> {
         height: double.infinity,
         child: Row(
           children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width * 0.82,
-              child: Card(
+            Card(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.82,
+                height: double.infinity,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     LandscapePreview(),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Divider(indent: 15, endIndent: 15, height: 0),
                         _settingBar(),

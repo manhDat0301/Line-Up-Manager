@@ -57,7 +57,8 @@ class _LandscapeClubsColumnState extends State<LandscapeClubsColumn> {
                                   AddingClubImage(state.clubs[index]),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0,right: 6),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, right: 6),
                                       child: MyText(
                                         text: state.clubs[index].name,
                                         color: playerState is PlayersByClub &&

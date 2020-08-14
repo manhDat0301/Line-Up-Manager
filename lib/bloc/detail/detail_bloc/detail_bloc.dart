@@ -7,7 +7,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
 
 part 'detail_event.dart';
-
 part 'detail_state.dart';
 
 class DetailBloc extends Bloc<DetailEvent, DetailState> {

@@ -12,7 +12,6 @@ import 'package:marozi/repository/position/landscape_offset_user.dart';
 import 'package:marozi/repository/position/portrait_offset_user.dart';
 
 part 'position_event.dart';
-
 part 'position_state.dart';
 
 class PositionBloc extends Bloc<PositionEvent, PositionState> {

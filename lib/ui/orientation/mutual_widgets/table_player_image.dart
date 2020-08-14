@@ -26,8 +26,8 @@ class _TablePlayerImageState extends State<TablePlayerImage> {
           borderRadius: BorderRadius.circular(10000.0),
           child: FutureBuilder(
             initialData: '',
-            future:
-            FireStorageService.loadFromStorage(context, widget.player.avatarUrl),
+            future: FireStorageService.loadFromStorage(
+                context, widget.player.avatarUrl),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               return CachedNetworkImage(
                 errorWidget: (context, string, dynamic) {

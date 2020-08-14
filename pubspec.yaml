@@ -121,3 +121,15 @@ flutter:
     - family: Cagliostro Regular
       fonts:
         - asset: assets/fonts/Cagliostro-Regular.ttf
+    - family: Teko Regular
+      fonts:
+        - asset: assets/fonts/Teko-Regular.ttf
+    - family: BlackOpsOne Regular
+      fonts:
+        - asset: assets/fonts/BlackOpsOne-Regular.ttf
+    - family: Bangers Regular
+      fonts:
+        - asset: assets/fonts/Bangers-Regular.ttf
+    - family: Consolas Bold
+      fonts:
+        - asset: assets/fonts/Consolas-Bold.ttf

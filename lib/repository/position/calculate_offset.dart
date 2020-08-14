@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class CalculateOffset {
-
   static double _dxPortrait(double width, double per) {
     return width * per / 100;
   }

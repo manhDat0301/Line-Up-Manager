@@ -11,14 +11,15 @@ import 'package:marozi/utils/firestore_service.dart';
 
 class GloryRedPlayersPosition extends StatefulWidget {
   @override
-  _GloryRedPlayersPositionState createState() => _GloryRedPlayersPositionState();
+  _GloryRedPlayersPositionState createState() =>
+      _GloryRedPlayersPositionState();
 }
 
 class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width *0.986,
+      width: MediaQuery.of(context).size.width * 0.986,
       height: MediaQuery.of(context).size.height * 0.521,
       decoration: BoxDecoration(
         image: DecorationImage(
