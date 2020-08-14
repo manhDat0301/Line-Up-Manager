@@ -51,6 +51,15 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       currentPage: 0,
       clubLogoUrl: _clubUrl,
       clubName: _clubName,
+      subsName: [
+        'Romero',
+        'Lindelof',
+        'Williams',
+        'Fred',
+        'James',
+        'Mata',
+        'Ighalo',
+      ],
     );
   }
 
@@ -69,21 +78,22 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         position: event.offsets, width: width, height: height);
 
     yield ExportFromPositionSuccess(
-        players: event.players,
-        offsets: offsets,
-        exportTypes: Constants.listExport,
-        currentPage: 0,
-        clubLogoUrl: _clubUrl,
-        clubName: _clubName,
-        subsName: [
-          'Romero',
-          'Lindelof',
-          'Williams',
-          'Fred',
-          'James',
-          'Mata',
-          'Ighalo',
-        ]);
+      players: event.players,
+      offsets: offsets,
+      exportTypes: Constants.listExport,
+      currentPage: 0,
+      clubLogoUrl: _clubUrl,
+      clubName: _clubName,
+      subsName: [
+        'Romero',
+        'Lindelof',
+        'Williams',
+        'Fred',
+        'James',
+        'Mata',
+        'Ighalo',
+      ],
+    );
   }
 
   List<Offset> _convertToExportOffset(

@@ -176,27 +176,39 @@ class _PreviewBravenState extends State<PreviewBraven> {
             Expanded(
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.075,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        _subText('ROMERO'),
-                        _subText('LINDELOF'),
-                        _subText('WILLIAMS'),
-                        _subText('FRED'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        _subText('JAMES'),
-                        _subText('MATA'),
-                        _subText('IGHALO'),
-                      ],
-                    ),
-                  ],
+                child: BlocBuilder<ExportBloc, ExportState>(
+                  builder: (BuildContext context, ExportState state) {
+                    if (state is ExportFromPositionSuccess) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              ...Iterable.generate(state.subsName.length < 4
+                                      ? state.subsName.length
+                                      : 4)
+                                  .map(
+                                (i) => _subText(state.subsName[i]),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              ...Iterable.generate(state.subsName.length > 4
+                                      ? state.subsName.length - 4
+                                      : 0)
+                                  .map(
+                                (i) => _subText(state.subsName[i + 4]),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }
+                    return BottomLoader();
+                  },
                 ),
               ),
             ),

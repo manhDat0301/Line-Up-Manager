@@ -37,16 +37,15 @@ class _DragPlayerState extends State<DragPlayer> {
           return AnimatedPositioned(
             left: offset.dx,
             top: offset.dy,
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: 500),
             child: InkWell(
               onDoubleTap: () {
                 Navigator.pushNamed(context, detail,
                     arguments: state.players[widget.index].id);
               },
               child: Draggable(
-                childWhenDragging: _dragChild(context),
-                child: _dragChild(context),
-                feedback: _dragChild(context),
+                child: _dragChild(),
+                feedback: _dragChild(),
                 data: widget.index,
                 onDraggableCanceled: (velocity, offset) {
                   context
@@ -64,7 +63,7 @@ class _DragPlayerState extends State<DragPlayer> {
     );
   }
 
-  Widget _dragChild(BuildContext context) {
+  Widget _dragChild() {
     return DragTarget(
       builder: (BuildContext context, List<int> candidateData,
           List<dynamic> rejectedData) {

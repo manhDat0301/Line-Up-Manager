@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PositionBloc>(
           create: (BuildContext context) => PositionBloc(PositionInitial())
-            ..add(PositionTestEvent(isPortrait: false)),
+            ..add(PositionTestEvent(isPortrait: true)),
         ),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),

@@ -33,7 +33,7 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
             return Stack(
               overflow: Overflow.visible,
               children: [
-                ...Iterable<int>.generate(state.offsets.length).map(
+                ...Iterable<int>.generate(state.players.length).map(
                   (index) => _player(
                     offset: state.offsets[index],
                     player: state.players[index],

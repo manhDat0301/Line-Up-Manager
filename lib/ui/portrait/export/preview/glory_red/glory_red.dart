@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
-import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -120,77 +119,42 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
   Widget _substitutes() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.11,
-      child: BlocBuilder<TableBloc, TableState>(
-        builder: (BuildContext context, TableState state) {
-//          if (state is PlayerAdded) {
-          List<String> subsName = [];
-//            for (int i = 11; i < 18; i++) {
-//              if (state.map.containsKey(i)) {
-//                subsName.add(state.map[i].name);
-//              }
-//            }
-          subsName = [
-            'ROMERO',
-            'LINDELOF',
-            'WILLIAMS',
-            'FRED',
-            'JAMES',
-            'MATA',
-            'IGHALO',
-          ];
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: MyText(
-                  color: colorSubstitutesText,
-                  fontSize: 11,
-                  fontFamily: fontBebasNeueRegular,
-                  text: 'SUBSTITUTES'.toUpperCase(),
-                  isTitleCase: false,
+      child: BlocBuilder<ExportBloc, ExportState>(
+        builder: (BuildContext context, ExportState state) {
+          if (state is ExportFromPositionSuccess) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: MyText(
+                    color: colorSubstitutesText,
+                    fontSize: 11,
+                    fontFamily: fontBebasNeueRegular,
+                    text: 'SUBSTITUTES'.toUpperCase(),
+                    isTitleCase: false,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ...Iterable<int>.generate(subsName.length).map(
-                          (i) => _subsName(subsName[i]),
-                        ),
-                      ],
-                    ),
-//                    Row(
-//                      mainAxisAlignment: MainAxisAlignment.center,
-//                      children: <Widget>[
-//                        ...Iterable<int>.generate(
-//                                subsName.length <= 4 ? subsName.length : 4)
-//                            .map(
-//                          (i) => _subsName(subsName[i]),
-//                        ),
-//                      ],
-//                    ),
-//                    Row(
-//                      mainAxisSize: MainAxisSize.min,
-//                      children: <Widget>[
-//                        ...Iterable<int>.generate(
-//                                subsName.length > 4 ? subsName.length - 4 : 0)
-//                            .map(
-//                          (i) => _subsName(subsName[i + 4]),
-//                        ),
-//                      ],
-//                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          ...Iterable<int>.generate(state.subsName.length).map(
+                            (i) => _subsName(state.subsName[i]),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-//          }
-//          return BottomLoader();
+              ],
+            );
+          }
+          return BottomLoader();
         },
       ),
     );
