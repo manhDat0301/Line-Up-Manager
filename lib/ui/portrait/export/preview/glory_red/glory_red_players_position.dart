@@ -52,15 +52,15 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
     return Positioned(
       left: offset.dx,
       top: offset.dy,
-      width: MediaQuery.of(context).size.width * 0.186,
+      width: MediaQuery.of(context).size.width * 0.18,
       height: MediaQuery.of(context).size.width * 0.17,
       child: Stack(
         alignment: Alignment.topCenter,
         overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.14,
-            height: MediaQuery.of(context).size.width * 0.14,
+            width: MediaQuery.of(context).size.width * 0.12,
+            height: MediaQuery.of(context).size.width * 0.12,
             child: Stack(
               overflow: Overflow.visible,
               children: [

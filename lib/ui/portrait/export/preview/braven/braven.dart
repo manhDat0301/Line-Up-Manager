@@ -185,22 +185,22 @@ class _PreviewBravenState extends State<PreviewBraven> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              ...Iterable.generate(state.subsName.length < 4
-                                      ? state.subsName.length
+                              ...Iterable.generate(state.subsNames.length < 4
+                                      ? state.subsNames.length
                                       : 4)
                                   .map(
-                                (i) => _subText(state.subsName[i]),
+                                (i) => _subText(state.subsNames[i]),
                               ),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              ...Iterable.generate(state.subsName.length > 4
-                                      ? state.subsName.length - 4
+                              ...Iterable.generate(state.subsNames.length > 4
+                                      ? state.subsNames.length - 4
                                       : 0)
                                   .map(
-                                (i) => _subText(state.subsName[i + 4]),
+                                (i) => _subText(state.subsNames[i + 4]),
                               ),
                             ],
                           ),

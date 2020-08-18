@@ -97,12 +97,16 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
                 color: Colors.white,
                 fontSize: 28.81,
                 fontFamily: fontBebasNeueBold,
-                text: state.clubName.toUpperCase(),
+                text: state.teamName != null && state.teamName.isNotEmpty
+                    ? state.teamName
+                    : state.players[0].clubName,
                 isTitleCase: false,
               ),
               SizedBox(height: 2),
               Text(
-                'coach name'.toUpperCase(),
+                state.coachName != null && state.coachName.isNotEmpty
+                    ? state.coachName.toUpperCase()
+                    : '',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.09,
@@ -122,37 +126,41 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
       child: BlocBuilder<ExportBloc, ExportState>(
         builder: (BuildContext context, ExportState state) {
           if (state is ExportFromPositionSuccess) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: MyText(
-                    color: colorSubstitutesText,
-                    fontSize: 11,
-                    fontFamily: fontBebasNeueRegular,
-                    text: 'SUBSTITUTES'.toUpperCase(),
-                    isTitleCase: false,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
+            return state.showSubs
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ...Iterable<int>.generate(state.subsName.length).map(
-                            (i) => _subsName(state.subsName[i]),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: MyText(
+                          color: colorSubstitutesText,
+                          fontSize: 11,
+                          fontFamily: fontBebasNeueRegular,
+                          text: 'SUBSTITUTES'.toUpperCase(),
+                          isTitleCase: false,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ...Iterable<int>.generate(
+                                        state.subsNames.length)
+                                    .map(
+                                  (i) => _subsName(state.subsNames[i]),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                ),
-              ],
-            );
+                  )
+                : Container();
           }
           return BottomLoader();
         },

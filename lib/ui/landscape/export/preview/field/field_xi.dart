@@ -21,7 +21,7 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fitHeight,
-          image: AssetImage('assets/images/field.png'),
+          image: AssetImage('assets/images/field_xi.png'),
         ),
       ),
       child: BlocBuilder<ExportBloc, ExportState>(
@@ -34,13 +34,6 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                   child: Stack(
                     overflow: Overflow.visible,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Image.asset(
-                          'assets/images/xi.png',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.19,
                         alignment: Alignment.center,
@@ -59,7 +52,7 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.51,
+                          width: MediaQuery.of(context).size.width * 0.52,
                           height: MediaQuery.of(context).size.height * 0.71,
                           child: Stack(
                             fit: StackFit.expand,
@@ -103,12 +96,12 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.084,
+            width: MediaQuery.of(context).size.width * 0.085,
             height: MediaQuery.of(context).size.height * 0.11,
             color: Colors.white.withOpacity(0.35),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.084,
+            width: MediaQuery.of(context).size.width * 0.085,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -126,6 +119,7 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                         Icons.error,
                         color: Colors.grey,
                       ),
+                      alignment: Alignment.center,
                       placeholder: (context, string) => BottomLoader(),
                       imageUrl: snapshot.data,
                     );
@@ -141,24 +135,25 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                         number,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 11,
+                          fontSize: 7.5,
                           fontFamily: fontConsolasBold,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        alignment: Alignment.centerLeft,
                         color: Colors.white,
+                        padding: EdgeInsets.fromLTRB(1, 2, 0, 2),
                         child: Text(
                           name.contains(' ')
                               ? name.substring(
                                   name.lastIndexOf(' '), name.length)
                               : name,
-                          overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.visible,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 8,
                             fontFamily: fontConsolasBold,
                           ),
                         ),

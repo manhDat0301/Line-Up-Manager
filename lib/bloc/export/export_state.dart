@@ -10,31 +10,43 @@ class ExportInitial extends ExportState {}
 
 class ExportFromPositionSuccess extends ExportState {
   final List<Player> players;
-  final List<String> subsName;
+  final List<String> subsNames;
   final List<Offset> offsets;
   final List<String> exportTypes;
   final int currentPage;
   final String clubLogoUrl;
-  final String clubName;
+  final String teamName;
+  final String coachName;
+  final bool showCoach;
+  final bool showSubs;
+  final bool showCaptain;
 
   ExportFromPositionSuccess({
-    this.offsets,
     this.players,
-    this.currentPage,
+    this.subsNames,
+    this.offsets,
     this.exportTypes,
+    this.currentPage,
     this.clubLogoUrl,
-    this.clubName,
-    this.subsName,
+    this.teamName,
+    this.coachName,
+    this.showCoach,
+    this.showSubs,
+    this.showCaptain,
   });
 
   ExportFromPositionSuccess copyWith({
     List<Offset> offsets,
+    List<String> subsNames,
     List<Player> players,
     List<String> exportTypes,
     int currentPage,
     String clubLogoUrl,
-    List<String> subsName,
-    String clubName,
+    String teamName,
+    String coachName,
+    bool showCoach,
+    bool showSubs,
+    bool showCaptain,
   }) {
     return ExportFromPositionSuccess(
       offsets: offsets ?? this.offsets,
@@ -42,20 +54,28 @@ class ExportFromPositionSuccess extends ExportState {
       currentPage: currentPage ?? this.currentPage,
       exportTypes: exportTypes ?? this.exportTypes,
       clubLogoUrl: clubLogoUrl ?? this.clubLogoUrl,
-      clubName: clubName ?? this.clubName,
-      subsName: subsName ?? this.subsName,
+      teamName: teamName ?? this.teamName,
+      subsNames: subsNames ?? this.subsNames,
+      coachName: coachName ?? this.coachName,
+      showSubs: showSubs ?? this.showSubs,
+      showCoach: showCoach ?? this.showCoach,
+      showCaptain: showCaptain ?? this.showCaptain,
     );
   }
 
   @override
   // TODO: implement props
   List<Object> get props => [
-        offsets,
-        players,
-        currentPage,
-        exportTypes,
-        clubLogoUrl,
-        clubName,
-        subsName,
-      ];
+    offsets,
+    players,
+    currentPage,
+    exportTypes,
+    clubLogoUrl,
+    teamName,
+    subsNames,
+    coachName,
+    showCoach,
+    showSubs,
+    showCaptain,
+  ];
 }

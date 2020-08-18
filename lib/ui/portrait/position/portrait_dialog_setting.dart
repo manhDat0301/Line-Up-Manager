@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/colors.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
 class PortraitDialogSetting extends StatelessWidget {
@@ -16,13 +19,19 @@ class MyCustomDialog extends StatefulWidget {
 }
 
 class _MyCustomDialogState extends State<MyCustomDialog> {
-  bool substitutesShow = true;
-  bool coachShow = true;
-  bool captainShow = false;
-
   bool ratingSelected = false;
   bool formSelected = false;
   bool numberSelected = false;
+
+  TextEditingController _coachName = TextEditingController();
+  TextEditingController _teamName = TextEditingController();
+
+  @override
+  void dispose() {
+    _coachName.dispose();
+    _teamName.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +45,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   }
 
   dialogContent(context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+    return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Card(
@@ -52,12 +60,18 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: _textField('Team name'),
+                        child: _textField(
+                          hint: 'Team name',
+                          controller: _teamName,
+                        ),
                       ),
                       _showSubCoach(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: _textField('Coach name'),
+                        child: _textField(
+                          hint: 'Coach name',
+                          controller: _coachName,
+                        ),
                       ),
                       Divider(height: 0),
                       Padding(
@@ -81,7 +95,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
     );
   }
 
-  Widget _textField(String hint) {
+  Widget _textField({String hint, TextEditingController controller}) {
     return Container(
       height: 40,
       width: MediaQuery.of(context).size.width * 0.7,
@@ -91,6 +105,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
         color: colorInputBackground,
       ),
       child: TextFormField(
+        controller: controller,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
           hintText: hint,
@@ -115,101 +130,119 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   }
 
   Widget _showSubCoach() {
-    return Column(
-      children: <Widget>[
-        Divider(height: 0),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ExportBloc, ExportState>(
+      builder: (BuildContext context, ExportState state) {
+        if (state is ExportFromPositionSuccess) {
+          return Column(
             children: <Widget>[
-              MyText(
-                text: 'Show substitutes',
-                color: Colors.black,
-                fontSize: 17,
+              Divider(height: 0),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    MyText(
+                      text: 'Show substitutes',
+                      color: Colors.black,
+                      fontSize: 17,
+                    ),
+                    Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      activeColor: Colors.deepOrangeAccent,
+                      value: state.showSubs,
+                      onChanged: (bool value) {
+                        context
+                            .bloc<ExportBloc>()
+                            .add(ExportSettingDialog(showSubs: value));
+                      },
+                    ),
+                  ],
+                ),
               ),
-              Switch(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: Colors.deepOrangeAccent,
-                value: substitutesShow,
-                onChanged: (bool value) {
-                  setState(() {
-                    substitutesShow = value;
-                  });
-                },
+              Divider(height: 0),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    MyText(
+                      text: 'Show coach',
+                      color: Colors.black,
+                      fontSize: 17,
+                    ),
+                    Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      activeColor: Colors.deepOrangeAccent,
+                      value: state.showCoach,
+                      onChanged: (bool value) {
+                        context
+                            .bloc<ExportBloc>()
+                            .add(ExportSettingDialog(showCoach: value));
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-        ),
-        Divider(height: 0),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              MyText(
-                text: 'Show coach',
-                color: Colors.black,
-                fontSize: 17,
-              ),
-              Switch(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: Colors.deepOrangeAccent,
-                value: coachShow,
-                onChanged: (bool value) {
-                  setState(() {
-                    coachShow = value;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
+          );
+        }
+        return BottomLoader();
+      },
     );
   }
 
   Widget _showCap() {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            MyText(
-              text: 'Show captain',
-              fontSize: 17,
-              color: Colors.black,
-            ),
-            Switch(
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              value: captainShow,
-              onChanged: (value) {
-                setState(() {
-                  captainShow = value;
-                });
-              },
-              activeColor: Colors.deepOrangeAccent,
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ExportBloc, ExportState>(
+      builder: (BuildContext context, ExportState state) {
+        if (state is ExportFromPositionSuccess) {
+          return Column(
             children: <Widget>[
-              MyText(
-                text: 'Harry Maguire',
-                color: Colors.deepOrangeAccent,
-                fontSize: 17,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  MyText(
+                    text: 'Show captain',
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                  Switch(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    value: state.showCaptain,
+                    onChanged: (value) {
+                      context
+                          .bloc<ExportBloc>()
+                          .add(ExportSettingDialog(showCaptain: value));
+                    },
+                    activeColor: Colors.deepOrangeAccent,
+                  ),
+                ],
               ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: Colors.deepOrangeAccent,
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    DropdownButton<String>(
+                      onChanged: (value) {},
+                      items: <String>['a', 'b', 'c']
+                          .map((String str) => DropdownMenuItem(
+                                value: str,
+                                child: Text(str),
+                              ))
+                          .toList(),
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-        ),
-      ],
+          );
+        }
+        return BottomLoader();
+      },
     );
   }
 
@@ -317,9 +350,13 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
       child: RaisedButton(
         elevation: 12,
         onPressed: () {
+          context.bloc<ExportBloc>().add(ExportSettingDialog(
+                coachName: _coachName.text,
+                teamName: _teamName.text,
+              ));
           Navigator.of(context).pop();
         },
-        color: Colors.orange,
+        color: Colors.deepOrangeAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

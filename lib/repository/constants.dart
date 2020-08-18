@@ -6,14 +6,6 @@ class Constants {
   static double width;
   static double height;
 
-  // This is the actual db filename: that is saved in the docs dir
-  static final dbName = "MaroziDatabase.db";
-
-  // Increment this version when you need to change the schema
-  static final dbVersion = 1;
-
-  static double _halfPlayerWidth = 32.5;
-
   static double _landscapeW(double per) {
     return height * per / 100;
   }

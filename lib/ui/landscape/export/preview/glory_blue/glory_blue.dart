@@ -55,7 +55,15 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                   ),
                 ),
                 _clubLogo(state.clubLogoUrl),
-                _rightCol(state.subsName),
+                _rightCol(
+                  subsName: state.subsNames,
+                  coachName: state.coachName,
+                  teamName: state.teamName,
+                  clubName: state.players[0].clubName,
+                  showCoach: state.showCoach,
+                  showSubs: state.showSubs,
+                  showCaptain: state.showCaptain,
+                ),
               ],
             );
           }
@@ -65,7 +73,15 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
     );
   }
 
-  Widget _rightCol(List<String> subsName) {
+  Widget _rightCol({
+    List<String> subsName,
+    String coachName,
+    String teamName,
+    String clubName,
+    bool showSubs,
+    bool showCaptain,
+    bool showCoach,
+  }) {
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
@@ -73,33 +89,59 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
         height: double.infinity,
         padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Container(
-              child: _subsText(
-                name: 'MANCHESTER UNITED',
-                fontSize: 17,
-              ),
+            Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: _subsText(
+                    name: teamName != null && teamName.isNotEmpty
+                        ? teamName
+                        : clubName,
+                    fontSize: 17,
+                  ),
+                ),
+                showCoach
+                    ? Container(
+                        alignment: Alignment.centerRight,
+                        child: _subsText(
+                          name: coachName != null && coachName.isNotEmpty
+                              ? coachName
+                              : 'Coach Name',
+                          fontSize: 13,
+                        ),
+                      )
+                    : SizedBox(height: 13),
+                showSubs
+                    ? Divider(
+                        color: Colors.white,
+                      )
+                    : SizedBox(height: 13),
+              ],
             ),
-            Container(
-              child: _subsText(
-                name: 'Ole Gunnar Solskjaer',
-                fontSize: 13,
-              ),
-            ),
-            Divider(
-              color: Colors.white,
-            ),
-            _subsText(
-              name: 'Substitutes',
-              fontSize: 12,
-              color: colorSubstitutesLandscapeText,
-            ),
-            ...Iterable<int>.generate(subsName.length).map(
-              (i) => _subsText(
-                name: subsName[i],
-                fontSize: 13,
+            Flexible(
+              child: Visibility(
+                visible: showSubs,
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _subsText(
+                        name: 'Substitutes',
+                        fontSize: 12,
+                        color: colorSubstitutesLandscapeText,
+                      ),
+                      ...Iterable<int>.generate(subsName.length).map(
+                        (i) => _subsText(
+                          name: subsName[i],
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
@@ -136,7 +178,6 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
     @required String avatarUrl,
     @required Offset offset,
   }) {
-    print(offset);
     return Positioned(
       top: offset.dy,
       left: offset.dx,
@@ -161,22 +202,24 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
             ),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.085,
             child: Stack(
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.07,
-                    height: 14,
+                    width: MediaQuery.of(context).size.width * 0.065,
+                    height: 12,
+                    alignment: Alignment.center,
                     child: CustomPaint(
                       painter: PlayerNameTag(color: Colors.white),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            right:
-                                MediaQuery.of(context).size.width * 0.085 * 0.2,
+                            right: MediaQuery.of(context).size.width *
+                                0.085 *
+                                0.145,
                           ),
                           child: _playersText(number),
                         ),
@@ -185,8 +228,9 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.07,
-                  height: 14,
+                  width: MediaQuery.of(context).size.width * 0.065,
+                  height: 12,
+                  alignment: Alignment.center,
                   child: CustomPaint(
                     painter: PlayerNameTag(color: Colors.yellow),
                     child: Center(
@@ -207,9 +251,10 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
       text.contains(' ')
           ? text.substring(text.lastIndexOf(' '), text.length)
           : text,
+      textAlign: TextAlign.center,
       style: TextStyle(
         color: colorExportBlueText,
-        fontSize: 11,
+        fontSize: 10,
         fontFamily: fontTekoRegular,
       ),
     );

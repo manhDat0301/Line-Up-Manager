@@ -14,20 +14,33 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
 
   @override
   Stream<ExportState> mapEventToState(ExportEvent event) async* {
+    var currentState = state;
     if (event is PositionToExport) {
       yield* event.isPortrait
-          ? _mapPositionToGloryRed(event)
-          : _mapPositionToGloryBlue(event);
+          ? _mapPositionToPortraitExport(event)
+          : _mapPositionToLandscapeExport(event);
     }
-    if (event is SelectType) {
-      var currentState = state;
-      if (currentState is ExportFromPositionSuccess) {
+
+    if (currentState is ExportFromPositionSuccess) {
+      if (event is SelectType) {
         yield currentState.copyWith(currentPage: event.select);
+      }
+    }
+    if (event is ExportSettingDialog) {
+      if (currentState is ExportFromPositionSuccess) {
+        yield currentState.copyWith(
+          coachName: event.coachName,
+          teamName: event.teamName,
+          showSubs: event.showSubs,
+          showCoach: event.showCoach,
+          showCaptain: event.showCaptain,
+        );
       }
     }
   }
 
-  Stream<ExportState> _mapPositionToGloryRed(PositionToExport event) async* {
+  Stream<ExportState> _mapPositionToPortraitExport(
+      PositionToExport event) async* {
     final clubRepo = ClubRepository();
 
     String _clubUrl = await clubRepo
@@ -50,8 +63,8 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       exportTypes: Constants.listExport,
       currentPage: 0,
       clubLogoUrl: _clubUrl,
-      clubName: _clubName,
-      subsName: [
+      teamName: _clubName,
+      subsNames: [
         'Romero',
         'Lindelof',
         'Williams',
@@ -60,10 +73,14 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         'Mata',
         'Ighalo',
       ],
+      showCaptain: true,
+      showCoach: true,
+      showSubs: true,
     );
   }
 
-  Stream<ExportState> _mapPositionToGloryBlue(PositionToExport event) async* {
+  Stream<ExportState> _mapPositionToLandscapeExport(
+      PositionToExport event) async* {
     final clubRepo = ClubRepository();
 
     String _clubUrl = await clubRepo
@@ -83,8 +100,8 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       exportTypes: Constants.listExport,
       currentPage: 0,
       clubLogoUrl: _clubUrl,
-      clubName: _clubName,
-      subsName: [
+      teamName: _clubName,
+      subsNames: [
         'Romero',
         'Lindelof',
         'Williams',
@@ -93,13 +110,16 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         'Mata',
         'Ighalo',
       ],
+      showCaptain: true,
+      showCoach: true,
+      showSubs: true,
     );
   }
 
   List<Offset> _convertToExportOffset(
       {@required List<Offset> position,
-      @required double width,
-      @required double height}) {
+        @required double width,
+        @required double height}) {
     List<Offset> result = [];
 
     for (int i = 0; i < position.length; i++) {

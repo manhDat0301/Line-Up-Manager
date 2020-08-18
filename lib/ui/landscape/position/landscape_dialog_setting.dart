@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/colors.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
 class LandscapeDialogSetting extends StatefulWidget {
@@ -8,17 +11,18 @@ class LandscapeDialogSetting extends StatefulWidget {
 }
 
 class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
-  bool showCoach = false;
-  bool showCaptain = false;
-  bool isShowSubs = false;
+  bool ovrSelected = false;
+  bool potentialSelected = false;
+  bool numbSelected = false;
 
-  bool isOvrSelect = false;
-  bool isPotentialSelect = false;
-  bool isNumbSelect = false;
+  TextEditingController _coachName = TextEditingController();
+  TextEditingController _teamName = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _coachName.dispose();
+    _teamName.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,14 +40,14 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
 
   Widget _dialogContent(context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.74,
+      width: MediaQuery.of(context).size.width * 0.66,
       height: MediaQuery.of(context).size.height * 0.82,
       child: Column(
         children: <Widget>[
           Expanded(
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(45, 0, 45, 0),
+                padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                 child: Column(
                   children: <Widget>[
                     Expanded(
@@ -72,145 +76,138 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
   }
 
   Widget _column1() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        InkWell(
-          onTap: () {
-            setState(() {
-              showCoach = !showCoach;
-            });
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.28,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ExportBloc, ExportState>(
+      builder: (BuildContext context, ExportState state) {
+        if (state is ExportFromPositionSuccess) {
+          return Container(
+            width: MediaQuery.of(context).size.width * 0.24,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(
-                  child: MyText(
-                    text: 'Show coach',
-                    color: Colors.black,
-                    textAlign: TextAlign.start,
-                    fontSize: 16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: MyText(
+                        text: 'Show coach',
+                        color: Colors.black,
+                        textAlign: TextAlign.start,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onChanged: (bool value) {
+                        context
+                            .bloc<ExportBloc>()
+                            .add(ExportSettingDialog(showCoach: value));
+                      },
+                      value: state.showCoach,
+                      activeColor: Colors.deepOrangeAccent,
+                    ),
+                  ],
+                ),
+                _textField('Coach name', _coachName),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.28,
+                  child: Divider(
+                    height: 0,
+                    thickness: 0.6,
                   ),
                 ),
-                Switch(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (bool value) {
-                    setState(() {
-                      showCoach = !showCoach;
-                    });
-                  },
-                  value: showCoach,
-                  activeColor: Colors.deepOrangeAccent,
-                ),
+                _textField('Team name', _teamName),
               ],
             ),
-          ),
-        ),
-        _textField('Coach name'),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.28,
-          child: Divider(
-            height: 0,
-            thickness: 0.6,
-          ),
-        ),
-        _textField('Team name'),
-      ],
+          );
+        }
+        return BottomLoader();
+      },
     );
   }
 
   Widget _column2() {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.28,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              setState(() {
-                showCaptain = !showCaptain;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
+    return BlocBuilder<ExportBloc, ExportState>(
+      builder: (BuildContext context, ExportState state) {
+        if (state is ExportFromPositionSuccess) {
+          return Container(
+            width: MediaQuery.of(context).size.width * 0.24,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                MyText(
-                  text: 'Show captain',
-                  color: Colors.black,
-                  fontSize: 16,
-                  textAlign: TextAlign.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    MyText(
+                      text: 'Show captain',
+                      color: Colors.black,
+                      fontSize: 16,
+                      textAlign: TextAlign.start,
+                    ),
+                    Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onChanged: (bool value) {
+                        context
+                            .bloc<ExportBloc>()
+                            .add(ExportSettingDialog(showCaptain: value));
+                      },
+                      value: state.showCaptain,
+                      activeColor: Colors.deepOrangeAccent,
+                    ),
+                  ],
                 ),
-                Switch(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (bool value) {
-                    setState(() {
-                      showCaptain = !showCaptain;
-                    });
-                  },
-                  value: showCaptain,
-                  activeColor: Colors.deepOrangeAccent,
+                Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      MyText(
+                        text: 'Harry Maguire',
+                        color: Colors.deepOrangeAccent,
+                        fontSize: 16,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.28,
+                  child: Divider(
+                    height: 0,
+                    thickness: 0.6,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    MyText(
+                      text: 'Show subs\.',
+                      color: Colors.black,
+                      fontSize: 16,
+                      isTitleCase: false,
+                    ),
+                    Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onChanged: (bool value) {
+                        context
+                            .bloc<ExportBloc>()
+                            .add(ExportSettingDialog(showSubs: value));
+                      },
+                      value: state.showSubs,
+                      activeColor: Colors.deepOrangeAccent,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          Container(
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                MyText(
-                  text: 'Harry Maguire',
-                  color: Colors.deepOrangeAccent,
-                  fontSize: 16,
-                ),
-                Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.deepOrangeAccent,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.28,
-            child: Divider(
-              height: 0,
-              thickness: 0.6,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isShowSubs = !isShowSubs;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                MyText(
-                  text: 'Show subs\.',
-                  color: Colors.black,
-                  fontSize: 16,
-                  isTitleCase: false,
-                ),
-                Switch(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isShowSubs = !isShowSubs;
-                    });
-                  },
-                  value: isShowSubs,
-                  activeColor: Colors.deepOrangeAccent,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+          );
+        }
+        return BottomLoader();
+      },
     );
   }
 
@@ -224,9 +221,9 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  isOvrSelect = !isOvrSelect;
-                  isPotentialSelect = false;
-                  isNumbSelect = false;
+                  ovrSelected = !ovrSelected;
+                  potentialSelected = false;
+                  numbSelected = false;
                 });
               },
               child: Container(
@@ -234,17 +231,17 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color:
-                        isOvrSelect ? Colors.deepOrangeAccent : Colors.black54,
+                    ovrSelected ? Colors.deepOrangeAccent : Colors.black54,
                   ),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     bottomLeft: Radius.circular(16),
                   ),
-                  color: isOvrSelect ? Colors.deepOrangeAccent : Colors.white,
+                  color: ovrSelected ? Colors.deepOrangeAccent : Colors.white,
                 ),
                 child: MyText(
                   text: 'Overall',
-                  color: isOvrSelect ? Colors.white : Colors.black45,
+                  color: ovrSelected ? Colors.white : Colors.black45,
                   fontSize: 16,
                 ),
               ),
@@ -254,9 +251,9 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  isPotentialSelect = !isPotentialSelect;
-                  isOvrSelect = false;
-                  isNumbSelect = false;
+                  potentialSelected = !potentialSelected;
+                  ovrSelected = false;
+                  numbSelected = false;
                 });
               },
               child: Container(
@@ -264,21 +261,21 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
-                        color: isPotentialSelect
+                        color: potentialSelected
                             ? Colors.deepOrangeAccent
                             : Colors.black54),
                     bottom: BorderSide(
-                        color: isPotentialSelect
+                        color: potentialSelected
                             ? Colors.deepOrangeAccent
                             : Colors.black54),
                   ),
-                  color: isPotentialSelect
+                  color: potentialSelected
                       ? Colors.deepOrangeAccent
                       : Colors.white,
                 ),
                 child: MyText(
                   text: 'Potential',
-                  color: isPotentialSelect ? Colors.white : Colors.black45,
+                  color: potentialSelected ? Colors.white : Colors.black45,
                   fontSize: 16,
                 ),
               ),
@@ -288,27 +285,27 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  isNumbSelect = !isNumbSelect;
-                  isOvrSelect = false;
-                  isPotentialSelect = false;
+                  numbSelected = !numbSelected;
+                  ovrSelected = false;
+                  potentialSelected = false;
                 });
               },
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: isNumbSelect
+                      color: numbSelected
                           ? Colors.deepOrangeAccent
                           : Colors.black54),
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(16),
                     bottomRight: Radius.circular(16),
                   ),
-                  color: isNumbSelect ? Colors.deepOrangeAccent : Colors.white,
+                  color: numbSelected ? Colors.deepOrangeAccent : Colors.white,
                 ),
                 child: MyText(
                   text: 'Number',
-                  color: isNumbSelect ? Colors.white : Colors.black45,
+                  color: numbSelected ? Colors.white : Colors.black45,
                   fontSize: 16,
                 ),
               ),
@@ -324,6 +321,12 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.all(0.0),
       onPressed: () {
+        context.bloc<ExportBloc>().add(
+          ExportSettingDialog(
+            coachName: _coachName.text,
+            teamName: _teamName.text,
+          ),
+        );
         Navigator.of(context).pop();
       },
       shape: RoundedRectangleBorder(
@@ -331,7 +334,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       ),
       child: Container(
         height: 40,
-        width: MediaQuery.of(context).size.width * 0.74 - 7,
+        width: MediaQuery.of(context).size.width * 0.66 - 8,
         padding: EdgeInsets.all(0.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -356,9 +359,8 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
     );
   }
 
-  Widget _textField(String hint) {
+  Widget _textField(String hint, TextEditingController controller) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.28,
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -367,6 +369,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       alignment: Alignment.center,
       child: TextFormField(
         textAlign: TextAlign.center,
+        controller: controller,
         maxLines: 1,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0.0),

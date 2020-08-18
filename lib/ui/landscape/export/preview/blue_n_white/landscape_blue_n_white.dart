@@ -30,11 +30,10 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.48,
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.73,
                     child: Stack(
                       overflow: Overflow.visible,
-                      alignment: Alignment.centerLeft,
                       children: [
                         ...Iterable<int>.generate(state.players.length).map(
                           (index) => _player(
@@ -47,7 +46,7 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                     ),
                   ),
                 ),
-                _substitutes(state.subsName),
+                _substitutes(),
               ],
             );
           }
@@ -57,51 +56,61 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
     );
   }
 
-  Widget _substitutes(List<String> subsName) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                _subText(
-                  text: 'STARTING XI',
-                  fontSize: 30,
-                  color: Colors.blue,
-                ),
-                SizedBox(height: 4),
-                _subText(
-                  text: 'MANCHESTER UNITED',
-                  fontSize: 16,
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Expanded(
+  Widget _substitutes() {
+    return BlocBuilder<ExportBloc, ExportState>(
+      builder: (BuildContext context, ExportState state) {
+        if (state is ExportFromPositionSuccess) {
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _subText(
-                    text: 'SUBSTITUTES',
-                    fontSize: 13,
-                    color: Colors.blue,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _subText(
+                        text: 'STARTING XI',
+                        fontSize: 30,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(height: 4),
+                      _subText(
+                        text: 'MANCHESTER UNITED',
+                        fontSize: 16,
+                      ),
+                    ],
                   ),
-                  ...Iterable.generate(subsName.length).map(
-                    (i) => _subText(text: subsName[i], fontSize: 15),
-                  ),
+                  SizedBox(height: 10),
+                  state.showSubs
+                      ? Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              _subText(
+                                text: 'SUBSTITUTES',
+                                fontSize: 13,
+                                color: Colors.blue,
+                              ),
+                              ...Iterable.generate(state.subsNames.length).map(
+                                (i) => _subText(
+                                    text: state.subsNames[i], fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+        return BottomLoader();
+      },
     );
   }
 
@@ -144,7 +153,7 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                 ? name.substring(name.indexOf(' '), name.length)
                 : name,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 11,
               fontFamily: fontBangersRegular,
               color: Colors.red,
             ),

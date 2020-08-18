@@ -27,3 +27,23 @@ class SelectType extends ExportEvent {
   // TODO: implement props
   List<Object> get props => [select];
 }
+
+class ExportSettingDialog extends ExportEvent {
+  final String coachName;
+  final String teamName;
+  final bool showCoach;
+  final bool showCaptain;
+  final bool showSubs;
+
+  ExportSettingDialog({
+    this.coachName,
+    this.teamName,
+    this.showCoach,
+    this.showCaptain,
+    this.showSubs,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [coachName, teamName];
+}

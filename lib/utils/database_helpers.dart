@@ -89,7 +89,7 @@ class DatabaseHelper {
     $playerOffset TEXT
     )
     ''');
-    db.execute('''
+    await db.execute('''
     CREATE TABLE $tableFavorite(
     $playerId TEXT PRIMARY KEY,
     $playerName TEXT,
