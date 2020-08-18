@@ -58,32 +58,24 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
                 FireStorageService.loadFromStorage(context, state.clubLogoUrl),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               return Container(
-                width: MediaQuery.of(context).size.width * 0.12,
-                height: MediaQuery.of(context).size.width * 0.12,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10000.0),
-                  child: CachedNetworkImage(
-                    errorWidget: (context, string, dynamic) {
-                      return Icon(
-                        Icons.error,
-                        color: Colors.grey,
-                      );
-                    },
-                    imageBuilder: (context, imageProvider) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: imageProvider,
-                          ),
-                        ),
-                      );
-                    },
-                    placeholder: (context, string) {
-                      return BottomLoader();
-                    },
-                    imageUrl: snapshot.data ?? '',
-                  ),
+                width: MediaQuery.of(context).size.width * 0.13,
+                height: MediaQuery.of(context).size.width * 0.13,
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: CachedNetworkImage(
+                  errorWidget: (context, string, dynamic) {
+                    return Icon(
+                      Icons.error,
+                      color: Colors.grey,
+                    );
+                  },
+                  placeholder: (context, string) {
+                    return BottomLoader();
+                  },
+                  imageUrl: snapshot.data ?? '',
                 ),
               );
             },
@@ -97,19 +89,17 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
                 color: Colors.white,
                 fontSize: 28.81,
                 fontFamily: fontBebasNeueBold,
-                text: state.teamName != null && state.teamName.isNotEmpty
+                text: state.teamName.isNotEmpty
                     ? state.teamName
-                    : state.players[0].clubName,
+                    : state.captain.clubName,
                 isTitleCase: false,
               ),
               SizedBox(height: 2),
               Text(
-                state.coachName != null && state.coachName.isNotEmpty
-                    ? state.coachName.toUpperCase()
-                    : '',
+                state.coachName.isNotEmpty ? state.coachName.toUpperCase() : '',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.09,
+                  fontSize: 19.09,
                   fontFamily: fontBebasNeueRegular,
                 ),
               ),
@@ -169,6 +159,12 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
   }
 
   Widget _subsName(String text) {
+    text = text.contains(' ')
+        ? text.substring(text.indexOf(' ') + 1, text.length)
+        : text;
+    text = text.contains('-')
+        ? text.substring(text.indexOf('-') + 1, text.length)
+        : text;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: MyText(

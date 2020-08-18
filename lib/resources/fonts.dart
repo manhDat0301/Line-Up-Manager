@@ -1,4 +1,5 @@
 final String fontSFDisplayRegular = 'San Francisco Display Regular';
+final String fontSFDisplayMedium = 'San Francisco Display Medium';
 final String fontBebasNeueBold = 'BebasNeue Bold';
 final String fontBebasNeueRegular = 'BebasNeue Regular';
 final String fontBrunoAceRegular = 'Bruno Ace Regular';

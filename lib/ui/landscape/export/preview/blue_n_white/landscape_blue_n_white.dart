@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
 
@@ -40,6 +41,8 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                             name: state.players[index].name,
                             number: state.players[index].number,
                             offset: state.offsets[index],
+                            captain: state.captain,
+                            showCaptain: state.showCaptain,
                           ),
                         ),
                       ],
@@ -72,15 +75,24 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _subText(
-                        text: 'STARTING XI',
-                        fontSize: 30,
-                        color: Colors.blue,
+                      Text(
+                        'STARTING XI',
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.blue,
+                          fontFamily: fontBangersRegular,
+                        ),
                       ),
                       SizedBox(height: 4),
-                      _subText(
-                        text: 'MANCHESTER UNITED',
-                        fontSize: 16,
+                      Text(
+                        state.teamName.isEmpty
+                            ? state.captain.clubName
+                            : state.teamName,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                          fontFamily: fontBangersRegular,
+                        ),
                       ),
                     ],
                   ),
@@ -91,10 +103,13 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              _subText(
-                                text: 'SUBSTITUTES',
-                                fontSize: 13,
-                                color: Colors.blue,
+                              Text(
+                                'SUBSTITUTES',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                  fontFamily: fontBangersRegular,
+                                ),
                               ),
                               ...Iterable.generate(state.subsNames.length).map(
                                 (i) => _subText(
@@ -119,6 +134,12 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
     @required double fontSize,
     Color color,
   }) {
+    text = text.contains(' ')
+        ? text.substring(text.indexOf(' ') + 1, text.length)
+        : text;
+    text = text.contains('-')
+        ? text.substring(text.indexOf('-') + 1, text.length)
+        : text;
     return Text(
       text,
       style: TextStyle(
@@ -133,7 +154,15 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
     @required String name,
     @required String number,
     @required Offset offset,
+    @required Player captain,
+    @required bool showCaptain,
   }) {
+    name = name.contains(' ')
+        ? name.substring(name.indexOf(' ') + 1, name.length)
+        : name;
+    name = name.contains('-')
+        ? name.substring(name.indexOf('-') + 1, name.length)
+        : name;
     return Positioned(
       top: offset.dy,
       left: offset.dx,
@@ -148,15 +177,31 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
               color: Colors.blue,
             ),
           ),
-          Text(
-            name.contains(' ')
-                ? name.substring(name.indexOf(' '), name.length)
-                : name,
-            style: TextStyle(
-              fontSize: 11,
-              fontFamily: fontBangersRegular,
-              color: Colors.red,
-            ),
+          Row(
+            children: <Widget>[
+              Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontFamily: fontBangersRegular,
+                  color: Colors.red,
+                ),
+              ),
+              captain.name.contains(name) && showCaptain
+                  ? Text(
+                      ' C',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontFamily: fontBangersRegular,
+                        color: Colors.blue,
+                      ),
+                    )
+                  : Container(
+                      width: 0,
+                      height: 0,
+                    ),
+            ],
           ),
         ],
       ),

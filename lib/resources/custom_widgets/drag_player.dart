@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
@@ -40,6 +41,9 @@ class _DragPlayerState extends State<DragPlayer> {
             duration: Duration(milliseconds: 500),
             child: InkWell(
               onDoubleTap: () {
+                context
+                    .bloc<DetailBloc>()
+                    .add(DetailFetch(state.players[widget.index].id));
                 Navigator.pushNamed(context, detail,
                     arguments: state.players[widget.index].id);
               },

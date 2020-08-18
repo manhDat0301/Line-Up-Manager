@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
@@ -234,6 +235,12 @@ class _PreviewBravenState extends State<PreviewBraven> {
   }
 
   Widget _player({String name, String avtUrl}) {
+    name = name.contains(' ')
+        ? name.substring(name.indexOf(' ') + 1, name.length)
+        : name;
+    name = name.contains('-')
+        ? name.substring(name.indexOf('-') + 1, name.length)
+        : name;
     return Container(
       height: MediaQuery.of(context).size.height * 0.11,
       width: MediaQuery.of(context).size.width * 0.19,
@@ -279,9 +286,8 @@ class _PreviewBravenState extends State<PreviewBraven> {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                name.contains(' ')
-                    ? name.substring(name.indexOf(' '), name.length)
-                    : name,
+                name,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 12.5,
                     color: Colors.white,

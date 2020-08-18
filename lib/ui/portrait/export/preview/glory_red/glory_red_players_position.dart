@@ -37,6 +37,8 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
                   (index) => _player(
                     offset: state.offsets[index],
                     player: state.players[index],
+                    captain: state.captain,
+                    showCaptain: state.showCaptain,
                   ),
                 ),
               ],
@@ -48,7 +50,19 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
     );
   }
 
-  Widget _player({@required Offset offset, @required Player player}) {
+  Widget _player({
+    @required Offset offset,
+    @required Player player,
+    @required Player captain,
+    @required bool showCaptain,
+  }) {
+    String name = player.name;
+    name = name.contains(' ')
+        ? name.substring(name.indexOf(' ') + 1, name.length)
+        : name;
+    name = name.contains('-')
+        ? name.substring(name.indexOf('-') + 1, name.length)
+        : name;
     return Positioned(
       left: offset.dx,
       top: offset.dy,
@@ -59,8 +73,8 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
         overflow: Overflow.visible,
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: MediaQuery.of(context).size.width * 0.12,
+            width: MediaQuery.of(context).size.width * 0.13,
+            height: MediaQuery.of(context).size.width * 0.13,
             child: Stack(
               overflow: Overflow.visible,
               children: [
@@ -85,13 +99,9 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
                           );
                         },
                         errorWidget: (context, string, dynamic) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width * 0.12,
-                            height: MediaQuery.of(context).size.width * 0.12,
-                            child: Icon(
-                              Icons.error,
-                              color: Colors.orange,
-                            ),
+                          return Icon(
+                            Icons.error,
+                            color: Colors.orange,
                           );
                         },
                         placeholder: (context, string) {
@@ -114,7 +124,7 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 3.0),
                       child: Text(
-                        '83',
+                        player.number,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.visible,
                         style: TextStyle(
@@ -131,19 +141,39 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Text(
-              player.name.contains(' ')
-                  ? player.name.substring(
-                      player.name.lastIndexOf(' '),
-                      player.name.length,
-                    )
-                  : player.name,
-              overflow: TextOverflow.clip,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontFamily: fontBebasNeueBold,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    '$name',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontFamily: fontBebasNeueBold,
+                    ),
+                  ),
+                ),
+                player.id == captain.id && showCaptain
+                    ? Flexible(
+                        fit: FlexFit.loose,
+                        child: Text(
+                          ' C',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 12,
+                            fontFamily: fontBebasNeueBold,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 0,
+                        height: 0,
+                      ),
+              ],
             ),
           ),
         ],

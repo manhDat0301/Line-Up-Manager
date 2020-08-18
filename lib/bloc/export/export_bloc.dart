@@ -7,7 +7,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/repository/constants.dart';
 
 part 'export_event.dart';
-
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {

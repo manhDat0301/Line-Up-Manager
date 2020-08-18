@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -48,6 +49,8 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                             number: state.players[index].number,
                             avatarUrl: state.players[index].avatarUrl,
                             offset: state.offsets[index],
+                            captain: state.captain,
+                            showCaptain: state.showCaptain,
                           ),
                         ),
                       ],
@@ -59,7 +62,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                   subsName: state.subsNames,
                   coachName: state.coachName,
                   teamName: state.teamName,
-                  clubName: state.players[0].clubName,
+                  clubName: state.captain.clubName,
                   showCoach: state.showCoach,
                   showSubs: state.showSubs,
                   showCaptain: state.showCaptain,
@@ -95,9 +98,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                 Container(
                   alignment: Alignment.centerRight,
                   child: _subsText(
-                    name: teamName != null && teamName.isNotEmpty
-                        ? teamName
-                        : clubName,
+                    name: teamName.isNotEmpty ? teamName : clubName,
                     fontSize: 17,
                   ),
                 ),
@@ -105,9 +106,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                     ? Container(
                         alignment: Alignment.centerRight,
                         child: _subsText(
-                          name: coachName != null && coachName.isNotEmpty
-                              ? coachName
-                              : 'Coach Name',
+                          name: coachName.isNotEmpty ? coachName : 'Coach Name',
                           fontSize: 13,
                         ),
                       )
@@ -177,7 +176,15 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
     @required String number,
     @required String avatarUrl,
     @required Offset offset,
+    @required Player captain,
+    @required bool showCaptain,
   }) {
+    name = name.contains(' ')
+        ? name.substring(name.indexOf(' ') + 1, name.length)
+        : name;
+    name = name.contains('-')
+        ? name.substring(name.indexOf('-') + 1, name.length)
+        : name;
     return Positioned(
       top: offset.dy,
       left: offset.dx,
@@ -221,7 +228,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                                 0.085 *
                                 0.145,
                           ),
-                          child: _playersText(number),
+                          child: _playerNumber(number),
                         ),
                       ),
                     ),
@@ -233,9 +240,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                   alignment: Alignment.center,
                   child: CustomPaint(
                     painter: PlayerNameTag(color: Colors.yellow),
-                    child: Center(
-                      child: _playersText(name),
-                    ),
+                    child: _playersText(name, captain.name, showCaptain),
                   ),
                 ),
               ],
@@ -246,11 +251,50 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
     );
   }
 
-  Widget _playersText(String text) {
+  Widget _playersText(String text, String captainName, bool showCaptain) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Flexible(
+          fit: FlexFit.loose,
+          child: Text(
+            text.contains(' ')
+                ? text.substring(text.lastIndexOf(' '), text.length)
+                : text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: colorExportBlueText,
+              fontSize: 10,
+              fontFamily: fontTekoRegular,
+            ),
+          ),
+        ),
+        captainName.contains(text) && showCaptain
+            ? Flexible(
+                fit: FlexFit.loose,
+                child: Text(
+                  ' (c)',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: colorExportBlueText,
+                    fontSize: 10,
+                    fontFamily: fontTekoRegular,
+                  ),
+                ),
+              )
+            : Container(
+                width: 0,
+                height: 0,
+              ),
+      ],
+    );
+  }
+
+  Widget _playerNumber(String number) {
     return Text(
-      text.contains(' ')
-          ? text.substring(text.lastIndexOf(' '), text.length)
-          : text,
+      number.contains(' ')
+          ? number.substring(number.lastIndexOf(' '), number.length)
+          : number,
       textAlign: TextAlign.center,
       style: TextStyle(
         color: colorExportBlueText,

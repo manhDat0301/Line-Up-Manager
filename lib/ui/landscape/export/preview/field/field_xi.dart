@@ -35,15 +35,19 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                     overflow: Overflow.visible,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.19,
+                        width: MediaQuery.of(context).size.width * 0.16,
                         alignment: Alignment.center,
                         child: RotatedBox(
                           quarterTurns: 3,
                           child: Text(
-                            'UNITED',
+                            state.teamName.isEmpty
+                                ? state.captain.clubName
+                                : state.teamName,
+                            overflow: TextOverflow.clip,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.red,
-                              fontSize: 45,
+                              fontSize: 35,
                               fontFamily: fontConsolasBold,
                             ),
                           ),
@@ -64,6 +68,7 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                                   number: state.players[index].number,
                                   offset: state.offsets[index],
                                   avatarUrl: state.players[index].avatarUrl,
+                                  showCaptain: state.showCaptain,
                                 ),
                               ),
                             ],
@@ -88,7 +93,14 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
     @required String name,
     @required String number,
     @required String avatarUrl,
+    @required bool showCaptain,
   }) {
+    name = name.contains(' ')
+        ? name.substring(name.indexOf(' ') + 1, name.length)
+        : name;
+    name = name.contains('-')
+        ? name.substring(name.indexOf('-') + 1, name.length)
+        : name;
     return Positioned(
       top: offset.dy,
       left: offset.dx,
@@ -146,11 +158,8 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                         color: Colors.white,
                         padding: EdgeInsets.fromLTRB(1, 2, 0, 2),
                         child: Text(
-                          name.contains(' ')
-                              ? name.substring(
-                                  name.lastIndexOf(' '), name.length)
-                              : name,
-                          overflow: TextOverflow.visible,
+                          name,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 8,

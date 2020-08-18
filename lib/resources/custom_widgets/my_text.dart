@@ -30,7 +30,7 @@ class MyText extends StatelessWidget {
       isTitleCase ? text.titleCase : text,
       textAlign: textAlign != null ? textAlign : TextAlign.center,
       style: TextStyle(
-        fontFamily: fontFamily ?? fontSFDisplayRegular,
+        fontFamily: fontFamily ?? fontSFDisplayMedium,
         fontSize: fontSize,
         color: color,
         fontWeight: fontWeight != null ? fontWeight : FontWeight.normal,
