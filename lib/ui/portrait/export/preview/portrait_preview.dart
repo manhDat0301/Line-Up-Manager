@@ -16,7 +16,6 @@ class _PortraitPreviewState extends State<PortraitPreview> {
     return BlocBuilder<ExportBloc, ExportState>(
       builder: (BuildContext context, ExportState state) {
         if (state is ExportFromPositionSuccess) {
-          print(state.currentPage);
           switch (state.currentPage) {
             case 0:
               return PreviewGloryRed();

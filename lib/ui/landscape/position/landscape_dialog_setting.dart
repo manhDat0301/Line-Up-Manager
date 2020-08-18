@@ -80,7 +80,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       builder: (BuildContext context, ExportState state) {
         if (state is ExportFromPositionSuccess) {
           return Container(
-            width: MediaQuery.of(context).size.width * 0.24,
+            width: MediaQuery.of(context).size.width * 0.25,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -130,7 +130,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       builder: (BuildContext context, ExportState state) {
         if (state is ExportFromPositionSuccess) {
           return Container(
-            width: MediaQuery.of(context).size.width * 0.24,
+            width: MediaQuery.of(context).size.width * 0.25,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -157,21 +157,46 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
                   ],
                 ),
                 Container(
+                  alignment: Alignment.center,
                   height: 40,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      MyText(
-                        text: 'Harry Maguire',
-                        color: Colors.deepOrangeAccent,
-                        fontSize: 16,
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.deepOrangeAccent,
-                      ),
-                    ],
+                  child: DropdownButton(
+                    value: state.captain.name,
+                    underline: Container(),
+                    isExpanded: true,
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.orange,
+                    ),
+                    isDense: true,
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                    selectedItemBuilder: (context) => state.players
+                        .map(
+                          (player) => Text(
+                            player.name,
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontSize: 15,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      context
+                          .bloc<ExportBloc>()
+                          .add(ExportSettingCaptainSelect(value));
+                    },
+                    items: state.players
+                        .map<DropdownMenuItem<String>>(
+                          (player) => DropdownMenuItem<String>(
+                            value: player.name,
+                            child: Text(
+                              player.name,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
                 Container(
@@ -231,7 +256,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color:
-                    ovrSelected ? Colors.deepOrangeAccent : Colors.black54,
+                        ovrSelected ? Colors.deepOrangeAccent : Colors.black54,
                   ),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
@@ -322,11 +347,11 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       padding: EdgeInsets.all(0.0),
       onPressed: () {
         context.bloc<ExportBloc>().add(
-          ExportSettingDialog(
-            coachName: _coachName.text,
-            teamName: _teamName.text,
-          ),
-        );
+              ExportSettingDialog(
+                coachName: _coachName.text,
+                teamName: _teamName.text,
+              ),
+            );
         Navigator.of(context).pop();
       },
       shape: RoundedRectangleBorder(

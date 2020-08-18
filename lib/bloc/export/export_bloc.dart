@@ -7,6 +7,7 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/repository/constants.dart';
 
 part 'export_event.dart';
+
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {
@@ -26,15 +27,24 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         yield currentState.copyWith(currentPage: event.select);
       }
     }
-    if (event is ExportSettingDialog) {
-      if (currentState is ExportFromPositionSuccess) {
+
+    if (currentState is ExportFromPositionSuccess) {
+      if (event is ExportSettingDialog) {
         yield currentState.copyWith(
           coachName: event.coachName,
           teamName: event.teamName,
           showSubs: event.showSubs,
           showCoach: event.showCoach,
           showCaptain: event.showCaptain,
+          captain: event.captain,
         );
+      }
+      if (event is ExportSettingCaptainSelect) {
+        Player captain;
+        currentState.players.forEach((player) {
+          if (player.name.contains(event.captainName)) captain = player;
+        });
+        yield currentState.copyWith(captain: captain ?? Player());
       }
     }
   }
@@ -76,6 +86,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       showCaptain: true,
       showCoach: true,
       showSubs: true,
+      captain: event.players[0],
     );
   }
 
@@ -113,13 +124,14 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       showCaptain: true,
       showCoach: true,
       showSubs: true,
+      captain: event.players[0],
     );
   }
 
   List<Offset> _convertToExportOffset(
       {@required List<Offset> position,
-        @required double width,
-        @required double height}) {
+      @required double width,
+      @required double height}) {
     List<Offset> result = [];
 
     for (int i = 0; i < position.length; i++) {

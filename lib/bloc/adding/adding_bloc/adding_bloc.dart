@@ -4,6 +4,7 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'adding_event.dart';
+
 part 'adding_state.dart';
 
 class AddingBloc extends Bloc<AddingEvent, AddingState> {
@@ -19,7 +20,6 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
         }
         if (currentState is LeagueByNationSuccess) {
           if (event is LeagueSelect) {
-            print((event as LeagueSelect).index);
             yield currentState.copyWith(index: (event as LeagueSelect).index);
           }
         }

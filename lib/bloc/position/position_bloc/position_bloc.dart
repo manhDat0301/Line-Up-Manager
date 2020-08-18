@@ -197,7 +197,6 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
   }
 
   void _updateOffset(String formation, List<Offset> offsets, bool isPortrait) {
-    print('_updateOffset $isPortrait');
     switch (formation) {
       case '4-2-3-1':
         isPortrait

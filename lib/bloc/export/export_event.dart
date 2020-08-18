@@ -31,6 +31,7 @@ class SelectType extends ExportEvent {
 class ExportSettingDialog extends ExportEvent {
   final String coachName;
   final String teamName;
+  final Player captain;
   final bool showCoach;
   final bool showCaptain;
   final bool showSubs;
@@ -38,6 +39,7 @@ class ExportSettingDialog extends ExportEvent {
   ExportSettingDialog({
     this.coachName,
     this.teamName,
+    this.captain,
     this.showCoach,
     this.showCaptain,
     this.showSubs,
@@ -45,5 +47,22 @@ class ExportSettingDialog extends ExportEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => [coachName, teamName];
+  List<Object> get props => [
+        coachName,
+        teamName,
+        captain,
+        showSubs,
+        showCaptain,
+        showCoach,
+      ];
+}
+
+class ExportSettingCaptainSelect extends ExportEvent {
+  final String captainName;
+
+  ExportSettingCaptainSelect(this.captainName);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [captainName];
 }

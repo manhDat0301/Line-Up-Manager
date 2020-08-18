@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -22,6 +23,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   bool ratingSelected = false;
   bool formSelected = false;
   bool numberSelected = false;
+  String _captain;
 
   TextEditingController _coachName = TextEditingController();
   TextEditingController _teamName = TextEditingController();
@@ -55,6 +57,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
             child: Column(
               children: <Widget>[
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Column(
                     children: <Widget>[
@@ -75,7 +78,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                       ),
                       Divider(height: 0),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 18, top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: _showCap(),
                       ),
                       Divider(height: 0),
@@ -83,7 +86,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.only(bottom: 10, top: 15),
                   child: _bottom(),
                 ),
               ],
@@ -217,26 +220,43 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    DropdownButton<String>(
-                      onChanged: (value) {},
-                      items: <String>['a', 'b', 'c']
-                          .map((String str) => DropdownMenuItem(
-                                value: str,
-                                child: Text(str),
-                              ))
-                          .toList(),
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.deepOrangeAccent,
-                    ),
-                  ],
+              DropdownButton(
+                value: state.captain.name,
+                icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.orange,
                 ),
+                iconSize: 24,
+                elevation: 16,
+                underline: Container(),
+                style: TextStyle(color: Colors.black, fontSize: 15),
+                isExpanded: true,
+                selectedItemBuilder: (context) => state.players
+                    .map(
+                      (Player player) => Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          player.name,
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (String newValue) {
+                  context
+                      .bloc<ExportBloc>()
+                      .add(ExportSettingCaptainSelect(newValue));
+                },
+                items: state.players
+                    .map<DropdownMenuItem<String>>(
+                      (Player player) => DropdownMenuItem(
+                        child: Text(
+                          player.name,
+                        ),
+                        value: player.name,
+                      ),
+                    )
+                    .toList(),
               ),
             ],
           );
@@ -347,25 +367,32 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   Widget _buttonOk() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8 - 15,
-      child: RaisedButton(
-        elevation: 12,
-        onPressed: () {
-          context.bloc<ExportBloc>().add(ExportSettingDialog(
-                coachName: _coachName.text,
-                teamName: _teamName.text,
-              ));
-          Navigator.of(context).pop();
+      child: BlocBuilder<ExportBloc, ExportState>(
+        builder: (BuildContext context, ExportState state) {
+          if (state is ExportFromPositionSuccess) {
+            return RaisedButton(
+              elevation: 12,
+              onPressed: () {
+                context.bloc<ExportBloc>().add(ExportSettingDialog(
+                      coachName: _coachName.text,
+                      teamName: _teamName.text,
+                    ));
+                Navigator.of(context).pop();
+              },
+              color: Colors.deepOrangeAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: MyText(
+                text: 'OK',
+                color: Colors.white,
+                fontSize: 19,
+                isTitleCase: false,
+              ),
+            );
+          }
+          return BottomLoader();
         },
-        color: Colors.deepOrangeAccent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: MyText(
-          text: 'OK',
-          color: Colors.white,
-          fontSize: 19,
-          isTitleCase: false,
-        ),
       ),
     );
   }

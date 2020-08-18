@@ -16,6 +16,7 @@ class ExportFromPositionSuccess extends ExportState {
   final int currentPage;
   final String clubLogoUrl;
   final String teamName;
+  final Player captain;
   final String coachName;
   final bool showCoach;
   final bool showSubs;
@@ -29,6 +30,7 @@ class ExportFromPositionSuccess extends ExportState {
     this.currentPage,
     this.clubLogoUrl,
     this.teamName,
+    this.captain,
     this.coachName,
     this.showCoach,
     this.showSubs,
@@ -43,6 +45,7 @@ class ExportFromPositionSuccess extends ExportState {
     int currentPage,
     String clubLogoUrl,
     String teamName,
+    Player captain,
     String coachName,
     bool showCoach,
     bool showSubs,
@@ -60,22 +63,24 @@ class ExportFromPositionSuccess extends ExportState {
       showSubs: showSubs ?? this.showSubs,
       showCoach: showCoach ?? this.showCoach,
       showCaptain: showCaptain ?? this.showCaptain,
+      captain: captain ?? this.captain,
     );
   }
 
   @override
   // TODO: implement props
   List<Object> get props => [
-    offsets,
-    players,
-    currentPage,
-    exportTypes,
-    clubLogoUrl,
-    teamName,
-    subsNames,
-    coachName,
-    showCoach,
-    showSubs,
-    showCaptain,
-  ];
+        offsets,
+        players,
+        currentPage,
+        exportTypes,
+        clubLogoUrl,
+        teamName,
+        captain,
+        subsNames,
+        coachName,
+        showCoach,
+        showSubs,
+        showCaptain,
+      ];
 }
