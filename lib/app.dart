@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
+import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
+import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
@@ -37,6 +40,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<DetailBloc>(
           create: (BuildContext context) => DetailBloc(DetailInitial()),
         ),
+        BlocProvider<FavoriteBloc>(
+          create: (BuildContext context) =>
+              FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
+        ),
+        BlocProvider<PlayerBloc>(
+          create: (BuildContext context) => PlayerBloc(PlayerInitial()),
+        ),
+        BlocProvider<ClubBloc>(
+          create: (BuildContext context) => ClubBloc(ClubInitial()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,7 +58,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: position,
+        initialRoute: adding,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

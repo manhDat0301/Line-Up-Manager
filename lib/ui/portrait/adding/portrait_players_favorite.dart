@@ -21,103 +21,120 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: BlocProvider<FavoriteBloc>(
-        create: (BuildContext context) =>
-            FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
-        child: BlocBuilder<FavoriteBloc, FavoriteState>(
-          builder: (BuildContext context, FavoriteState state) {
-            if (state is FavoriteLoadSuccess) {
-              return ExpansionTile(
-                title: MyText(
-                  textAlign: TextAlign.start,
-                  text: '${state.list.length} player(s)',
-                  color: Colors.black,
-                  fontSize: 18,
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (BuildContext context, FavoriteState state) {
+        if (state is FavoriteLoadSuccess) {
+          if (state.list.isNotEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
+                  child: MyText(
+                    textAlign: TextAlign.start,
+                    text: 'Favorite players',
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
                 ),
-                onExpansionChanged: (bool) {
-                  if (bool) {
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ExpansionTile(
+                    title: MyText(
+                      textAlign: TextAlign.start,
+                      text: '${state.list.length} player(s)',
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                    onExpansionChanged: (bool) {
+                      if (bool) {
 //                    context.bloc<FavoriteBloc>().add(FavoriteFetch());
-                  }
-                },
-                children: <Widget>[
-                  Container(
-                    height: state.list.length < 5 ? null : 230,
-                    padding: const EdgeInsets.only(left: 15.5, bottom: 13),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.list.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, table, ModalRoute.withName(homepage));
-                            context
-                                .bloc<TableBloc>()
-                                .add(PlayerSelect(state.list[index].favId));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Row(
-                              children: [
-                                FutureBuilder(
-                                  future: FireStorageService.loadFromStorage(
-                                      context, state.list[index].favAvtUrl),
-                                  initialData: '',
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<dynamic> snapshot) {
-                                    return Container(
-                                      width: 50,
-                                      height: 50,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10000.0),
-                                        child: CachedNetworkImage(
-                                          placeholder: (context, url) =>
-                                              BottomLoader(),
-                                          errorWidget:
-                                              (context, string, dynamic) {
-                                            return Icon(
-                                              Icons.error,
-                                              color: Colors.orange,
-                                            );
-                                          },
-                                          imageUrl: snapshot.data,
+                      }
+                    },
+                    children: <Widget>[
+                      Container(
+                        height: state.list.length < 5 ? null : 230,
+                        padding: const EdgeInsets.only(left: 15.5, bottom: 13),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.list.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    table, ModalRoute.withName(homepage));
+                                context
+                                    .bloc<TableBloc>()
+                                    .add(PlayerSelect(state.list[index].favId));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Row(
+                                  children: [
+                                    FutureBuilder(
+                                      future:
+                                          FireStorageService.loadFromStorage(
+                                              context,
+                                              state.list[index].favAvtUrl),
+                                      initialData: '',
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<dynamic> snapshot) {
+                                        return Container(
+                                          width: 50,
+                                          height: 50,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10000.0),
+                                            child: CachedNetworkImage(
+                                              placeholder: (context, url) =>
+                                                  BottomLoader(),
+                                              errorWidget:
+                                                  (context, string, dynamic) {
+                                                return Icon(
+                                                  Icons.error,
+                                                  color: Colors.orange,
+                                                );
+                                              },
+                                              imageUrl: snapshot.data,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: MyText(
+                                          textAlign: TextAlign.start,
+                                          color: Colors.black,
+                                          fontSize: 17,
+                                          text: state.list[index].favName,
                                         ),
                                       ),
-                                    );
-                                  },
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: MyText(
-                                      textAlign: TextAlign.start,
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      text: state.list[index].favName,
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              );
-            } else {
-              return Container(height: 60, child: BottomLoader());
-            }
-          },
-        ),
-      ),
+                ),
+              ],
+            );
+          }
+          return Container();
+        } else {
+          return Container(height: 60, child: BottomLoader());
+        }
+      },
     );
   }
 }

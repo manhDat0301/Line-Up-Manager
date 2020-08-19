@@ -39,7 +39,7 @@ class _TablePlayerImageState extends State<TablePlayerImage> {
                 placeholder: (context, string) {
                   return CircularProgressIndicator();
                 },
-                imageUrl: snapshot.data,
+                imageUrl: snapshot.data ?? '',
               );
             },
           ),

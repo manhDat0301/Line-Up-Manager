@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/portrait/adding/portrait_league_by_nation.dart';
 import 'package:marozi/ui/portrait/adding/portrait_players_favorite.dart';
 import 'package:marozi/ui/portrait/adding/portrait_search_player.dart';
@@ -29,16 +28,8 @@ class _PortraitAddingState extends State<PortraitAdding> {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 8),
             children: <Widget>[
+              _11Selected(),
               SearchPlayerPortrait(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8),
-                child: MyText(
-                    textAlign: TextAlign.start,
-                    text: 'Favorite players',
-                    color: Colors.black,
-                    fontSize: 16),
-              ),
               FavoritePlayers(),
               LeagueByNationPortrait(),
             ],
@@ -46,5 +37,9 @@ class _PortraitAddingState extends State<PortraitAdding> {
         ),
       ),
     );
+  }
+
+  Widget _11Selected() {
+    return Row();
   }
 }

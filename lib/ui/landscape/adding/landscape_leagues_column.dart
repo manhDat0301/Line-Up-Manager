@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/orientation/mutual_widgets/adding_league_image.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
 
 class LandscapeLeaguesColumn extends StatefulWidget {
   final League league;
@@ -28,7 +28,7 @@ class _LandscapeLeaguesColumnState extends State<LandscapeLeaguesColumn> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
-                child: AddingLeagueImage(widget.league),
+                child: AddingImage(widget.league.logoUrl),
               ),
               Expanded(
                 child: Padding(

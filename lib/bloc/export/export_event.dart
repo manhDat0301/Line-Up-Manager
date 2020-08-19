@@ -70,10 +70,9 @@ class SettingCaptainSelect extends ExportEvent {
 class RenderPreviewByte extends ExportEvent {
   final RenderRepaintBoundary boundary;
 
-
   RenderPreviewByte(this.boundary);
 
   @override
   // TODO: implement props
-  List<Object> get props => [ boundary];
+  List<Object> get props => [boundary];
 }

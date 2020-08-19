@@ -133,7 +133,7 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
                       ),
                       alignment: Alignment.center,
                       placeholder: (context, string) => BottomLoader(),
-                      imageUrl: snapshot.data,
+                      imageUrl: snapshot.data ?? '',
                     );
                   },
                 ),

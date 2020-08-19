@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/portrait/detail/portrait_player_info.dart';
 import 'package:marozi/ui/portrait/detail/portrait_player_stat.dart';
-
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi-flutter/lib/bloc/detail/detail_bloc.dart';
 
 class PortraitPlayerDetail extends StatefulWidget {
   final String playerId;

@@ -115,7 +115,7 @@ class _LandscapePlayerDetailState extends State<LandscapePlayerDetail> {
                           Icons.error,
                           color: Colors.orange,
                         ),
-                        imageUrl: snapshot.data,
+                        imageUrl: snapshot.data ?? '',
                       ),
                     ),
                   );
@@ -211,10 +211,10 @@ class _LandscapePlayerDetailState extends State<LandscapePlayerDetail> {
                                           BottomLoader(),
                                       errorWidget: (context, string, dynamic) =>
                                           Icon(
-                                        Icons.error,
-                                        color: Colors.orange,
-                                      ),
-                                      imageUrl: snapshot.data,
+                                            Icons.error,
+                                            color: Colors.orange,
+                                          ),
+                                      imageUrl: snapshot.data ?? '',
                                     ),
                                   ),
                                 );

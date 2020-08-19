@@ -31,7 +31,7 @@ class _LandscapeLeaguesByNationState extends State<LandscapeLeaguesByNation> {
                 children: <Widget>[
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 16.0, top: 5, bottom: 5),
+                        const EdgeInsets.only(left: 10.0, top: 5, bottom: 5),
                     child: MyText(
                       text: '$nat',
                       color: Colors.black,
@@ -52,7 +52,7 @@ class _LandscapeLeaguesByNationState extends State<LandscapeLeaguesByNation> {
 
   Widget _buildLeague(List<League> list) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 8, 8, 8),
+      padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
         color: Colors.white,

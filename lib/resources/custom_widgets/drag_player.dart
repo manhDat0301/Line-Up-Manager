@@ -110,7 +110,7 @@ class _DragPlayerState extends State<DragPlayer> {
                         placeholder: (context, string) {
                           return BottomLoader();
                         },
-                        imageUrl: snapshot.data,
+                        imageUrl: snapshot.data ?? '',
                       ),
                     ),
                   );

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/strings.dart';
@@ -8,8 +9,6 @@ import 'package:marozi/ui/portrait/detail/custom_widget/text_cm.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_fix.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_info.dart';
 import 'package:marozi/utils/firestore_service.dart';
-
-import 'file:///C:/Users/ADMIN/AndroidStudioProjects/marozi-flutter/lib/bloc/detail/detail_bloc.dart';
 
 class PlayerInfo extends StatefulWidget {
   final Player player;

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/adding/portrait_expansion_league.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
+import 'package:marozi/ui/portrait/adding/portrait_clubs.dart';
 
 class LeagueByNationPortrait extends StatefulWidget {
   @override
@@ -37,7 +39,7 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    _buildLeague(state.leagueByNation[nat]),
+                    _buildLeagues(state.leagueByNation[nat]),
                   ],
                 );
               } else {
@@ -52,7 +54,7 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
     );
   }
 
-  Widget _buildLeague(List<League> list) {
+  Widget _buildLeagues(List<League> list) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -61,11 +63,43 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
       child: SingleChildScrollView(
         child: ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
           itemCount: list.length,
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return PortraitExpansionLeague(index: index, league: list[index]);
+            return _league(index: index, league: list[index]);
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _league({League league, int index}) {
+    return InkWell(
+      onTap: () {
+        context.bloc<ClubBloc>().add(GetClubByLeague(league));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => PortraitClubs()));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: Row(
+          key: Key('${index}'),
+          children: <Widget>[
+            AddingImage(league.logoUrl),
+            SizedBox(width: 4),
+            MyText(
+              text: league.name,
+              color: null,
+              fontSize: 19,
+              textAlign: TextAlign.start,
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: Colors.black,
+            ),
+          ],
         ),
       ),
     );
