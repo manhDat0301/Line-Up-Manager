@@ -21,7 +21,7 @@ class PlayerDao {
     try {
       result = await db.query(tablePlayer);
     } catch (e) {
-      print('######################## $e');
+      print(e);
     }
     List<Player> listPlayer = result.isNotEmpty
         ? result.map((item) => Player.fromMap(item)).toList()

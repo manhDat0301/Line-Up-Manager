@@ -21,6 +21,7 @@ class ExportFromPositionSuccess extends ExportState {
   final bool showCoach;
   final bool showSubs;
   final bool showCaptain;
+  final String path;
 
   ExportFromPositionSuccess({
     this.players,
@@ -31,6 +32,7 @@ class ExportFromPositionSuccess extends ExportState {
     this.clubLogoUrl,
     this.teamName,
     this.captain,
+    this.path,
     this.coachName,
     this.showCoach,
     this.showSubs,
@@ -50,6 +52,7 @@ class ExportFromPositionSuccess extends ExportState {
     bool showCoach,
     bool showSubs,
     bool showCaptain,
+    String path,
   }) {
     return ExportFromPositionSuccess(
       offsets: offsets ?? this.offsets,
@@ -64,6 +67,7 @@ class ExportFromPositionSuccess extends ExportState {
       showCoach: showCoach ?? this.showCoach,
       showCaptain: showCaptain ?? this.showCaptain,
       captain: captain ?? this.captain,
+      path: path ?? this.path,
     );
   }
 
@@ -82,5 +86,6 @@ class ExportFromPositionSuccess extends ExportState {
         showCoach,
         showSubs,
         showCaptain,
+        path,
       ];
 }

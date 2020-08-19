@@ -57,12 +57,23 @@ class ExportSettingDialog extends ExportEvent {
       ];
 }
 
-class ExportSettingCaptainSelect extends ExportEvent {
+class SettingCaptainSelect extends ExportEvent {
   final String captainName;
 
-  ExportSettingCaptainSelect(this.captainName);
+  SettingCaptainSelect(this.captainName);
 
   @override
   // TODO: implement props
   List<Object> get props => [captainName];
+}
+
+class RenderPreviewByte extends ExportEvent {
+  final RenderRepaintBoundary boundary;
+
+
+  RenderPreviewByte(this.boundary);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [ boundary];
 }

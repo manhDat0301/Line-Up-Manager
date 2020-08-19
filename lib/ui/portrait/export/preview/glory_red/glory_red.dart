@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/colors.dart';
@@ -89,14 +90,20 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
                 color: Colors.white,
                 fontSize: 28.81,
                 fontFamily: fontBebasNeueBold,
-                text: state.teamName.isNotEmpty
-                    ? state.teamName
-                    : state.captain.clubName,
+                text: state.teamName != null
+                    ? state.teamName.isNotEmpty
+                        ? state.teamName
+                        : state.captain.clubName
+                    : state.teamName,
                 isTitleCase: false,
               ),
               SizedBox(height: 2),
               Text(
-                state.coachName.isNotEmpty ? state.coachName.toUpperCase() : '',
+                state.coachName != null
+                    ? state.coachName.isNotEmpty
+                        ? state.coachName.toUpperCase()
+                        : ''
+                    : '',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 19.09,

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_icons/custom_icon_icons.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class ExportButton extends StatefulWidget {
+class ExportDialog extends StatefulWidget {
+  final GlobalKey globalKey;
+
+  ExportDialog(this.globalKey);
+
   @override
-  _ExportButtonState createState() => _ExportButtonState();
+  _ExportDialogState createState() => _ExportDialogState();
 }
 
-class _ExportButtonState extends State<ExportButton> {
+class _ExportDialogState extends State<ExportDialog> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         showBottomSheet(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
@@ -59,41 +67,57 @@ class _ExportButtonState extends State<ExportButton> {
         height: isLandscape ? height * 0.57 : height * 0.38,
         padding: EdgeInsets.all(20),
         color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  print('Save to camera roll');
-                },
-                child: _type(icon: Icons.image, text: 'Save to camera roll'),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  print('Facebook');
-                },
-                child: _type(icon: CustomIcon.facebook, text: 'Facebook'),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  print('Instagram');
-                },
-                child: _type(icon: CustomIcon.instagram, text: 'Instagram'),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  print('Twitter');
-                },
-                child: _type(icon: CustomIcon.twitter, text: 'Twitter'),
-              ),
-            ),
-          ],
+        child: BlocBuilder<ExportBloc, ExportState>(
+          builder: (BuildContext context, ExportState state) {
+            if (state is ExportFromPositionSuccess) {
+              return Column(
+                children: <Widget>[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        print('Save to camera roll');
+                        context.bloc<ExportBloc>().add(
+                              RenderPreviewByte(
+                                widget.globalKey.currentContext
+                                    .findRenderObject(),
+                              ),
+                            );
+                        Navigator.of(context).pop();
+                      },
+                      child:
+                          _type(icon: Icons.image, text: 'Save to camera roll'),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        print('Facebook');
+                      },
+                      child: _type(icon: CustomIcon.facebook, text: 'Facebook'),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        print('Instagram');
+                      },
+                      child:
+                          _type(icon: CustomIcon.instagram, text: 'Instagram'),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        print('Twitter');
+                      },
+                      child: _type(icon: CustomIcon.twitter, text: 'Twitter'),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return BottomLoader();
+          },
         ),
       ),
     );

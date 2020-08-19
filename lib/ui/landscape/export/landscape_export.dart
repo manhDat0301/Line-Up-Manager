@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
-import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/landscape/export/preview/landscape_preview.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
@@ -50,7 +49,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
             color: Colors.black,
             fontSize: 19,
           ),
-          ExportButton(),
+//          ExportDialog(),
         ],
       ),
     );

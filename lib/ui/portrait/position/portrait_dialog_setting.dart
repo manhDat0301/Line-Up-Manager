@@ -245,7 +245,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
                 onChanged: (String newValue) {
                   context
                       .bloc<ExportBloc>()
-                      .add(ExportSettingCaptainSelect(newValue));
+                      .add(SettingCaptainSelect(newValue));
                 },
                 items: state.players
                     .map<DropdownMenuItem<String>>(

@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/repository/constants.dart';
@@ -13,6 +16,8 @@ class PortraitExport extends StatefulWidget {
 }
 
 class _PortraitExportState extends State<PortraitExport> {
+  final GlobalKey _globalKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,20 +28,30 @@ class _PortraitExportState extends State<PortraitExport> {
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: Column(
-            children: <Widget>[
-              _topBar(),
-              _center(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: MyText(
-                  text: 'Style',
-                  color: Colors.black,
-                  fontSize: 17,
+          child: BlocListener<ExportBloc, ExportState>(
+            listener: (BuildContext context, ExportState state) {
+              if (state is ExportFromPositionSuccess) {
+                if (state.path != null)
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text('${state.path}'),
+                  ));
+              }
+            },
+            child: Column(
+              children: <Widget>[
+                _topBar(),
+                _center(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: MyText(
+                    text: 'Style',
+                    color: Colors.black,
+                    fontSize: 17,
+                  ),
                 ),
-              ),
-              _bottom(),
-            ],
+                _bottom(),
+              ],
+            ),
           ),
         ),
       ),
@@ -50,7 +65,9 @@ class _PortraitExportState extends State<PortraitExport> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           InkWell(
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              Navigator.pop(context);
+            },
             child: Icon(Icons.arrow_back_ios, color: Colors.orange),
           ),
           MyText(
@@ -58,7 +75,7 @@ class _PortraitExportState extends State<PortraitExport> {
             color: Colors.black,
             fontSize: 19,
           ),
-          ExportButton(),
+          ExportDialog(_globalKey),
         ],
       ),
     );
@@ -73,7 +90,10 @@ class _PortraitExportState extends State<PortraitExport> {
             Container(
               width: MediaQuery.of(context).size.width * 0.986,
               height: MediaQuery.of(context).size.height * 0.756,
-              child: PortraitPreview(),
+              child: RepaintBoundary(
+                key: _globalKey,
+                child: PortraitPreview(),
+              ),
             ),
             Spacer(),
             Padding(
@@ -186,6 +206,21 @@ class _PortraitExportState extends State<PortraitExport> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class ExportToImage extends StatelessWidget {
+  final Uint8List pngBytes;
+
+  ExportToImage(this.pngBytes);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.memory(pngBytes),
       ),
     );
   }

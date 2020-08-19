@@ -185,7 +185,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
                     onChanged: (value) {
                       context
                           .bloc<ExportBloc>()
-                          .add(ExportSettingCaptainSelect(value));
+                          .add(SettingCaptainSelect(value));
                     },
                     items: state.players
                         .map<DropdownMenuItem<String>>(

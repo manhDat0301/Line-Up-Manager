@@ -7,6 +7,7 @@ import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/example/permission.dart';
 import 'package:marozi/ui/orientation/adding.dart';
 import 'package:marozi/ui/orientation/detail.dart';
 import 'package:marozi/ui/orientation/export.dart';
@@ -71,6 +72,10 @@ class MyApp extends StatelessWidget {
             case '/export':
               return MaterialPageRoute(
                   builder: (BuildContext context) => Export());
+              break;
+            case '/example':
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => PermissionExample());
               break;
             default:
               return MaterialPageRoute(
