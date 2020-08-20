@@ -7,22 +7,19 @@ class ClubState extends Equatable {
 }
 
 class ClubInitial extends ClubState {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
 }
 
-class ClubByLeagueState extends ClubState {
+class ClubByLeagueSuccess extends ClubState {
   final League league;
   final List<Club> clubs;
 
-  ClubByLeagueState({this.clubs, this.league});
+  ClubByLeagueSuccess({this.clubs, this.league});
 
-  ClubByLeagueState copyWith({
+  ClubByLeagueSuccess copyWith({
     List<Club> clubs,
     League league,
   }) {
-    return ClubByLeagueState(
+    return ClubByLeagueSuccess(
         clubs: clubs ?? this.clubs, league: league ?? this.league);
   }
 

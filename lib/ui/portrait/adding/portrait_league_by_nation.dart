@@ -17,6 +17,19 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
+      buildWhen: (oldState, currentState) {
+        if (oldState is AddingInitial) {
+          return true;
+        } else {
+          if (oldState is LeagueByNationSuccess &&
+              currentState is LeagueByNationSuccess) {
+            if (oldState.leagueByNation != currentState.leagueByNation) {
+              return true;
+            }
+          }
+          return false;
+        }
+      },
       builder: (BuildContext context, AddingState state) {
         if (state is LeagueByNationSuccess) {
           return ListView.builder(

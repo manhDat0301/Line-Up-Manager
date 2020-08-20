@@ -35,8 +35,8 @@ class _PortraitClubsState extends State<PortraitClubs> {
               if (oldState is ClubInitial) {
                 return true;
               } else {
-                if (oldState is ClubByLeagueState &&
-                    currentState is ClubByLeagueState) {
+                if (oldState is ClubByLeagueSuccess &&
+                    currentState is ClubByLeagueSuccess) {
                   if (oldState.league.id != currentState.league.id) {
                     return true;
                   }
@@ -45,7 +45,7 @@ class _PortraitClubsState extends State<PortraitClubs> {
               }
             },
             builder: (BuildContext context, ClubState state) {
-              if (state is ClubByLeagueState) {
+              if (state is ClubByLeagueSuccess) {
                 return CustomScrollView(
                   slivers: <Widget>[
                     _topBar(state.league),
@@ -71,7 +71,10 @@ class _PortraitClubsState extends State<PortraitClubs> {
           alignment: Alignment.centerLeft,
           children: <Widget>[
             GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                context.bloc<ClubBloc>().add(PopClub());
+                Navigator.pop(context);
+              },
               child: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.orange,

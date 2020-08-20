@@ -15,9 +15,9 @@ class FirebaseToLocal {
   static final leagueRepo = LeagueRepository();
   static final clubRepo = ClubRepository();
   static final playerRepo = PlayerRepository();
-  static final _firestoreInstance = Firestore.instance;
+  static final _firestoreInstance = FirebaseFirestore.instance;
 
-  static splashDataLoading() async {
+  static Future splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
     if (await _leagueNeedUpdate()) {
       _localUpdateAllLeague();
@@ -40,14 +40,14 @@ class FirebaseToLocal {
         .collection('League')
         .orderBy('league_nation')
         .orderBy('league_name')
-        .getDocuments()
+        .get()
         .then((value) {
-      for (var element in value.documents) {
+      for (var element in value.docs) {
         League league = League();
-        league.id = element.documentID;
-        league.name = element.data['league_name'];
-        league.nation = element.data['league_nation'];
-        league.logoUrl = element.data['league_logo_url'];
+        league.id = element.id;
+        league.name = element.data()['league_name'];
+        league.nation = element.data()['league_nation'];
+        league.logoUrl = element.data()['league_logo_url'];
         league.isExpand = false;
         _maroziLocal.insertLeagueLocal(league);
       }
@@ -83,15 +83,15 @@ class FirebaseToLocal {
         .collection('Club')
         .orderBy('club_name')
         .where('league_id', isEqualTo: league.id)
-        .getDocuments()
+        .get()
         .then((value) {
-      value.documents.forEach((element) {
+      value.docs.forEach((element) {
         Club club = Club();
-        club.id = element.documentID;
-        club.name = element.data['club_name'];
-        club.leagueId = element.data['league_id'];
-        club.leagueName = element.data['league_name'];
-        club.logoUrl = element.data['club_logo_url'];
+        club.id = element.id;
+        club.name = element.data()['club_name'];
+        club.leagueId = element.data()['league_id'];
+        club.leagueName = element.data()['league_name'];
+        club.logoUrl = element.data()['club_logo_url'];
         club.isExpand = false;
         clubs.add(club);
       });
@@ -122,32 +122,32 @@ class FirebaseToLocal {
         .collection('Player')
         .orderBy('player_name')
         .where('club_id', isEqualTo: club.id)
-        .getDocuments()
+        .get()
         .then((value) {
-      value.documents.forEach((element) {
+      value.docs.forEach((element) {
         Player player = Player();
-        player.id = element.documentID;
-        player.name = element.data['player_name'];
-        player.clubId = element.data['club_id'];
-        player.clubName = element.data['club_name'];
-        player.age = element.data['date_of_birth_age'];
-        player.position = element.data['position'];
-        Map<String, dynamic> ovr = element.data['overall_potential'] ?? {};
+        player.id = element.id;
+        player.name = element.data()['player_name'];
+        player.clubId = element.data()['club_id'];
+        player.clubName = element.data()['club_name'];
+        player.age = element.data()['date_of_birth_age'];
+        player.position = element.data()['position'];
+        Map<String, dynamic> ovr = element.data()['overall_potential'] ?? {};
         player.overall = ovr['ovr'];
         player.potential = ovr['pot'];
-        player.number = element.data['shirt_number'];
-        player.nation = element.data['citizenship'];
-        player.wage = element.data['market_wert'];
-        player.footPrefer = element.data['foot_prefer'];
-        player.birthday = element.data['date_of_birth_age'];
-        player.weight = element.data['weight'];
-        player.height = element.data['height'];
-        player.avatarUrl = element.data['player_avatar_url'];
-        player.ballSkill = _countStat(element.data['ball_skills']);
-        player.shooting = _countStat(element.data['shooting']);
-        player.defence = _countStat(element.data['defence']);
-        player.physical = _countStat(element.data['physical']);
-        player.passing = _countStat(element.data['passing']);
+        player.number = element.data()['shirt_number'];
+        player.nation = element.data()['citizenship'];
+        player.wage = element.data()['market_wert'];
+        player.footPrefer = element.data()['foot_prefer'];
+        player.birthday = element.data()['date_of_birth_age'];
+        player.weight = element.data()['weight'];
+        player.height = element.data()['height'];
+        player.avatarUrl = element.data()['player_avatar_url'];
+        player.ballSkill = _countStat(element.data()['ball_skills']);
+        player.shooting = _countStat(element.data()['shooting']);
+        player.defence = _countStat(element.data()['defence']);
+        player.physical = _countStat(element.data()['physical']);
+        player.passing = _countStat(element.data()['passing']);
         player.isExpand = false;
         player.offset = Offset.zero;
         players.add(player);

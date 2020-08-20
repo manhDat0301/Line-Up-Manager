@@ -15,3 +15,5 @@ class GetClubByLeague extends ClubEvent {
   // TODO: implement props
   List<Object> get props => [league];
 }
+
+class PopClub extends ClubEvent {}

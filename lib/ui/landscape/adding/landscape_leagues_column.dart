@@ -37,7 +37,7 @@ class _LandscapeLeaguesColumnState extends State<LandscapeLeaguesColumn> {
                     builder: (BuildContext context, ClubState state) {
                       return MyText(
                         text: widget.league.name,
-                        color: state is ClubByLeagueState &&
+                        color: state is ClubByLeagueSuccess &&
                                 state.league.id == widget.league.id
                             ? Colors.deepOrangeAccent
                             : Colors.black,

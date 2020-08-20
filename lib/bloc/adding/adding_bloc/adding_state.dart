@@ -7,9 +7,6 @@ class AddingState extends Equatable {
 }
 
 class AddingInitial extends AddingState {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
 }
 
 class LeagueByNationSuccess extends AddingState {

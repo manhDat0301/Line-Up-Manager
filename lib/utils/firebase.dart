@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class MaroziFirebase {
   static FirebaseAuth mAuth;
-  static Firestore firestoreInstance = Firestore.instance;
+  static FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
 
   getCurrentUser() async {
     mAuth = FirebaseAuth.instance;
@@ -11,7 +12,7 @@ class MaroziFirebase {
         .signInWithEmailAndPassword(
             email: "marozi@gmail.com", password: "Marozi@123")
         .whenComplete(() async {
-      FirebaseUser currentUser = await mAuth.currentUser();
+      User currentUser = await mAuth.currentUser;
       print('currentUser: ${currentUser.email}');
     });
   }
@@ -19,8 +20,8 @@ class MaroziFirebase {
   Future<int> countLeagueFirebase() async {
     var i = await firestoreInstance
         .collection('League')
-        .getDocuments()
-        .then((value) => value.documents.length);
+        .get()
+        .then((value) => value.docs.length);
     return i;
   }
 }

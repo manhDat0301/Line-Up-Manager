@@ -30,7 +30,7 @@ class _LandscapeClubsColumnState extends State<LandscapeClubsColumn> {
         ),
         child: BlocBuilder<ClubBloc, ClubState>(
           builder: (BuildContext context, ClubState state) {
-            if (state is ClubByLeagueState) {
+            if (state is ClubByLeagueSuccess) {
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: state.clubs.length,

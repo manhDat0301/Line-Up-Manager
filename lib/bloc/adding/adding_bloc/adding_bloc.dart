@@ -4,6 +4,7 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'adding_event.dart';
+
 part 'adding_state.dart';
 
 class AddingBloc extends Bloc<AddingEvent, AddingState> {
@@ -12,18 +13,14 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
   @override
   Stream<AddingState> mapEventToState(AddingEvent event) async* {
     if (event is GetLeagueByNation) {
-      try {
-        var currentState = state;
-        if (currentState is AddingInitial) {
-          yield* _mapGetLeagueByNationToInitial();
+      var currentState = state;
+      if (currentState is AddingInitial) {
+        yield* _mapGetLeagueByNationToInitial();
+      }
+      if (currentState is LeagueByNationSuccess) {
+        if (event is LeagueSelect) {
+          yield currentState.copyWith(index: (event as LeagueSelect).index);
         }
-        if (currentState is LeagueByNationSuccess) {
-          if (event is LeagueSelect) {
-            yield currentState.copyWith(index: (event as LeagueSelect).index);
-          }
-        }
-      } catch (e) {
-        yield LeagueByNationFailed();
       }
     }
   }
