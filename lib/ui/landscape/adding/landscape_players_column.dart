@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
-import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/landscape_adding_divider.dart';

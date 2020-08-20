@@ -1,13 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/repository/constants.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'player_event.dart';
-
 part 'player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {

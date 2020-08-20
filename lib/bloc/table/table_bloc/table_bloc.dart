@@ -4,7 +4,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
 
 part 'table_event.dart';
-
 part 'table_state.dart';
 
 class TableBloc extends Bloc<TableEvent, TableState> {

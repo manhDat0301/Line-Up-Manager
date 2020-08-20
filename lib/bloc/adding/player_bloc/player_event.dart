@@ -26,6 +26,4 @@ class MultiSelectPlayer extends PlayerEvent {
   List<Object> get props => [playerId];
 }
 
-class AddButtonPress extends PlayerEvent {
-
-}
+class AddButtonPress extends PlayerEvent {}
