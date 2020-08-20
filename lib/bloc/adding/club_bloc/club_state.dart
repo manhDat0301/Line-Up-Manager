@@ -6,8 +6,7 @@ class ClubState extends Equatable {
   List<Object> get props => [];
 }
 
-class ClubInitial extends ClubState {
-}
+class ClubInitial extends ClubState {}
 
 class ClubByLeagueSuccess extends ClubState {
   final League league;

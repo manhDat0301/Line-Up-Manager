@@ -6,8 +6,7 @@ class AddingState extends Equatable {
   List<Object> get props => [];
 }
 
-class AddingInitial extends AddingState {
-}
+class AddingInitial extends AddingState {}
 
 class LeagueByNationSuccess extends AddingState {
   final Map<String, List<League>> leagueByNation;

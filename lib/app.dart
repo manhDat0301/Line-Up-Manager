@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
@@ -10,7 +11,7 @@ import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/ui/example/permission.dart';
+import 'package:marozi/ui/example/example.dart';
 import 'package:marozi/ui/orientation/adding.dart';
 import 'package:marozi/ui/orientation/detail.dart';
 import 'package:marozi/ui/orientation/export.dart';
@@ -58,40 +59,40 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
         ),
-        initialRoute: adding,
+        initialRoute: table,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => HomePage());
               break;
             case '/position':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => Position());
               break;
             case '/table':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => PlayerTable());
               break;
             case '/adding':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => Adding());
               break;
             case '/detail':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) =>
                       PlayerDetail(settings.arguments));
               break;
             case '/export':
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => Export());
               break;
             case '/example':
-              return MaterialPageRoute(
-                  builder: (BuildContext context) => PermissionExample());
+              return CupertinoPageRoute(
+                  builder: (BuildContext context) => FirstPage());
               break;
             default:
-              return MaterialPageRoute(
+              return CupertinoPageRoute(
                   builder: (BuildContext context) => HomePage());
               break;
           }

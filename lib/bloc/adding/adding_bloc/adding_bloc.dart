@@ -4,7 +4,6 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'adding_event.dart';
-
 part 'adding_state.dart';
 
 class AddingBloc extends Bloc<AddingEvent, AddingState> {

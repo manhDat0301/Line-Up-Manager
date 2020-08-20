@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -65,7 +66,7 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (BuildContext context) => PlayerTable()));
                 },
                 child: ClipRRect(
@@ -146,7 +147,7 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
         borderRadius: BorderRadius.circular(8),
       ),
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(CupertinoPageRoute(
             builder: (BuildContext context) => PlayerTable()));
       },
       child: Container(

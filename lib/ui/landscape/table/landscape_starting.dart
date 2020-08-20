@@ -28,25 +28,25 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
           Expanded(
             child: BlocBuilder<TableBloc, TableState>(
               builder: (BuildContext context, TableState state) {
-                if (state is PlayerAdded) {
+                if (state is TableAddedSuccess) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(0, map: state.map),
+                        children: _add3(0, players: state.players),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(3, map: state.map),
+                        children: _add3(3, players: state.players),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(6, map: state.map),
+                        children: _add3(6, players: state.players),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add2(9, map: state.map),
+                        children: _add2(9, players: state.players),
                       ),
                     ],
                   );
@@ -80,11 +80,11 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
     );
   }
 
-  List<Widget> _add3(int start, {Map<int, Player> map}) {
+  List<Widget> _add3(int start, {List<Player> players}) {
     List<Widget> list = [];
     for (int i = start; i < start + 3; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
+      if (players != null && players.contains(i)) {
+        list.add(_player(players[i], i));
       } else {
         list.add(AddButton(i));
       }
@@ -92,12 +92,12 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
     return list;
   }
 
-  List<Widget> _add2(int start, {Map<int, Player> map}) {
+  List<Widget> _add2(int start, {List<Player> players}) {
     List<Widget> list = [];
     list.add(SizedBox(height: 10));
     for (int i = start; i < start + 2; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
+      if (players != null && players.contains(i)) {
+        list.add(_player(players[i], i));
       } else {
         list.add(AddButton(i));
       }

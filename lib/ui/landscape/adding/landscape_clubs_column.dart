@@ -61,7 +61,7 @@ class _LandscapeClubsColumnState extends State<LandscapeClubsColumn> {
                                           left: 8.0, right: 6),
                                       child: MyText(
                                         text: state.clubs[index].name,
-                                        color: playerState is PlayersByClub &&
+                                        color: playerState is PlayersSuccess &&
                                                 playerState.club ==
                                                     state.clubs[index]
                                             ? Colors.deepOrangeAccent

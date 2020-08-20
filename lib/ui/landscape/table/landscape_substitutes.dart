@@ -28,17 +28,17 @@ class _LandscapeSubstitutesState extends State<LandscapeSubstitutes> {
             Expanded(
               child: BlocBuilder<TableBloc, TableState>(
                 builder: (BuildContext context, TableState state) {
-                  if (state is PlayerAdded) {
+                  if (state is TableAddedSuccess) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(11, map: state.map),
+                          children: _add3(11, players: state.players),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(14, map: state.map),
+                          children: _add3(14, players: state.players),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,11 +73,11 @@ class _LandscapeSubstitutesState extends State<LandscapeSubstitutes> {
     );
   }
 
-  List<Widget> _add3(int start, {Map<int, Player> map}) {
+  List<Widget> _add3(int start, {List<Player> players}) {
     List<Widget> list = [];
     for (int i = start; i < start + 3; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
+      if (players != null && players.contains(i)) {
+        list.add(_player(players[i], i));
       } else {
         list.add(AddButton(i));
       }

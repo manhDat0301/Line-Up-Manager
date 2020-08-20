@@ -13,14 +13,12 @@ class ClubBloc extends Bloc<ClubEvent, ClubState> {
   @override
   Stream<ClubState> mapEventToState(ClubEvent event) async* {
     if (event is GetClubByLeague) {
+      yield ClubInitial();
       final getData = FirebaseToLocal();
       yield ClubByLeagueSuccess(
         clubs: await getData.getClubsByLeague(event.league),
         league: event.league,
       );
-    }
-    if(event is PopClub) {
-      yield ClubInitial();
     }
   }
 }

@@ -171,7 +171,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
 //      final path = await ImageGallerySaver.saveImage(pngByte,
 //          name: 'export', quality: 100);
       final path = await ImageGallerySaver.saveFile(file.path);
-      print(path);
       return path;
     } else {
       permission.request();

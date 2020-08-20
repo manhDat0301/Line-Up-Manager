@@ -52,25 +52,25 @@ class _LandscapePlayerTableState extends State<LandscapePlayerTable> {
           builder: (BuildContext context, TableState state) {
             return InkWell(
               onTap: () {
-                if (state is PlayerAdded) {
-                  if (state.map.isEmpty) {
+                if (state is TableAddedSuccess) {
+                  if (state.players.isEmpty) {
                     _showSnackBar();
                   } else {
                     int start = 0;
                     int subs = 0;
                     for (int i = 0; i < 18; i++) {
-                      if (i <= 10 && state.map.containsKey(i)) {
+                      if (i <= 10 && state.players.contains(i)) {
                         start++;
                       }
-                      if (10 < i && i < 18 && state.map.containsKey(i)) {
+                      if (10 < i && i < 18 && state.players.contains(i)) {
                         subs++;
                       }
                     }
                     if (start + subs < 8) {
                       _showSnackBar();
                     } else {
-                      context.bloc<PositionBloc>().add(
-                          CreateFormation(state.map.values.toList(), false));
+//                      context.bloc<PositionBloc>().add(
+//                          CreateFormation(state.players.values.toList(), false));
                       Navigator.pushNamed(context, position);
                     }
                   }

@@ -67,9 +67,9 @@ class _FavoritePlayersState extends State<FavoritePlayers> {
                               onTap: () {
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     table, ModalRoute.withName(homepage));
-                                context
-                                    .bloc<TableBloc>()
-                                    .add(PlayerSelect(state.list[index].favId));
+//                                context
+//                                    .bloc<TableBloc>()
+//                                    .add(PlayerSelect(state.list[index].favId));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 16.0),

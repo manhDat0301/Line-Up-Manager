@@ -7,23 +7,23 @@ class TableEvent extends Equatable {
 }
 
 class AddButtonPress extends TableEvent {
-  final int key;
+  final int index;
 
-  AddButtonPress(this.key);
+  AddButtonPress(this.index);
 
   @override
   // TODO: implement props
-  List<Object> get props => [key];
+  List<Object> get props => [index];
 }
 
 class PlayerSelect extends TableEvent {
-  final String playerId;
+  final List<String> playersId;
 
-  PlayerSelect(this.playerId);
+  PlayerSelect(this.playersId);
 
   @override
   // TODO: implement props
-  List<Object> get props => [playerId];
+  List<Object> get props => [playersId];
 }
 
 class PlayerDelete extends TableEvent {

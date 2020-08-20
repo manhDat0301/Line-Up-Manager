@@ -15,3 +15,17 @@ class GetPlayerByClub extends PlayerEvent {
   // TODO: implement props
   List<Object> get props => [club];
 }
+
+class MultiSelectPlayer extends PlayerEvent {
+  final String playerId;
+
+  MultiSelectPlayer(this.playerId);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [playerId];
+}
+
+class AddButtonPress extends PlayerEvent {
+
+}

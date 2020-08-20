@@ -25,15 +25,15 @@ class _LandscapePlayersColumnState extends State<LandscapePlayersColumn> {
       ),
       child: BlocBuilder<PlayerBloc, PlayerState>(
         builder: (BuildContext context, PlayerState state) {
-          if (state is PlayersByClub) {
+          if (state is PlayersSuccess) {
             return ListView.builder(
               itemCount: state.players.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    context
-                        .bloc<TableBloc>()
-                        .add(PlayerSelect(state.players[index].id));
+//                    context
+//                        .bloc<TableBloc>()
+//                        .add(PlayerSelect(state.players[index].id));
                     Navigator.pushNamedAndRemoveUntil(
                         context, table, ModalRoute.withName(homepage));
                   },

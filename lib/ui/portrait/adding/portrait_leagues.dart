@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
@@ -8,12 +9,12 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
 import 'package:marozi/ui/portrait/adding/portrait_clubs.dart';
 
-class LeagueByNationPortrait extends StatefulWidget {
+class PortraitLeagues extends StatefulWidget {
   @override
-  _LeagueByNationPortraitState createState() => _LeagueByNationPortraitState();
+  _PortraitLeaguesState createState() => _PortraitLeaguesState();
 }
 
-class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
+class _PortraitLeaguesState extends State<PortraitLeagues> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
@@ -90,7 +91,7 @@ class _LeagueByNationPortraitState extends State<LeagueByNationPortrait> {
     return InkWell(
       onTap: () {
         context.bloc<ClubBloc>().add(GetClubByLeague(league));
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(CupertinoPageRoute(
             builder: (BuildContext context) => PortraitClubs()));
       },
       child: Padding(

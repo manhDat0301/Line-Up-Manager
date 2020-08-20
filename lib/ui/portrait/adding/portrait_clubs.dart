@@ -72,7 +72,6 @@ class _PortraitClubsState extends State<PortraitClubs> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                context.bloc<ClubBloc>().add(PopClub());
                 Navigator.pop(context);
               },
               child: Icon(
@@ -102,7 +101,7 @@ class _PortraitClubsState extends State<PortraitClubs> {
           return InkWell(
             onTap: () {
               context.bloc<PlayerBloc>().add(GetPlayerByClub(clubs[index]));
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                   builder: (BuildContext context) => PortraitPlayers()));
             },
             child: Container(

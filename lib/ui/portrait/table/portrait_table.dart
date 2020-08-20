@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
@@ -61,28 +60,17 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
             builder: (BuildContext context, TableState state) {
               return InkWell(
                 onTap: () {
-                  if (state is PlayerAdded) {
-                    if (state.map.isEmpty) {
+                  if (state is TableAddedSuccess) {
+                    if (state.players.isEmpty) {
                       _showSnackBar();
                     } else {
-                      int start = 0;
-                      int subs = 0;
-                      List<Player> list = [];
-                      for (int i = 0; i < 18; i++) {
-                        if (i <= 10 && state.map.containsKey(i)) {
-                          list.add(state.map[i]);
-                          start++;
-                        }
-                        if (10 < i && i < 18 && state.map.containsKey(i)) {
-                          subs++;
-                        }
-                      }
-                      if (start + subs < 8) {
+                      int enough = state.players.length + state.subs.length;
+                      if (enough < 8) {
                         _showSnackBar();
                       } else {
-                        context
-                            .bloc<PositionBloc>()
-                            .add(CreateFormation(list, true));
+//                        context
+//                            .bloc<PositionBloc>()
+//                            .add(CreateFormation(list, true));
                         Navigator.pushNamed(context, position);
                       }
                     }
@@ -119,21 +107,21 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
             Expanded(
               child: BlocBuilder<TableBloc, TableState>(
                 builder: (BuildContext context, TableState state) {
-                  if (state is PlayerAdded) {
+                  if (state is TableAddedSuccess) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(0, map: state.map),
+                          children: _add4(0, players: state.players),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(4, map: state.map),
+                          children: _add4(4, players: state.players),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(8, map: state.map),
+                          children: _add3(8, players: state.players),
                         ),
                       ],
                     );
@@ -182,17 +170,17 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
             Expanded(
               child: BlocBuilder<TableBloc, TableState>(
                 builder: (BuildContext context, TableState state) {
-                  if (state is PlayerAdded)
+                  if (state is TableAddedSuccess)
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(11, map: state.map),
+                          children: _add4(11, players: state.players),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(15, map: state.map),
+                          children: _add3(15, players: state.players),
                         ),
                       ],
                     );
@@ -219,11 +207,11 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
     );
   }
 
-  List<Widget> _add4(int start, {Map<int, Player> map}) {
+  List<Widget> _add4(int start, {List<Player> players}) {
     List<Widget> list = [];
     for (int i = start; i < start + 4; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
+      if (players != null && players.contains(i)) {
+        list.add(_player(players[i], i));
       } else {
         list.add(AddButton(i));
       }
@@ -231,12 +219,12 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
     return list;
   }
 
-  List<Widget> _add3(int start, {Map<int, Player> map}) {
+  List<Widget> _add3(int start, {List<Player> players}) {
     List<Widget> list = [];
     list.add(SizedBox(width: 1));
     for (int i = start; i < start + 3; i++) {
-      if (map != null && map.containsKey(i)) {
-        list.add(_player(map[i], i));
+      if (players != null && players.contains(i)) {
+        list.add(_player(players[i], i));
       } else {
         list.add(AddButton(i));
       }
