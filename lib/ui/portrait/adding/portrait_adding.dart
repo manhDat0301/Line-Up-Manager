@@ -30,14 +30,24 @@ class _PortraitAddingState extends State<PortraitAdding> {
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: SingleChildScrollView(
+          child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Column(
               children: <Widget>[
                 _selectedImages(),
-                SearchPlayerPortrait(),
-                FavoritePlayers(),
-                PortraitLeagues(),
+                Container(
+                  height: 720,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: <Widget>[
+                        SearchPlayerPortrait(),
+                        FavoritePlayers(),
+                        PortraitLeagues(),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

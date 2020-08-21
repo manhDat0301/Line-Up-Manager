@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
-import 'package:marozi/model/club/club.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
 
 class PortraitPlayers extends StatefulWidget {
@@ -29,8 +28,8 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
               if (state is PlayersSuccess) {
                 return CustomScrollView(
                   slivers: <Widget>[
-                    _topBar(state.club, state.selectedStarting),
-                    _clubs(),
+                    _topBar(state),
+                    _players(),
                   ],
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
@@ -44,7 +43,7 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
     );
   }
 
-  Widget _topBar(Club club, List<String> selected) {
+  Widget _topBar(PlayersSuccess state) {
     return SliverList(
       delegate: SliverChildListDelegate(
         [
@@ -52,28 +51,29 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  Navigator.pop(context);
+                  context.bloc<TableBloc>().add(
+                        PlayerSelect(
+                          state.isStartingSelect
+                              ? state.selectedStarting
+                              : state.selectedSubs,
+                          state.isStartingSelect,
+                        ),
+                      );
+                },
                 child: Icon(
                   Icons.arrow_back_ios,
                   color: Colors.orange,
                 ),
               ),
               MyText(
-                text: club.name,
+                text: state.club.name,
                 color: Colors.black,
                 fontSize: 21,
                 isTitleCase: false,
               ),
-              GestureDetector(
-                onTap: () {
-                  context.bloc<TableBloc>().add(PlayerSelect(selected));
-                  Navigator.pushReplacementNamed(context, table);
-                },
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.orange,
-                ),
-              ),
+              SizedBox(width: 5),
             ],
           ),
         ],
@@ -81,7 +81,7 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
     );
   }
 
-  Widget _clubs() {
+  Widget _players() {
     return BlocBuilder<PlayerBloc, PlayerState>(
       builder: (BuildContext context, PlayerState state) {
         if (state is PlayersSuccess) {
@@ -92,7 +92,7 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
                   onTap: () {
                     context
                         .bloc<PlayerBloc>()
-                        .add(MultiSelectPlayer(state.players[index].id));
+                        .add(MultiSelectPlayer(state.players[index]));
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -119,16 +119,21 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
                         ),
                         InkWell(
                           onTap: () {
-                            context.bloc<PlayerBloc>().add(
-                                MultiSelectPlayer(state.players[index].id));
+                            context
+                                .bloc<PlayerBloc>()
+                                .add(MultiSelectPlayer(state.players[index]));
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.transparent,
                             ),
-                            child: state.selectedStarting
-                                    .contains(state.players[index].id)
+                            child: state.selectedStarting.any(
+                                        (Player playerStart) =>
+                                            playerStart.id ==
+                                            state.players[index].id) ||
+                                    state.selectedSubs.any((playerSub) =>
+                                        playerSub.id == state.players[index].id)
                                 ? Icon(
                                     Icons.check,
                                     color: Colors.orange,

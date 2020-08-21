@@ -6,25 +6,26 @@ class TableState extends Equatable {
   List<Object> get props => [];
 }
 
-class TableInitial extends TableState {}
+class TableInitial extends TableState {
+}
 
 class TableAddedSuccess extends TableState {
-  final List<Player> players;
+  final List<Player> starting;
   final List<Player> subs;
 
-  TableAddedSuccess({this.players, this.subs});
+  TableAddedSuccess({this.starting, this.subs});
 
   TableAddedSuccess copyWith({
-    List<Player> players,
+    List<Player> starting,
     List<Player> subs,
   }) {
     return TableAddedSuccess(
-      players: players ?? this.players,
+      starting: starting ?? this.starting,
       subs: subs ?? this.subs,
     );
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [players, subs];
+  List<Object> get props => [starting, subs];
 }

@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/model/player/player_repository.dart';
 
 part 'table_event.dart';
+
 part 'table_state.dart';
 
 class TableBloc extends Bloc<TableEvent, TableState> {
@@ -11,10 +11,6 @@ class TableBloc extends Bloc<TableEvent, TableState> {
 
   @override
   Stream<TableState> mapEventToState(TableEvent event) async* {
-    if (event is AddButtonPress) {
-      yield* _mapAddButtonToState(event);
-    }
-
     if (event is PlayerSelect) {
       yield* _mapPlayerSelectToState(event);
     }
@@ -24,26 +20,31 @@ class TableBloc extends Bloc<TableEvent, TableState> {
     }
   }
 
-  Stream<TableState> _mapAddButtonToState(AddButtonPress event) async* {
-    var starting = List<Player>(11);
-    var l = List.from(starting);
-    print(l.length);
-    print(l[0]);
-  }
-
   Stream<TableState> _mapPlayerSelectToState(PlayerSelect event) async* {
     var currentState = state;
-    final playerRepo = PlayerRepository();
     if (currentState is TableAddedSuccess) {
-      var starting = List<Player>(11);
-      yield TableAddedSuccess(
-        players: starting,
-      );
-    } else {}
+      yield event.isStartingSelect
+          ? currentState.copyWith(starting: event.player)
+          : currentState.copyWith(subs: event.player);
+    } else {
+      yield event.isStartingSelect
+          ? TableAddedSuccess(starting: event.player)
+          : TableAddedSuccess(subs: event.player);
+    }
   }
 
-  Stream<TableState> _mapPlayerDeleteToState(event) async* {
+  Stream<TableState> _mapPlayerDeleteToState(PlayerDelete event) async* {
     var currentState = state;
-    if (currentState is TableAddedSuccess) {}
+    if (currentState is TableAddedSuccess) {
+      if (event.isStarting) {
+        List<Player> deleted = List.from(currentState.starting);
+        deleted.removeAt(event.key);
+        yield currentState.copyWith(starting: deleted);
+      } else {
+        List<Player> deleted = List.from(currentState.subs);
+        deleted.removeAt(event.key);
+        yield currentState.copyWith(subs: deleted);
+      }
+    }
   }
 }

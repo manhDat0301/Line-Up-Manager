@@ -74,7 +74,7 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     var currentState = state;
     if (currentState is PositionSuccess) {
       List<Offset> offsets = List.from(currentState.offsets);
-      offsets[event.index] = event.offset - Offset(4, 51.5);
+      offsets[event.playersSelected] = event.offset - Offset(4, 51.5);
       yield currentState.copyWith(offsets: offsets);
       _updateOffset(
         currentState.listFormations[currentState.currentPage],

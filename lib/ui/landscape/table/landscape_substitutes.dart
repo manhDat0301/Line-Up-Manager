@@ -34,15 +34,15 @@ class _LandscapeSubstitutesState extends State<LandscapeSubstitutes> {
                       children: <Widget>[
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(11, players: state.players),
+                          children: _add3(11, players: state.starting),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(14, players: state.players),
+                          children: _add3(14, players: state.starting),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[AddButton(17)],
+//                          children: <Widget>[AddButton(state.subs)],
                         ),
                       ],
                     );
@@ -79,18 +79,18 @@ class _LandscapeSubstitutesState extends State<LandscapeSubstitutes> {
       if (players != null && players.contains(i)) {
         list.add(_player(players[i], i));
       } else {
-        list.add(AddButton(i));
+//        list.add(AddButton(players));
       }
     }
     return list;
   }
 
-  List<Widget> _add1(int start, {Map<int, Player> map}) {
+  List<Widget> _add1(int start, {List<Player> players}) {
     List<Widget> list = [];
-    if (map != null && map.containsKey(start)) {
-      list.add(_player(map[start], start));
+    if (players != null && players.contains(start)) {
+      list.add(_player(players[start], start));
     } else {
-      list.add(AddButton(start));
+//      list.add(AddButton(players));
     }
     return list;
   }

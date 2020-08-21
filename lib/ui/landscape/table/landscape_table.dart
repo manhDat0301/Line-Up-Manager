@@ -52,16 +52,16 @@ class _LandscapePlayerTableState extends State<LandscapePlayerTable> {
             return InkWell(
               onTap: () {
                 if (state is TableAddedSuccess) {
-                  if (state.players.isEmpty) {
+                  if (state.starting.isEmpty) {
                     _showSnackBar();
                   } else {
                     int start = 0;
                     int subs = 0;
                     for (int i = 0; i < 18; i++) {
-                      if (i <= 10 && state.players.contains(i)) {
+                      if (i <= 10 && state.starting.contains(i)) {
                         start++;
                       }
-                      if (10 < i && i < 18 && state.players.contains(i)) {
+                      if (10 < i && i < 18 && state.starting.contains(i)) {
                         subs++;
                       }
                     }

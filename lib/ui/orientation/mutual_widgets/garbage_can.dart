@@ -12,12 +12,13 @@ class _GarbageCanState extends State<GarbageCan> {
   Widget build(BuildContext context) {
     return DragTarget(
       onAccept: (data) {
-        context.bloc<TableBloc>().add(PlayerDelete(data));
+        context.bloc<TableBloc>().add(PlayerDelete(data[0], data[1]));
       },
       onWillAccept: (data) {
+        print(data);
         return true;
       },
-      builder: (BuildContext context, List<int> candidateData,
+      builder: (BuildContext context, List<List> candidateData,
           List<dynamic> rejectedData) {
         return Container(
           margin: EdgeInsets.fromLTRB(8, 5, 8, 5),

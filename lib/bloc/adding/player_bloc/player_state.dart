@@ -15,27 +15,31 @@ class PlayerInitial extends PlayerState {
 class PlayersSuccess extends PlayerState {
   final List<Player> players;
   final Club club;
-  final List<String> selectedStarting;
-  final List<String> selectedSubs;
+  final List<Player> selectedStarting;
+  final List<Player> selectedSubs;
+  final bool isStartingSelect;
 
   PlayersSuccess({
     this.players,
     this.club,
     this.selectedStarting,
     this.selectedSubs,
+    this.isStartingSelect,
   });
 
   PlayersSuccess copyWith({
     List<Player> players,
     Club club,
-    List<String> selectedStarting,
-    List<String> selectedSubs,
+    List<Player> selectedStarting,
+    List<Player> selectedSubs,
+    bool isStartingSelect,
   }) {
     return PlayersSuccess(
       players: players ?? this.players,
       club: club ?? this.club,
       selectedStarting: selectedStarting ?? this.selectedStarting,
       selectedSubs: selectedSubs ?? this.selectedSubs,
+      isStartingSelect: isStartingSelect ?? this.isStartingSelect,
     );
   }
 
@@ -46,5 +50,6 @@ class PlayersSuccess extends PlayerState {
         club,
         selectedStarting,
         selectedSubs,
+        isStartingSelect,
       ];
 }

@@ -34,19 +34,19 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
                     children: <Widget>[
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(0, players: state.players),
+                        children: _add3(0, players: state.starting),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(3, players: state.players),
+                        children: _add3(3, players: state.starting),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(6, players: state.players),
+                        children: _add3(6, players: state.starting),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add2(9, players: state.players),
+                        children: _add2(9, players: state.starting),
                       ),
                     ],
                   );
@@ -86,7 +86,7 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
       if (players != null && players.contains(i)) {
         list.add(_player(players[i], i));
       } else {
-        list.add(AddButton(i));
+//        list.add(AddButton(players));
       }
     }
     return list;
@@ -99,7 +99,7 @@ class _LandscapeStartingState extends State<LandscapeStarting> {
       if (players != null && players.contains(i)) {
         list.add(_player(players[i], i));
       } else {
-        list.add(AddButton(i));
+//        list.add(AddButton(players));
       }
     }
     list.add(SizedBox(height: 10));

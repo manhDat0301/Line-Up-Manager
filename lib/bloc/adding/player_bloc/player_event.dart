@@ -17,13 +17,22 @@ class GetPlayerByClub extends PlayerEvent {
 }
 
 class MultiSelectPlayer extends PlayerEvent {
-  final String playerId;
+  final Player player;
 
-  MultiSelectPlayer(this.playerId);
+  MultiSelectPlayer(this.player);
 
   @override
   // TODO: implement props
-  List<Object> get props => [playerId];
+  List<Object> get props => [player];
 }
 
-class AddButtonPress extends PlayerEvent {}
+class AddButtonPress extends PlayerEvent {
+  final List<Player> playersSelected;
+  final bool isStartingSelect;
+
+  AddButtonPress(this.playersSelected, this.isStartingSelect);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [playersSelected, isStartingSelect];
+}

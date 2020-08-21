@@ -61,10 +61,11 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
               return InkWell(
                 onTap: () {
                   if (state is TableAddedSuccess) {
-                    if (state.players.isEmpty) {
+                    if (state.starting.isEmpty) {
                       _showSnackBar();
                     } else {
-                      int enough = state.players.length + state.subs.length;
+//                      int enough = state.starting.length + state.subs.length;
+                      int enough = 0;
                       if (enough < 8) {
                         _showSnackBar();
                       } else {
@@ -105,45 +106,22 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
               ),
             ),
             Expanded(
-              child: BlocBuilder<TableBloc, TableState>(
-                builder: (BuildContext context, TableState state) {
-                  if (state is TableAddedSuccess) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(0, players: state.players),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(4, players: state.players),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(8, players: state.players),
-                        ),
-                      ],
-                    );
-                  }
-                  return Column(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add4(0),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add4(4),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(8),
-                      ),
-                    ],
-                  );
-                },
+                    children: _add(start: 0, isStartingSelect: true, count: 4),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _add(start: 4, isStartingSelect: true, count: 4),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _add(start: 8, isStartingSelect: true, count: 3),
+                  ),
+                ],
               ),
             ),
           ],
@@ -168,37 +146,18 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
               ),
             ),
             Expanded(
-              child: BlocBuilder<TableBloc, TableState>(
-                builder: (BuildContext context, TableState state) {
-                  if (state is TableAddedSuccess)
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add4(11, players: state.players),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: _add3(15, players: state.players),
-                        ),
-                      ],
-                    );
-                  return Column(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add4(11),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: _add3(15),
-                      ),
-                    ],
-                  );
-                  ;
-                },
+                    children: _add(start: 0, isStartingSelect: false, count: 4),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _add(start: 4, isStartingSelect: false, count: 3),
+                  ),
+                ],
               ),
             ),
           ],
@@ -207,43 +166,64 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
     );
   }
 
-  List<Widget> _add4(int start, {List<Player> players}) {
+  List<Widget> _add({int start, bool isStartingSelect, @required count}) {
     List<Widget> list = [];
-    for (int i = start; i < start + 4; i++) {
-      if (players != null && players.contains(i)) {
-        list.add(_player(players[i], i));
-      } else {
-        list.add(AddButton(i));
-      }
+    if (count == 3) {
+      list.add(SizedBox(width: 1));
+    }
+
+    for (int i = start; i < start + count; i++) {
+      list.add(BlocBuilder<TableBloc, TableState>(
+        builder: (BuildContext context, TableState state) {
+          if (state is TableAddedSuccess) {
+            if (isStartingSelect) {
+              if (state.starting != null && i < state.starting.length) {
+                return _player(
+                  index: i,
+                  players: state.starting,
+                  isStarting: isStartingSelect,
+                );
+              } else {
+                return AddButton(
+                  state.starting ?? [],
+                  isStartingSelect,
+                );
+              }
+            } else {
+              if (state.subs != null && i < state.subs.length) {
+                return _player(
+                  index: i,
+                  players: state.subs,
+                  isStarting: isStartingSelect,
+                );
+              } else {
+                return AddButton(
+                  state.subs ?? [],
+                  isStartingSelect,
+                );
+              }
+            }
+          }
+          return AddButton([], isStartingSelect);
+        },
+      ));
+    }
+    if (count == 3) {
+      list.add(SizedBox(width: 1));
     }
     return list;
   }
 
-  List<Widget> _add3(int start, {List<Player> players}) {
-    List<Widget> list = [];
-    list.add(SizedBox(width: 1));
-    for (int i = start; i < start + 3; i++) {
-      if (players != null && players.contains(i)) {
-        list.add(_player(players[i], i));
-      } else {
-        list.add(AddButton(i));
-      }
-    }
-    list.add(SizedBox(width: 1));
-    return list;
-  }
-
-  Widget _player(Player player, int key) {
+  Widget _player({int index, List<Player> players, bool isStarting}) {
     return Draggable(
-      data: key,
-      feedback: TablePlayerImage(player),
-      child: TablePlayerImage(player),
+      data: [index, isStarting],
+      feedback: TablePlayerImage(players[index]),
+      child: TablePlayerImage(players[index]),
     );
   }
 
   void _showSnackBar() {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text('Need at least 5 Starting and 3 Substitutes'),
-    ));
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(content: Text('Need at least 5 Starting and 3 Substitutes')));
   }
 }
