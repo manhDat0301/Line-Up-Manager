@@ -5,8 +5,10 @@ import 'package:marozi/utils/firestore_service.dart';
 
 class TablePlayerImage extends StatefulWidget {
   final Player player;
+  final int index;
+  final bool isStarting;
 
-  TablePlayerImage(this.player);
+  TablePlayerImage(this.player, {this.index, this.isStarting});
 
   @override
   _TablePlayerImageState createState() => _TablePlayerImageState();
@@ -15,6 +17,14 @@ class TablePlayerImage extends StatefulWidget {
 class _TablePlayerImageState extends State<TablePlayerImage> {
   @override
   Widget build(BuildContext context) {
+    return Draggable(
+      data: [widget.index, widget.isStarting],
+      feedback: _image(),
+      child: _image(),
+    );
+  }
+
+  Widget _image() {
     return Container(
       width: 65,
       height: 65,

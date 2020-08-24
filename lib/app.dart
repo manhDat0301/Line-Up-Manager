@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               break;
             case '/example':
               return CupertinoPageRoute(
-                  builder: (BuildContext context) => FirstPage());
+                  builder: (BuildContext context) => ExpansionTileSample());
               break;
             default:
               return CupertinoPageRoute(

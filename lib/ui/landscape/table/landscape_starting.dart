@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/orientation/mutual_widgets/add_button.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/table_player_image.dart';
 
 class LandscapeStarting extends StatefulWidget {

@@ -28,6 +28,7 @@ class MyText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       isTitleCase ? text.titleCase : text,
+      overflow: TextOverflow.clip,
       textAlign: textAlign != null ? textAlign : TextAlign.center,
       style: TextStyle(
         fontFamily: fontFamily ?? fontSFDisplayMedium,

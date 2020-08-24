@@ -34,6 +34,7 @@ dependencies:
   lazy_load_scrollview: 1.1.0
   recase: ^3.0.0
   cached_network_image: ^2.2.0+1
+  expandable: ^4.1.4
 
   # flutter_bloc
   flutter_bloc: ^6.0.1

@@ -31,28 +31,13 @@ class _PortraitClubsState extends State<PortraitClubs> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: BlocBuilder<ClubBloc, ClubState>(
-            buildWhen: (oldState, currentState) {
-              if (oldState is ClubInitial) {
-                return true;
-              } else {
-                if (oldState is ClubByLeagueSuccess &&
-                    currentState is ClubByLeagueSuccess) {
-                  if (oldState.league.id != currentState.league.id) {
-                    return true;
-                  }
-                }
-                return false;
-              }
-            },
             builder: (BuildContext context, ClubState state) {
               if (state is ClubByLeagueSuccess) {
-                return CustomScrollView(
-                  slivers: <Widget>[
+                return Column(
+                  children: <Widget>[
                     _topBar(state.league),
                     _clubs(state.clubs),
                   ],
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
                 );
               }
               return BottomLoader();
@@ -64,40 +49,41 @@ class _PortraitClubsState extends State<PortraitClubs> {
   }
 
   Widget _topBar(League league) {
-    return SliverList(
-      delegate: SliverChildListDelegate([
-        Stack(
-          overflow: Overflow.clip,
-          alignment: Alignment.centerLeft,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.orange,
-              ),
+    return Container(
+      height: 30,
+      child: Stack(
+        overflow: Overflow.clip,
+        alignment: Alignment.centerLeft,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.orange,
             ),
-            Align(
-              alignment: Alignment.center,
-              child: MyText(
-                text: league.name,
-                color: Colors.black,
-                fontSize: 21,
-                isTitleCase: false,
-              ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: MyText(
+              text: league.name,
+              color: Colors.black,
+              fontSize: 21,
+              isTitleCase: false,
             ),
-          ],
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _clubs(List<Club> clubs) {
-    return SliverFixedExtentList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: clubs.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
               context.bloc<PlayerBloc>().add(GetPlayerByClub(clubs[index]));
@@ -105,15 +91,15 @@ class _PortraitClubsState extends State<PortraitClubs> {
                   builder: (BuildContext context) => PortraitPlayers()));
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+              height: 75,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.white,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
-                key: Key('${index}'),
                 children: <Widget>[
                   AddingImage(clubs[index].logoUrl),
                   SizedBox(width: 4),
@@ -136,9 +122,7 @@ class _PortraitClubsState extends State<PortraitClubs> {
             ),
           );
         },
-        childCount: clubs.length,
       ),
-      itemExtent: 70.0,
     );
   }
 }

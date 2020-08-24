@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 
 part 'table_event.dart';
-
 part 'table_state.dart';
 
 class TableBloc extends Bloc<TableEvent, TableState> {
@@ -15,7 +14,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
       yield* _mapPlayerSelectToState(event);
     }
 
-    if (event is PlayerDelete) {
+        if (event is PlayerDelete) {
       yield* _mapPlayerDeleteToState(event);
     }
   }

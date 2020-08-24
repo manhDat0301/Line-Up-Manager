@@ -8,28 +8,67 @@ class AddingState extends Equatable {
 
 class AddingInitial extends AddingState {}
 
-class LeagueByNationSuccess extends AddingState {
+class AddingSuccess extends AddingState {
   final Map<String, List<League>> leagueByNation;
-  final bool hasReachedMax;
-  final int index;
 
-  LeagueByNationSuccess({this.leagueByNation, this.hasReachedMax, this.index});
+  // Table to Adding
+  final bool isStarting;
+  final List<Player> starting;
+  final List<Player> subs;
 
-  LeagueByNationSuccess copyWith({
+  // Club by League
+  final League league;
+  final List<Club> clubs;
+
+  // Player by Club
+  final Club club;
+  final List<Player> players;
+
+  AddingSuccess({
+    this.leagueByNation,
+    this.isStarting,
+    this.starting,
+    this.subs,
+    this.league,
+    this.clubs,
+    this.club,
+    this.players,
+  });
+
+  AddingSuccess copyWith({
     Map<String, List<League>> leagueByNation,
-    bool hasReachedMax,
-    int index,
+    bool isStarting,
+    List<Player> subs,
+    List<Player> starting,
+    League league,
+    List<Club> clubs,
+    Club club,
+    List<Player> players,
   }) {
-    return LeagueByNationSuccess(
+    return AddingSuccess(
       leagueByNation: leagueByNation ?? this.leagueByNation,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      index: index ?? this.index,
+      isStarting: isStarting ?? this.isStarting,
+      starting: starting ?? this.starting,
+      subs: subs ?? this.subs,
+      players: players ?? this.players,
+      club: club ?? this.club,
+      league: league ?? this.league,
+      clubs: clubs ?? this.clubs,
     );
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [leagueByNation, hasReachedMax, index];
+  List<Object> get props => [
+        this.leagueByNation,
+        isStarting,
+        starting,
+        subs,
+        league,
+        clubs,
+        club,
+        players,
+      ];
 }
 
 class LeagueByNationFailed extends AddingState {}

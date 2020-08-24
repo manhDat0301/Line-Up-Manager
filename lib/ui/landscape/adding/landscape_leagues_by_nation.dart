@@ -19,7 +19,7 @@ class _LandscapeLeaguesByNationState extends State<LandscapeLeaguesByNation> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
       builder: (BuildContext context, AddingState state) {
-        if (state is LeagueByNationSuccess) {
+        if (state is AddingSuccess) {
           return ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

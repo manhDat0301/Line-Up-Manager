@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
-import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
+import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/league/league.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
-import 'package:marozi/ui/portrait/adding/portrait_clubs.dart';
 
 class PortraitLeagues extends StatefulWidget {
   @override
@@ -18,104 +18,283 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
-      buildWhen: (oldState, currentState) {
-        if (oldState is AddingInitial) {
-          return true;
-        } else {
-          if (oldState is LeagueByNationSuccess &&
-              currentState is LeagueByNationSuccess) {
-            if (oldState.leagueByNation != currentState.leagueByNation) {
-              return true;
-            }
-          }
-          return false;
-        }
-      },
       builder: (BuildContext context, AddingState state) {
-        if (state is LeagueByNationSuccess) {
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: state.leagueByNation.length,
-            itemBuilder: (context, i) {
-              if (i < state.leagueByNation.length) {
-                String nat = state.leagueByNation.keys.toList()[i];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
-                      child: MyText(
-                        text: '$nat',
-                        color: Colors.black,
-                        fontSize: 16,
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    _buildLeagues(state.leagueByNation[nat]),
-                  ],
-                );
-              } else {
-                return Container(height: 50, child: BottomLoader());
-              }
+        if (state is AddingSuccess) {
+          if (state.clubs.isEmpty) {
+            return _buildLeagues(state.leagueByNation);
+          }
+          if (state.clubs.isNotEmpty && state.players.isEmpty) {
+            return _buildClubs(state.clubs, state.league);
+          }
+          if (state.players.isNotEmpty) {
+            return _buildPlayers(
+              state.players,
+              state.club,
+              state.starting,
+              state.subs,
+            );
+          }
+        }
+        return BottomLoader();
+      },
+    );
+  }
+
+  Widget _buildPlayers(
+    List<Player> players,
+    Club club,
+    List<Player> starting,
+    List<Player> subs,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+            color: Colors.white,
+          ),
+          child: InkWell(
+            onTap: () {
+              context.bloc<AddingBloc>().add(ClearPlayers());
             },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  AddingImage(club.logoUrl),
+                  SizedBox(width: 4),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: MyText(
+                      text: club.name,
+                      color: null,
+                      fontSize: 19,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 22),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8)),
+            color: Colors.white,
+          ),
+          child: SingleChildScrollView(
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: players.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    context
+                        .bloc<AddingBloc>()
+                        .add(MultiPlayerSelect(players[index]));
+//                    if (starting.length == 11 || subs.length == 7) {
+//                      Scaffold.of(context).showSnackBar(SnackBar(
+//                        content: Text('Limit reached'),
+//                      ));
+//                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Row(
+                      children: <Widget>[
+                        AddingImage(players[index].avatarUrl, isPlayer: true),
+                        SizedBox(width: 4),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: Text(
+                            players[index].name,
+                            style: TextStyle(
+                              color: null,
+                              fontSize: 19,
+                            ),
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                        starting.any((player) =>
+                                    player.id == players[index].id) ||
+                                subs.any(
+                                    (player) => player.id == players[index].id)
+                            ? Icon(
+                                Icons.check,
+                                size: 22,
+                                color: Colors.orange,
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildClubs(List<Club> clubs, League league) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+            color: Colors.white,
+          ),
+          child: InkWell(
+            onTap: () {
+              context.bloc<AddingBloc>().add(ClearClubs());
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  AddingImage(league.logoUrl),
+                  SizedBox(width: 4),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: MyText(
+                      text: league.name,
+                      color: null,
+                      fontSize: 19,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 22),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8)),
+            color: Colors.white,
+          ),
+          child: SingleChildScrollView(
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: clubs.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    context.bloc<AddingBloc>().add(ClubSelect(clubs[index]));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Row(
+                      children: <Widget>[
+                        AddingImage(clubs[index].logoUrl),
+                        SizedBox(width: 4),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: Text(
+                            clubs[index].name,
+                            style: TextStyle(
+                              color: null,
+                              fontSize: 19,
+                            ),
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLeagues(Map<String, List<League>> leagueByNation) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: leagueByNation.length,
+      itemBuilder: (context, i) {
+        if (i < leagueByNation.length) {
+          String nat = leagueByNation.keys.toList()[i];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
+                child: MyText(
+                  text: '$nat',
+                  color: Colors.black,
+                  fontSize: 16,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                ),
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: leagueByNation[nat].length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          context
+                              .bloc<AddingBloc>()
+                              .add(LeagueSelect(leagueByNation[nat][index]));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          child: Row(
+                            children: <Widget>[
+                              AddingImage(leagueByNation[nat][index].logoUrl),
+                              SizedBox(width: 4),
+                              Flexible(
+                                fit: FlexFit.tight,
+                                child: MyText(
+                                  text: leagueByNation[nat][index].name,
+                                  color: null,
+                                  fontSize: 19,
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           );
         } else {
-          return BottomLoader();
+          return Container(height: 50, child: BottomLoader());
         }
       },
-    );
-  }
-
-  Widget _buildLeagues(List<League> list) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.white,
-      ),
-      child: SingleChildScrollView(
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: list.length,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return _league(index: index, league: list[index]);
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _league({League league, int index}) {
-    return InkWell(
-      onTap: () {
-        context.bloc<ClubBloc>().add(GetClubByLeague(league));
-        Navigator.of(context).push(CupertinoPageRoute(
-            builder: (BuildContext context) => PortraitClubs()));
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: Row(
-          key: Key('${index}'),
-          children: <Widget>[
-            AddingImage(league.logoUrl),
-            SizedBox(width: 4),
-            MyText(
-              text: league.name,
-              color: null,
-              fontSize: 19,
-              textAlign: TextAlign.start,
-            ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.black,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
-import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -13,12 +13,9 @@ class PortraitPlayers extends StatefulWidget {
 }
 
 class _PortraitPlayersState extends State<PortraitPlayers> {
-  GlobalKey _key = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
       body: SafeArea(
         top: true,
         child: GestureDetector(
@@ -26,13 +23,11 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
           child: BlocBuilder<PlayerBloc, PlayerState>(
             builder: (BuildContext context, PlayerState state) {
               if (state is PlayersSuccess) {
-                return CustomScrollView(
-                  slivers: <Widget>[
+                return Column(
+                  children: <Widget>[
                     _topBar(state),
                     _players(),
                   ],
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
                 );
               }
               return BottomLoader();
@@ -44,59 +39,46 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
   }
 
   Widget _topBar(PlayersSuccess state) {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  context.bloc<TableBloc>().add(
-                        PlayerSelect(
-                          state.isStartingSelect
-                              ? state.selectedStarting
-                              : state.selectedSubs,
-                          state.isStartingSelect,
-                        ),
-                      );
-                },
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.orange,
-                ),
-              ),
-              MyText(
-                text: state.club.name,
-                color: Colors.black,
-                fontSize: 21,
-                isTitleCase: false,
-              ),
-              SizedBox(width: 5),
-            ],
+    return Container(
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.orange,
+            ),
           ),
+          MyText(
+            text: state.club.name,
+            color: Colors.black,
+            fontSize: 21,
+            isTitleCase: false,
+          ),
+          SizedBox(width: 5),
         ],
       ),
     );
   }
 
   Widget _players() {
-    return BlocBuilder<PlayerBloc, PlayerState>(
-      builder: (BuildContext context, PlayerState state) {
-        if (state is PlayersSuccess) {
-          return SliverFixedExtentList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
+    return Expanded(
+      child: BlocBuilder<PlayerBloc, PlayerState>(
+        builder: (BuildContext context, PlayerState state) {
+          if (state is PlayersSuccess) {
+            return ListView.builder(
+              itemCount: state.players.length,
+              itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    context
-                        .bloc<PlayerBloc>()
-                        .add(MultiSelectPlayer(state.players[index]));
                   },
                   child: Container(
+                    height: 75,
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    margin: EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
@@ -119,9 +101,6 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
                         ),
                         InkWell(
                           onTap: () {
-                            context
-                                .bloc<PlayerBloc>()
-                                .add(MultiSelectPlayer(state.players[index]));
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -151,13 +130,11 @@ class _PortraitPlayersState extends State<PortraitPlayers> {
                   ),
                 );
               },
-              childCount: state.players.length,
-            ),
-            itemExtent: 70.0,
-          );
-        }
-        return BottomLoader();
-      },
+            );
+          }
+          return BottomLoader();
+        },
+      ),
     );
   }
 }

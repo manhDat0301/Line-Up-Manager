@@ -6,8 +6,7 @@ class TableState extends Equatable {
   List<Object> get props => [];
 }
 
-class TableInitial extends TableState {
-}
+class TableInitial extends TableState {}
 
 class TableAddedSuccess extends TableState {
   final List<Player> starting;

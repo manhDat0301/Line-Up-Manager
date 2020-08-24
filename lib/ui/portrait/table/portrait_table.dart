@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
-import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
@@ -9,16 +8,17 @@ import 'package:marozi/ui/orientation/mutual_widgets/add_button.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/garbage_can.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/table_player_image.dart';
 
-class PortraitPlayerTable extends StatefulWidget {
+class PortraitTable extends StatefulWidget {
   @override
-  _PortraitPlayerTableState createState() => _PortraitPlayerTableState();
+  _PortraitTableState createState() => _PortraitTableState();
 }
 
-class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+class _PortraitTableState extends State<PortraitTable> {
+  GlobalKey<ScaffoldState> _scaffoldKey;
 
   @override
   void initState() {
+    _scaffoldKey = GlobalKey<ScaffoldState>();
     super.initState();
   }
 
@@ -39,54 +39,6 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
             GarbageCan(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _topBar() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(width: 20),
-          Text(
-            'Adding players',
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          BlocBuilder<TableBloc, TableState>(
-            builder: (BuildContext context, TableState state) {
-              return InkWell(
-                onTap: () {
-                  if (state is TableAddedSuccess) {
-                    if (state.starting.isEmpty) {
-                      _showSnackBar();
-                    } else {
-//                      int enough = state.starting.length + state.subs.length;
-                      int enough = 0;
-                      if (enough < 8) {
-                        _showSnackBar();
-                      } else {
-//                        context
-//                            .bloc<PositionBloc>()
-//                            .add(CreateFormation(list, true));
-                        Navigator.pushNamed(context, position);
-                      }
-                    }
-                  } else {
-                    _showSnackBar();
-                  }
-                },
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.orange,
-                ),
-              );
-            },
-          ),
-        ],
       ),
     );
   }
@@ -173,40 +125,48 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
     }
 
     for (int i = start; i < start + count; i++) {
-      list.add(BlocBuilder<TableBloc, TableState>(
-        builder: (BuildContext context, TableState state) {
-          if (state is TableAddedSuccess) {
-            if (isStartingSelect) {
-              if (state.starting != null && i < state.starting.length) {
-                return _player(
-                  index: i,
-                  players: state.starting,
-                  isStarting: isStartingSelect,
-                );
+      list.add(
+        BlocBuilder<TableBloc, TableState>(
+          builder: (BuildContext context, TableState state) {
+            if (state is TableAddedSuccess) {
+              if (isStartingSelect) {
+                if (state.starting != null && i < state.starting.length) {
+                  return TablePlayerImage(
+                    state.starting[i],
+                    index: i,
+                    isStarting: isStartingSelect,
+                  );
+                } else {
+                  return AddButton(
+                    isStartingSelect: isStartingSelect,
+                    starting: state.starting ?? [],
+                    subs: state.subs,
+                  );
+                }
               } else {
-                return AddButton(
-                  state.starting ?? [],
-                  isStartingSelect,
-                );
-              }
-            } else {
-              if (state.subs != null && i < state.subs.length) {
-                return _player(
-                  index: i,
-                  players: state.subs,
-                  isStarting: isStartingSelect,
-                );
-              } else {
-                return AddButton(
-                  state.subs ?? [],
-                  isStartingSelect,
-                );
+                if (state.subs != null && i < state.subs.length) {
+                  return TablePlayerImage(
+                    state.subs[i],
+                    index: i,
+                    isStarting: isStartingSelect,
+                  );
+                } else {
+                  return AddButton(
+                    isStartingSelect: isStartingSelect,
+                    starting: state.starting ?? [],
+                    subs: state.subs,
+                  );
+                }
               }
             }
-          }
-          return AddButton([], isStartingSelect);
-        },
-      ));
+            return AddButton(
+              isStartingSelect: isStartingSelect,
+              starting: [],
+              subs: [],
+            );
+          },
+        ),
+      );
     }
     if (count == 3) {
       list.add(SizedBox(width: 1));
@@ -214,11 +174,48 @@ class _PortraitPlayerTableState extends State<PortraitPlayerTable> {
     return list;
   }
 
-  Widget _player({int index, List<Player> players, bool isStarting}) {
-    return Draggable(
-      data: [index, isStarting],
-      feedback: TablePlayerImage(players[index]),
-      child: TablePlayerImage(players[index]),
+  Widget _topBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        SizedBox(width: 20),
+        Text(
+          'Adding players',
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        BlocBuilder<TableBloc, TableState>(
+          builder: (BuildContext context, TableState state) {
+            return InkWell(
+              onTap: () {
+                if (state is TableAddedSuccess) {
+                  if (state.starting.isEmpty) {
+                    _showSnackBar();
+                  } else {
+//                      int enough = state.starting.length + state.subs.length;
+                    int enough = 0;
+                    if (enough < 8) {
+                      _showSnackBar();
+                    } else {
+//                        context
+//                            .bloc<PositionBloc>()
+//                            .add(CreateFormation(list, true));
+                      Navigator.pushNamed(context, position);
+                    }
+                  }
+                } else {
+                  _showSnackBar();
+                }
+              },
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.orange,
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 

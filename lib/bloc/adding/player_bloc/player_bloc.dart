@@ -5,7 +5,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'player_event.dart';
-
 part 'player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
@@ -14,19 +13,16 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   @override
   Stream<PlayerState> mapEventToState(PlayerEvent event) async* {
     if (event is GetPlayerByClub) {
-      yield* _mapGetPlayerByClubToS(event);
+      yield* _mapGetPlayerByClubToState(event);
     }
 
-    if (event is MultiSelectPlayer) {
-      yield* _mapMultiSelectPlayerToS(event);
-    }
 
-    if (event is AddButtonPress) {
-      yield* _mapAddButtonPressedToS(event);
+    if (event is SelectedList) {
+      yield* _mapSelectedListToState(event);
     }
   }
 
-  Stream<PlayerState> _mapGetPlayerByClubToS(GetPlayerByClub event) async* {
+  Stream<PlayerState> _mapGetPlayerByClubToState(GetPlayerByClub event) async* {
     var currentState = state;
     if (currentState is PlayersSuccess) {
       yield PlayerInitial();
@@ -35,43 +31,17 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         players: await getData.getPlayersByClub(event.club),
         club: event.club,
       );
+    } else {
+      final getData = FirebaseToLocal();
+      yield PlayersSuccess(
+        players: await getData.getPlayersByClub(event.club),
+        club: event.club,
+      );
     }
   }
 
-  Stream<PlayerState> _mapMultiSelectPlayerToS(MultiSelectPlayer event) async* {
-    var currentState = state;
-    if (currentState is PlayersSuccess) {
-      // starting XI
-      if (currentState.isStartingSelect) {
 
-        List<Player> starting = List.from(currentState.selectedStarting);
-
-        !starting.any((Player player) => player.id == event.player.id) &&
-                starting.length < 11
-            ? starting.add(event.player)
-            : starting.removeWhere((player) => player.id == event.player.id);
-
-        yield currentState.copyWith(
-          selectedStarting: starting,
-        );
-      }
-      // subs
-      else {
-        List<Player> subs = List.from(currentState.selectedSubs);
-
-        (!subs.any((Player player) => player.id == event.player.id)) &&
-                subs.length < 7
-            ? subs.add(event.player)
-            : subs.removeWhere((player) => player.id == event.player.id);
-
-        yield currentState.copyWith(
-          selectedSubs: subs,
-        );
-      }
-    }
-  }
-
-  Stream<PlayerState> _mapAddButtonPressedToS(AddButtonPress event) async* {
+  Stream<PlayerState> _mapSelectedListToState(SelectedList event) async* {
     var currentState = state;
     if (currentState is PlayersSuccess) {
       yield currentState.copyWith(

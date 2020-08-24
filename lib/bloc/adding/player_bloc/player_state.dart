@@ -6,11 +6,7 @@ class PlayerState extends Equatable {
   List<Object> get props => [];
 }
 
-class PlayerInitial extends PlayerState {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
-}
+class PlayerInitial extends PlayerState {}
 
 class PlayersSuccess extends PlayerState {
   final List<Player> players;
