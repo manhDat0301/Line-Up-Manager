@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
@@ -140,7 +141,7 @@ class _PortraitTableState extends State<PortraitTable> {
                   return AddButton(
                     isStartingSelect: isStartingSelect,
                     starting: state.starting ?? [],
-                    subs: state.subs,
+                    subs: state.subs ?? [],
                   );
                 }
               } else {
@@ -154,7 +155,7 @@ class _PortraitTableState extends State<PortraitTable> {
                   return AddButton(
                     isStartingSelect: isStartingSelect,
                     starting: state.starting ?? [],
-                    subs: state.subs,
+                    subs: state.subs ?? [],
                   );
                 }
               }
@@ -190,19 +191,13 @@ class _PortraitTableState extends State<PortraitTable> {
             return InkWell(
               onTap: () {
                 if (state is TableAddedSuccess) {
-                  if (state.starting.isEmpty) {
-                    _showSnackBar();
+                  if (state.starting.length > 4 && state.subs.length > 2) {
+                    context
+                        .bloc<PositionBloc>()
+                        .add(CreateFormation(state.starting, state.subs, true));
+                    Navigator.pushNamed(context, position);
                   } else {
-//                      int enough = state.starting.length + state.subs.length;
-                    int enough = 0;
-                    if (enough < 8) {
-                      _showSnackBar();
-                    } else {
-//                        context
-//                            .bloc<PositionBloc>()
-//                            .add(CreateFormation(list, true));
-                      Navigator.pushNamed(context, position);
-                    }
+                    _showSnackBar();
                   }
                 } else {
                   _showSnackBar();

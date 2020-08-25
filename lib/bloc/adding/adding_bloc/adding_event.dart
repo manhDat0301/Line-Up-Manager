@@ -6,8 +6,6 @@ class AddingEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetLeagueByNation extends AddingEvent {}
-
 class LeagueSelect extends AddingEvent {
   final League league;
 

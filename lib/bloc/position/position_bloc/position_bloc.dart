@@ -42,11 +42,13 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     );
   }
 
-  Stream<PositionState> _mapCreateFormationToState(event) async* {
+  Stream<PositionState> _mapCreateFormationToState(
+      CreateFormation event) async* {
     yield PositionSuccess(
       listFormations: Constants.formations,
       currentPage: 0,
-      players: event.list,
+      players: event.starting,
+      subs: event.subs,
       isPortrait: event.isPortrait,
       offsets: event.isPortrait
           ? PortraitOffsetUser.offset_4_2_3_1
@@ -54,7 +56,7 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     );
   }
 
-  Stream<PositionState> _mapPositionSwapToState(event) async* {
+  Stream<PositionState> _mapPositionSwapToState(PositionSwap event) async* {
     var currentState = state;
     if (currentState is PositionSuccess) {
       List<Offset> offsets = List.from(currentState.offsets);
@@ -84,7 +86,8 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     }
   }
 
-  Stream<PositionState> _mapFormationChangeToState(event) async* {
+  Stream<PositionState> _mapFormationChangeToState(
+      FormationChange event) async* {
     var currentState = state;
     if (currentState is PositionSuccess) {
       switch (event.i) {

@@ -17,14 +17,15 @@ class PositionTestEvent extends PositionEvent {
 }
 
 class CreateFormation extends PositionEvent {
-  final List<Player> list;
+  final List<Player> starting;
+  final List<Player> subs;
   final bool isPortrait;
 
-  CreateFormation(this.list, this.isPortrait);
+  CreateFormation(this.starting, this.subs, this.isPortrait);
 
   @override
   // TODO: implement props
-  List<Object> get props => [list, isPortrait];
+  List<Object> get props => [starting, isPortrait, subs];
 }
 
 class FormationChange extends PositionEvent {

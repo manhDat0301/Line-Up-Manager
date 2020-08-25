@@ -8,6 +8,6 @@ class PlayerTable extends StatelessWidget {
     Orientation orientation = MediaQuery.of(context).orientation;
     return orientation == Orientation.portrait
         ? PortraitTable()
-        : LandscapePlayerTable();
+        : LandscapeTable();
   }
 }

@@ -6,7 +6,6 @@ class ExpansionTileSample extends StatefulWidget {
 }
 
 class ExpansionTileSampleState extends State<ExpansionTileSample> {
-
   final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
   String foos = 'One';
 
@@ -20,10 +19,7 @@ class ExpansionTileSampleState extends State<ExpansionTileSample> {
         body: new AppExpansionTile(
             key: expansionTile,
             title: new Text(this.foos),
-            backgroundColor: Theme
-                .of(context)
-                .accentColor
-                .withOpacity(0.025),
+            backgroundColor: Theme.of(context).accentColor.withOpacity(0.025),
             children: <Widget>[
               new ListTile(
                 title: const Text('One'),
@@ -52,8 +48,7 @@ class ExpansionTileSampleState extends State<ExpansionTileSample> {
                   });
                 },
               ),
-            ]
-        ),
+            ]),
       ),
     );
   }
@@ -73,8 +68,7 @@ class AppExpansionTile extends StatefulWidget {
     this.children: const <Widget>[],
     this.trailing,
     this.initiallyExpanded: false,
-  })
-      : assert(initiallyExpanded != null),
+  })  : assert(initiallyExpanded != null),
         super(key: key);
 
   final Widget leading;
@@ -89,7 +83,8 @@ class AppExpansionTile extends StatefulWidget {
   AppExpansionTileState createState() => new AppExpansionTileState();
 }
 
-class AppExpansionTileState extends State<AppExpansionTile> with SingleTickerProviderStateMixin {
+class AppExpansionTileState extends State<AppExpansionTile>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   CurvedAnimation _easeOutAnimation;
   CurvedAnimation _easeInAnimation;
@@ -105,17 +100,20 @@ class AppExpansionTileState extends State<AppExpansionTile> with SingleTickerPro
   void initState() {
     super.initState();
     _controller = new AnimationController(duration: _kExpand, vsync: this);
-    _easeOutAnimation = new CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-    _easeInAnimation = new CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _easeOutAnimation =
+        new CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _easeInAnimation =
+        new CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _borderColor = new ColorTween();
     _headerColor = new ColorTween();
     _iconColor = new ColorTween();
-    _iconTurns = new Tween<double>(begin: 0.0, end: 0.5).animate(_easeInAnimation);
+    _iconTurns =
+        new Tween<double>(begin: 0.0, end: 0.5).animate(_easeInAnimation);
     _backgroundColor = new ColorTween();
 
-    _isExpanded = PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
-    if (_isExpanded)
-      _controller.value = 1.0;
+    _isExpanded =
+        PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
+    if (_isExpanded) _controller.value = 1.0;
   }
 
   @override
@@ -157,37 +155,39 @@ class AppExpansionTileState extends State<AppExpansionTile> with SingleTickerPro
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
-    final Color borderSideColor = _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
+    final Color borderSideColor =
+        _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
     final Color titleColor = _headerColor.evaluate(_easeInAnimation);
 
     return new Container(
       decoration: new BoxDecoration(
-          color: _backgroundColor.evaluate(_easeOutAnimation) ?? Colors.transparent,
+          color: _backgroundColor.evaluate(_easeOutAnimation) ??
+              Colors.transparent,
           border: new Border(
             top: new BorderSide(color: borderSideColor),
             bottom: new BorderSide(color: borderSideColor),
-          )
-      ),
+          )),
       child: new Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           IconTheme.merge(
-            data: new IconThemeData(color: _iconColor.evaluate(_easeInAnimation)),
+            data:
+                new IconThemeData(color: _iconColor.evaluate(_easeInAnimation)),
             child: new ListTile(
               onTap: toggle,
               leading: widget.leading,
               title: new DefaultTextStyle(
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .subhead
                     .copyWith(color: titleColor),
                 child: widget.title,
               ),
-              trailing: widget.trailing ?? new RotationTransition(
-                turns: _iconTurns,
-                child: const Icon(Icons.expand_more),
-              ),
+              trailing: widget.trailing ??
+                  new RotationTransition(
+                    turns: _iconTurns,
+                    child: const Icon(Icons.expand_more),
+                  ),
             ),
           ),
           new ClipRect(

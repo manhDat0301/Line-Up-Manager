@@ -4,12 +4,12 @@ import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class SearchPlayerPortrait extends StatefulWidget {
+class PortraitSearch extends StatefulWidget {
   @override
-  _SearchPlayerPortraitState createState() => _SearchPlayerPortraitState();
+  _PortraitSearchState createState() => _PortraitSearchState();
 }
 
-class _SearchPlayerPortraitState extends State<SearchPlayerPortrait> {
+class _PortraitSearchState extends State<PortraitSearch> {
   ScrollableAutoCompleteTextField searchTextField;
 
   GlobalKey<ScrollableAutoCompleteTextFieldState> acfKey =

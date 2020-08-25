@@ -7,17 +7,12 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
-class FavoritePlayers extends StatefulWidget {
+class PortraitFavorites extends StatefulWidget {
   @override
-  _FavoritePlayersState createState() => _FavoritePlayersState();
+  _PortraitFavoritesState createState() => _PortraitFavoritesState();
 }
 
-class _FavoritePlayersState extends State<FavoritePlayers> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _PortraitFavoritesState extends State<PortraitFavorites> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteState>(

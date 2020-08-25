@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
-import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
-import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
@@ -28,13 +26,12 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => TableBloc(TableInitial()),
         ),
         BlocProvider<AddingBloc>(
-          create: (BuildContext context) =>
-              AddingBloc(AddingInitial())..add(GetLeagueByNation()),
+          create: (BuildContext context) => AddingBloc(AddingInitial()),
         ),
         BlocProvider<PositionBloc>(
-          create: (BuildContext context) => PositionBloc(PositionInitial())
-            ..add(PositionTestEvent(isPortrait: true)),
-        ),
+            create: (BuildContext context) => PositionBloc(PositionInitial())
+//            ..add(PositionTestEvent(isPortrait: true)),
+            ),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),
         ),
@@ -44,12 +41,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<FavoriteBloc>(
           create: (BuildContext context) =>
               FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
-        ),
-        BlocProvider<PlayerBloc>(
-          create: (BuildContext context) => PlayerBloc(PlayerInitial()),
-        ),
-        BlocProvider<ClubBloc>(
-          create: (BuildContext context) => ClubBloc(ClubInitial()),
         ),
       ],
       child: MaterialApp(

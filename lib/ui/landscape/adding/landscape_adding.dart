@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
-import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
+import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
-import 'package:marozi/ui/landscape/adding/landscape_clubs_column.dart';
-import 'package:marozi/ui/landscape/adding/landscape_leagues_by_nation.dart';
-import 'package:marozi/ui/landscape/adding/landscape_players_column.dart';
-import 'package:marozi/ui/landscape/adding/landscape_players_search.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/landscape/adding/landscape_clubs.dart';
+import 'package:marozi/ui/landscape/adding/landscape_favorite.dart';
+import 'package:marozi/ui/landscape/adding/landscape_leagues.dart';
+import 'package:marozi/ui/landscape/adding/landscape_players.dart';
+import 'package:marozi/ui/landscape/adding/landscape_search.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/landscape_adding_divider.dart';
 
 class LandscapeAdding extends StatefulWidget {
   @override
@@ -14,42 +19,84 @@ class LandscapeAdding extends StatefulWidget {
 }
 
 class _LandscapeAddingState extends State<LandscapeAdding> {
-  bool isPremierLSelect = true;
-  bool isChampionshipSelect = false;
-  bool isLeagueOneSelect = false;
-  bool isManUSelect = true;
+  GlobalKey<ScaffoldState> _scaffold;
+
+  @override
+  void initState() {
+    _scaffold = GlobalKey<ScaffoldState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ClubBloc>(
-          create: (BuildContext context) => ClubBloc(ClubInitial()),
-        ),
-        BlocProvider<PlayerBloc>(
-          create: (BuildContext context) => PlayerBloc(PlayerInitial()),
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: colorInputBackground,
-        body: SafeArea(
-          top: true,
-          left: true,
-          right: true,
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Container(
-              padding: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildLeaguesColumn(),
-                  LandscapeClubsColumn(),
-                  LandscapePlayersColumn(),
-                ],
+    return Scaffold(
+      key: _scaffold,
+      backgroundColor: colorInputBackground,
+      floatingActionButton: BlocConsumer<AddingBloc, AddingState>(
+        listener: (BuildContext context, AddingState state) {
+          if (state is AddingSuccess) {
+            if (state.isStarting && state.starting.length == 11) {
+              _showSnackBar();
+            } else {
+              if (state.subs.length == 7) _showSnackBar();
+            }
+          }
+        },
+        builder: (BuildContext context, AddingState state) {
+          if (state is AddingSuccess) {
+            return Visibility(
+              visible: state.starting.length > 4 || state.subs.length > 2,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, table, ModalRoute.withName(homepage));
+                  context.bloc<TableBloc>().add(PlayerSelect(
+                        state.isStarting ? state.starting : state.subs,
+                        state.isStarting,
+                      ));
+                },
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                backgroundColor: Colors.orange,
               ),
+            );
+          }
+          return Container();
+        },
+      ),
+      body: SafeArea(
+        top: true,
+        left: true,
+        right: true,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 10, top: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.289,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        LandscapeSearch(),
+                        LandscapeFavorite(),
+                        _leaguesByNation(),
+                      ],
+                    ),
+                  ),
+                ),
+                LandscapeClubs(),
+                LandscapePlayers(),
+              ],
             ),
           ),
         ),
@@ -57,19 +104,66 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
     );
   }
 
-  Widget _buildLeaguesColumn() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.289,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            LandscapePlayersSearch(),
-            LandscapeLeaguesByNation(),
-          ],
-        ),
-      ),
+  Widget _leaguesByNation() {
+    return BlocBuilder<AddingBloc, AddingState>(
+      builder: (BuildContext context, AddingState state) {
+        if (state is AddingSuccess) {
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: state.leagueByNation.length,
+            itemBuilder: (context, i) {
+              String nat = state.leagueByNation.keys.toList()[i];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10.0, top: 5, bottom: 5),
+                    child: MyText(
+                      text: '$nat',
+                      color: Colors.black,
+                      fontSize: 15,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9),
+                      color: Colors.white,
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: state.leagueByNation[nat].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            index < state.leagueByNation[nat].length &&
+                                    index != 0
+                                ? LandscapeAddingDivider()
+                                : Container(),
+                            LandscapeLeagues(state.leagueByNation[nat][index]),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+        return BottomLoader();
+      },
     );
+  }
+
+  void _showSnackBar() {
+    _scaffold.currentState.showSnackBar(SnackBar(
+      content: Text('Litmit Reached!'),
+    ));
   }
 }

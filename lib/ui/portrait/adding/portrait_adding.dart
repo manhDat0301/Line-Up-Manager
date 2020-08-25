@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/portrait/adding/portrait_favorite.dart';
 import 'package:marozi/ui/portrait/adding/portrait_leagues.dart';
-import 'package:marozi/ui/portrait/adding/portrait_players_favorite.dart';
-import 'package:marozi/ui/portrait/adding/portrait_search_player.dart';
+import 'package:marozi/ui/portrait/adding/portrait_search.dart';
 import 'package:marozi/utils/firestore_service.dart';
 
 class PortraitAdding extends StatefulWidget {
@@ -17,9 +19,53 @@ class PortraitAdding extends StatefulWidget {
 }
 
 class _PortraitAddingState extends State<PortraitAdding> {
+  GlobalKey<ScaffoldState> _scaffold;
+
+  @override
+  void initState() {
+    _scaffold = GlobalKey<ScaffoldState>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffold,
+      floatingActionButton: BlocConsumer<AddingBloc, AddingState>(
+        builder: (BuildContext context, AddingState state) {
+          if (state is AddingSuccess) {
+            return Visibility(
+              visible: state.starting.length > 4 || state.subs.length > 2,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, table, ModalRoute.withName(homepage));
+                  context.bloc<TableBloc>().add(PlayerSelect(
+                        state.isStarting ? state.starting : state.subs,
+                        state.isStarting,
+                      ));
+                },
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                backgroundColor: Colors.orange,
+              ),
+            );
+          }
+          return Container();
+        },
+        listener: (BuildContext context, AddingState state) {
+          if (state is AddingSuccess) {
+            if (state.isStarting && state.starting.length == 11) {
+              _showSnackBar();
+            } else {
+              if (state.subs.length == 7) _showSnackBar();
+            }
+          }
+        },
+      ),
       backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
@@ -33,16 +79,13 @@ class _PortraitAddingState extends State<PortraitAdding> {
               children: <Widget>[
                 _selectedImages(),
                 Expanded(
-                  child: SingleChildScrollView(
+                  child: ListView(
                     scrollDirection: Axis.vertical,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SearchPlayerPortrait(),
-                        FavoritePlayers(),
-                        PortraitLeagues(),
-                      ],
-                    ),
+                    children: <Widget>[
+                      PortraitSearch(),
+                      PortraitFavorites(),
+                      PortraitLeagues(),
+                    ],
                   ),
                 ),
               ],
@@ -104,5 +147,11 @@ class _PortraitAddingState extends State<PortraitAdding> {
         );
       },
     );
+  }
+
+  void _showSnackBar() {
+    _scaffold.currentState.showSnackBar(SnackBar(
+      content: Text('Litmit Reached!'),
+    ));
   }
 }

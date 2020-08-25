@@ -32,6 +32,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               state.club,
               state.starting,
               state.subs,
+              state.isStarting,
             );
           }
         }
@@ -45,6 +46,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
     Club club,
     List<Player> starting,
     List<Player> subs,
+    bool isStarting,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,46 +96,44 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               shrinkWrap: true,
               itemCount: players.length,
               itemBuilder: (context, index) {
+                bool bSt =
+                    starting.any((player) => player.id == players[index].id);
+                bool bSu = subs.any((player) => player.id == players[index].id);
                 return InkWell(
                   onTap: () {
                     context
                         .bloc<AddingBloc>()
                         .add(MultiPlayerSelect(players[index]));
-//                    if (starting.length == 11 || subs.length == 7) {
-//                      Scaffold.of(context).showSnackBar(SnackBar(
-//                        content: Text('Limit reached'),
-//                      ));
-//                    }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    child: Row(
-                      children: <Widget>[
-                        AddingImage(players[index].avatarUrl, isPlayer: true),
-                        SizedBox(width: 4),
-                        Flexible(
-                          fit: FlexFit.tight,
-                          child: Text(
-                            players[index].name,
-                            style: TextStyle(
-                              color: null,
-                              fontSize: 19,
+                  child: Opacity(
+                    opacity: isStarting ? (bSu ? 0.3 : 1) : (bSt ? 0.3 : 1),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Row(
+                        children: <Widget>[
+                          AddingImage(players[index].avatarUrl, isPlayer: true),
+                          SizedBox(width: 4),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              players[index].name,
+                              style: TextStyle(
+                                color: null,
+                                fontSize: 19,
+                              ),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.clip,
                             ),
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
                           ),
-                        ),
-                        starting.any((player) =>
-                                    player.id == players[index].id) ||
-                                subs.any(
-                                    (player) => player.id == players[index].id)
-                            ? Icon(
-                                Icons.check,
-                                size: 22,
-                                color: Colors.orange,
-                              )
-                            : Container(),
-                      ],
+                          bSt || bSu
+                              ? Icon(
+                                  Icons.check,
+                                  size: 22,
+                                  color: Colors.orange,
+                                )
+                              : Container(),
+                        ],
+                      ),
                     ),
                   ),
                 );

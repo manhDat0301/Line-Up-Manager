@@ -15,7 +15,6 @@ class _GarbageCanState extends State<GarbageCan> {
         context.bloc<TableBloc>().add(PlayerDelete(data[0], data[1]));
       },
       onWillAccept: (data) {
-        print(data);
         return true;
       },
       builder: (BuildContext context, List<List> candidateData,

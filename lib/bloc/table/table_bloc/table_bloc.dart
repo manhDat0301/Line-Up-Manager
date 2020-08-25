@@ -14,7 +14,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
       yield* _mapPlayerSelectToState(event);
     }
 
-        if (event is PlayerDelete) {
+    if (event is PlayerDelete) {
       yield* _mapPlayerDeleteToState(event);
     }
   }

@@ -23,41 +23,62 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
 
   @override
   Stream<ExportState> mapEventToState(ExportEvent event) async* {
-    var currentState = state;
-    if (event is PositionToExport) {
+    if (event is PositionToExport)
       yield* event.isPortrait
           ? _mapPositionToPortraitExport(event)
           : _mapPositionToLandscapeExport(event);
-    }
 
-    if (currentState is ExportFromPositionSuccess) {
-      if (event is SelectType) {
-        yield currentState.copyWith(currentPage: event.select);
-      }
-    }
+    if (event is SelectType) yield* _mapSelectTypeToState(event);
 
+    if (event is ExportSettingDialog)
+      yield* _mapExportSettingDialogToState(event);
+
+    if (event is SettingCaptainSelect)
+      yield* _mapSettingCaptainSelectToState(event);
+
+    if (event is RenderPreviewByte) yield* _mapRenderPreviewByteToState(event);
+  }
+
+  Stream<ExportState> _mapRenderPreviewByteToState(
+      RenderPreviewByte event) async* {
+    var currentState = state;
     if (currentState is ExportFromPositionSuccess) {
-      if (event is ExportSettingDialog) {
-        yield currentState.copyWith(
-          coachName: event.coachName,
-          teamName: event.teamName,
-          showSubs: event.showSubs,
-          showCoach: event.showCoach,
-          showCaptain: event.showCaptain,
-          captain: event.captain,
-        );
-      }
-      if (event is SettingCaptainSelect) {
-        Player captain;
-        currentState.players.forEach((player) {
-          if (player.name.contains(event.captainName)) captain = player;
-        });
-        yield currentState.copyWith(captain: captain ?? Player());
-      }
-      if (event is RenderPreviewByte) {
-        yield currentState.copyWith(
-            path: await _saveToCameraRoll(await _exportPng(event.boundary)));
-      }
+      yield currentState.copyWith(
+          path: await _saveToCameraRoll(await _exportPng(event.boundary)));
+    }
+  }
+
+  Stream<ExportState> _mapSettingCaptainSelectToState(
+      SettingCaptainSelect event) async* {
+    Player captain;
+    var currentState = state;
+    if (currentState is ExportFromPositionSuccess) {
+      currentState.players.forEach((player) {
+        if (player.name.contains(event.captainName)) captain = player;
+      });
+      yield currentState.copyWith(captain: captain ?? Player());
+    }
+  }
+
+  Stream<ExportState> _mapExportSettingDialogToState(
+      ExportSettingDialog event) async* {
+    var currentState = state;
+    if (currentState is ExportFromPositionSuccess) {
+      yield currentState.copyWith(
+        coachName: event.coachName,
+        teamName: event.teamName,
+        showSubs: event.showSubs,
+        showCoach: event.showCoach,
+        showCaptain: event.showCaptain,
+        captain: event.captain,
+      );
+    }
+  }
+
+  Stream<ExportState> _mapSelectTypeToState(SelectType event) async* {
+    var currentState = state;
+    if (currentState is ExportFromPositionSuccess) {
+      yield currentState.copyWith(currentPage: event.select);
     }
   }
 
@@ -78,7 +99,11 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       width: width,
       height: height,
     );
-
+    print('###### ${event.subs}');
+    List<String> subNames = [];
+    event.subs.forEach((player) {
+      subNames.add(player.name);
+    });
     yield ExportFromPositionSuccess(
       players: event.players,
       offsets: offsets,
@@ -86,15 +111,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       currentPage: 0,
       clubLogoUrl: _clubUrl,
       teamName: _clubName,
-      subsNames: [
-        'Romero',
-        'Lindelof',
-        'Williams',
-        'Fred',
-        'James',
-        'Mata',
-        'Ighalo',
-      ],
+      subsNames: subNames,
       showCaptain: true,
       showCoach: true,
       showSubs: true,
@@ -117,6 +134,11 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     List<Offset> offsets = _convertToExportOffset(
         position: event.offsets, width: width, height: height);
 
+    List<String> subNames = [];
+    event.subs.forEach((player) {
+      subNames.add(player.name);
+    });
+
     yield ExportFromPositionSuccess(
       players: event.players,
       offsets: offsets,
@@ -124,15 +146,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       currentPage: 0,
       clubLogoUrl: _clubUrl,
       teamName: _clubName,
-      subsNames: [
-        'Romero',
-        'Lindelof',
-        'Williams',
-        'Fred',
-        'James',
-        'Mata',
-        'Ighalo',
-      ],
+      subsNames: subNames,
       showCaptain: true,
       showCoach: true,
       showSubs: true,

@@ -8,14 +8,15 @@ class ExportEvent extends Equatable {
 
 class PositionToExport extends ExportEvent {
   final List<Player> players;
+  final List<Player> subs;
   final List<Offset> offsets;
   final bool isPortrait;
 
-  PositionToExport(this.players, this.offsets, this.isPortrait);
+  PositionToExport(this.players, this.subs, this.offsets, this.isPortrait);
 
   @override
   // TODO: implement props
-  List<Object> get props => [players, offsets, isPortrait];
+  List<Object> get props => [players, offsets, isPortrait, subs];
 }
 
 class SelectType extends ExportEvent {

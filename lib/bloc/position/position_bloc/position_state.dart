@@ -14,6 +14,7 @@ class PositionInitial extends PositionState {
 
 class PositionSuccess extends PositionState {
   final List<Player> players;
+  final List<Player> subs;
   final List<Offset> offsets;
   final List<String> listFormations;
   final int currentPage;
@@ -27,6 +28,7 @@ class PositionSuccess extends PositionState {
     this.currentPage,
     this.formation,
     this.isPortrait,
+    this.subs,
   });
 
   PositionSuccess copyWith({
@@ -36,6 +38,7 @@ class PositionSuccess extends PositionState {
     int currentPage,
     String formation,
     bool isPortrait,
+    List<Player> subs,
   }) {
     return PositionSuccess(
       listFormations: listFormations ?? this.listFormations,
@@ -44,11 +47,19 @@ class PositionSuccess extends PositionState {
       currentPage: currentPage ?? this.currentPage,
       formation: formation ?? this.formation,
       isPortrait: isPortrait ?? this.isPortrait,
+      subs: subs ?? this.subs,
     );
   }
 
   @override
   // TODO: implement props
-  List<Object> get props =>
-      [players, offsets, listFormations, currentPage, formation, isPortrait];
+  List<Object> get props => [
+        players,
+        offsets,
+        listFormations,
+        currentPage,
+        formation,
+        isPortrait,
+        subs,
+      ];
 }

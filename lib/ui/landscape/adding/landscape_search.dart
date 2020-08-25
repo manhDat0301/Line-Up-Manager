@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:marozi/repository/constants.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 
-class LandscapePlayersSearch extends StatefulWidget {
+class LandscapeSearch extends StatefulWidget {
   @override
-  _LandscapePlayersSearchState createState() => _LandscapePlayersSearchState();
+  _LandscapeSearchState createState() => _LandscapeSearchState();
 }
 
-class _LandscapePlayersSearchState extends State<LandscapePlayersSearch> {
+class _LandscapeSearchState extends State<LandscapeSearch> {
   FocusNode _focusNode;
   ScrollableAutoCompleteTextField searchTf;
   TextEditingController _textController;
-  GlobalKey<ScrollableAutoCompleteTextFieldState> key = GlobalKey();
+  GlobalKey<ScrollableAutoCompleteTextFieldState> key;
 
   @override
   void initState() {
     super.initState();
+    key = GlobalKey();
     _focusNode = FocusNode();
     _textController = TextEditingController();
   }
@@ -71,7 +73,7 @@ class _LandscapePlayersSearchState extends State<LandscapePlayersSearch> {
               itemSorter: (a, b) {
                 return a.toString().compareTo(b.toString());
               },
-              suggestions: ['abc', 'bca', 'casc', 'tri'],
+              suggestions: Constants.playersName(),
               itemSubmitted: (data) {
                 setState(() {
                   searchTf.textField.controller.text = data.toString();
