@@ -8,7 +8,6 @@ import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_cm.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_fix.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_info.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class LandscapePlayerDetail extends StatefulWidget {
   @override
@@ -98,28 +97,20 @@ class _LandscapePlayerDetailState extends State<LandscapePlayerDetail> {
         if (state is DetailedLoadSuccess) {
           return Row(
             children: <Widget>[
-              FutureBuilder(
-                initialData: '',
-                future: FireStorageService.loadFromStorage(
-                    context, state.player.avatarUrl),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: MediaQuery.of(context).size.width * 0.15,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10000.0),
-                      child: CachedNetworkImage(
-                        placeholder: (context, string) => BottomLoader(),
-                        errorWidget: (context, string, dynamic) => Icon(
-                          Icons.error,
-                          color: Colors.orange,
-                        ),
-                        imageUrl: snapshot.data ?? '',
-                      ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.15,
+                height: MediaQuery.of(context).size.width * 0.15,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10000.0),
+                  child: CachedNetworkImage(
+                    placeholder: (context, string) => BottomLoader(),
+                    errorWidget: (context, string, dynamic) => Icon(
+                      Icons.error,
+                      color: Colors.orange,
                     ),
-                  );
-                },
+                    imageUrl: state.player.avatarUrl ?? '',
+                  ),
+                ),
               ),
               SizedBox(width: 8),
               Expanded(
@@ -191,34 +182,23 @@ class _LandscapePlayerDetailState extends State<LandscapePlayerDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             TextFix('Club'),
-                            FutureBuilder(
-                              initialData: '',
-                              future: FireStorageService.loadFromStorage(
-                                  context, state.clubImageUrl),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<dynamic> snapshot) {
-                                return Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.06,
-                                  alignment: Alignment.center,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(10000.0),
-                                    child: CachedNetworkImage(
-                                      placeholder: (context, string) =>
-                                          BottomLoader(),
-                                      errorWidget: (context, string, dynamic) =>
-                                          Icon(
-                                        Icons.error,
-                                        color: Colors.orange,
-                                      ),
-                                      imageUrl: snapshot.data ?? '',
-                                    ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              height: MediaQuery.of(context).size.width * 0.06,
+                              alignment: Alignment.center,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10000.0),
+                                child: CachedNetworkImage(
+                                  placeholder: (context, string) =>
+                                      BottomLoader(),
+                                  errorWidget: (context, string, dynamic) =>
+                                      Icon(
+                                    Icons.error,
+                                    color: Colors.orange,
                                   ),
-                                );
-                              },
+                                  imageUrl: state.clubImageUrl ?? '',
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -261,34 +241,23 @@ class _LandscapePlayerDetailState extends State<LandscapePlayerDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             TextFix('Nation'),
-                            FutureBuilder(
-                              initialData: 'images/assets/england1.png',
-                              future: FireStorageService.loadFromStorage(
-                                  context, state.clubImageUrl),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<dynamic> snapshot) {
-                                return Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.06,
-                                  alignment: Alignment.center,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(10000.0),
-                                    child: CachedNetworkImage(
-                                      placeholder: (context, string) =>
-                                          BottomLoader(),
-                                      errorWidget: (context, string, dynamic) =>
-                                          Icon(
-                                        Icons.error,
-                                        color: Colors.orange,
-                                      ),
-                                      imageUrl: 'images/assets/england1.png',
-                                    ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              height: MediaQuery.of(context).size.width * 0.06,
+                              alignment: Alignment.center,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10000.0),
+                                child: CachedNetworkImage(
+                                  placeholder: (context, string) =>
+                                      BottomLoader(),
+                                  errorWidget: (context, string, dynamic) =>
+                                      Icon(
+                                    Icons.error,
+                                    color: Colors.orange,
                                   ),
-                                );
-                              },
+                                  imageUrl: 'images/assets/england1.png',
+                                ),
+                              ),
                             ),
                           ],
                         ),

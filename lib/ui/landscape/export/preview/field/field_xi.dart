@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PreviewFieldXI extends StatefulWidget {
   @override
@@ -118,24 +117,16 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FutureBuilder(
-                  initialData: ' ',
-                  future:
-                      FireStorageService.loadFromStorage(context, avatarUrl),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    return CachedNetworkImage(
-                      width: MediaQuery.of(context).size.width * 0.05,
-                      height: MediaQuery.of(context).size.height * 0.09,
-                      errorWidget: (context, string, dynamic) => Icon(
-                        Icons.error,
-                        color: Colors.grey,
-                      ),
-                      alignment: Alignment.center,
-                      placeholder: (context, string) => BottomLoader(),
-                      imageUrl: snapshot.data ?? '',
-                    );
-                  },
+                CachedNetworkImage(
+                  width: MediaQuery.of(context).size.width * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  errorWidget: (context, string, dynamic) => Icon(
+                    Icons.error,
+                    color: Colors.grey,
+                  ),
+                  alignment: Alignment.center,
+                  placeholder: (context, string) => BottomLoader(),
+                  imageUrl: avatarUrl ?? '',
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,

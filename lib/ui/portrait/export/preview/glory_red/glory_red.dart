@@ -9,7 +9,6 @@ import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/ui/portrait/export/preview/glory_red/glory_red_players_position.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PreviewGloryRed extends StatefulWidget {
   @override
@@ -53,33 +52,26 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          FutureBuilder(
-            initialData: '',
-            future:
-                FireStorageService.loadFromStorage(context, state.clubLogoUrl),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.width * 0.13,
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) {
-                    return Icon(
-                      Icons.error,
-                      color: Colors.grey,
-                    );
-                  },
-                  placeholder: (context, string) {
-                    return BottomLoader();
-                  },
-                  imageUrl: snapshot.data ?? '',
-                ),
-              );
-            },
+          Container(
+            width: MediaQuery.of(context).size.width * 0.13,
+            height: MediaQuery.of(context).size.width * 0.13,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: CachedNetworkImage(
+              errorWidget: (context, string, dynamic) {
+                return Icon(
+                  Icons.error,
+                  color: Colors.grey,
+                );
+              },
+              placeholder: (context, string) {
+                return BottomLoader();
+              },
+              imageUrl: state.clubLogoUrl ?? '',
+            ),
           ),
           SizedBox(width: 10),
           Column(

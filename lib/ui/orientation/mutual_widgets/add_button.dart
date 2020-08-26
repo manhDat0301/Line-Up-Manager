@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/strings.dart';
@@ -38,10 +39,12 @@ class _AddButtonState extends State<AddButton> {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(adding);
-            context.bloc<AddingBloc>().add(TableSelect(
-                starting: widget.starting,
-                isStarting: widget.isStartingSelect,
-                subs: widget.subs));
+            context.bloc<PlayerBloc>().add(TableUpdate(
+                  starting: widget.starting,
+                  isStarting: widget.isStartingSelect,
+                  subs: widget.subs,
+                ));
+            context.bloc<AddingBloc>().add(GetLeagueByNation());
           },
         ),
       ),

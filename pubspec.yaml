@@ -33,10 +33,12 @@ dependencies:
   carousel_slider: ^2.1.0
   lazy_load_scrollview: 1.1.0
   recase: ^3.0.0
-  cached_network_image: ^2.2.0+1
   expandable: ^4.1.4
 
-  # Cache Manager
+  # cache image
+  cached_network_image: ^2.2.0+1
+
+  # cache manager
   flutter_cache_manager: ^1.4.1
 
   # flutter_bloc

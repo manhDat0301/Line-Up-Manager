@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
+import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
@@ -29,9 +30,7 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => AddingBloc(AddingInitial()),
         ),
         BlocProvider<PositionBloc>(
-            create: (BuildContext context) => PositionBloc(PositionInitial())
-//            ..add(PositionTestEvent(isPortrait: true)),
-            ),
+            create: (BuildContext context) => PositionBloc(PositionInitial())),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),
         ),
@@ -42,6 +41,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               FavoriteBloc(FavoriteInitial())..add(FavoriteFetch()),
         ),
+        BlocProvider<PlayerBloc>(
+          create: (BuildContext context) => PlayerBloc(PlayerInitial()),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

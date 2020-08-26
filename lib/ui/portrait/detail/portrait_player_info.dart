@@ -8,7 +8,6 @@ import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_cm.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_fix.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_info.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PlayerInfo extends StatefulWidget {
   final Player player;
@@ -56,30 +55,23 @@ class _PlayerInfoState extends State<PlayerInfo> {
     return Expanded(
       child: Row(
         children: <Widget>[
-          FutureBuilder(
-            initialData: '',
-            future: FireStorageService.loadFromStorage(
-                context, widget.player.avatarUrl),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(10000.0),
-                child: CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) {
-                    return Container(
-                      width: 120,
-                      height: 120,
-                      child: Icon(Icons.error, color: Colors.orange),
-                    );
-                  },
-                  placeholder: (context, string) {
-                    return BottomLoader();
-                  },
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10000.0),
+            child: CachedNetworkImage(
+              errorWidget: (context, string, dynamic) {
+                return Container(
                   width: 120,
                   height: 120,
-                  imageUrl: snapshot.data,
-                ),
-              );
-            },
+                  child: Icon(Icons.error, color: Colors.orange),
+                );
+              },
+              placeholder: (context, string) {
+                return BottomLoader();
+              },
+              width: 120,
+              height: 120,
+              imageUrl: widget.player.avatarUrl ?? '',
+            ),
           ),
           Expanded(
             child: Container(
@@ -170,26 +162,18 @@ class _PlayerInfoState extends State<PlayerInfo> {
                 children: <Widget>[
                   Expanded(child: TextFix('Club')),
                   Expanded(
-                    child: FutureBuilder(
-                      initialData: '',
-                      future: FireStorageService.loadFromStorage(
-                          context, widget.clubUrl),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<dynamic> snapshot) {
-                        return CachedNetworkImage(
-                          errorWidget: (context, string, dynamic) {
-                            return Container(
-                              width: 50,
-                              child: Icon(Icons.error),
-                            );
-                          },
-                          placeholder: (context, string) {
-                            return BottomLoader();
-                          },
-                          imageUrl: snapshot.data,
+                    child: CachedNetworkImage(
+                      errorWidget: (context, string, dynamic) {
+                        return Container(
                           width: 50,
+                          child: Icon(Icons.error),
                         );
                       },
+                      placeholder: (context, string) {
+                        return BottomLoader();
+                      },
+                      imageUrl: widget.clubUrl,
+                      width: 50,
                     ),
                   ),
                 ],

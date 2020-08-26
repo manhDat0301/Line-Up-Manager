@@ -6,8 +6,7 @@ class FireStorageService extends ChangeNotifier {
 
   FireStorageService();
 
-  static Future<dynamic> loadFromStorage(
-      BuildContext context, String gsUrl) async {
+  static Future<dynamic> loadImage(BuildContext context, String gsUrl) async {
     return gsUrl != null
         ? await FirebaseStorage.instance
             .getReferenceFromUrl(gsUrl)

@@ -5,7 +5,6 @@ import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PortraitFavorites extends StatefulWidget {
   @override
@@ -69,35 +68,26 @@ class _PortraitFavoritesState extends State<PortraitFavorites> {
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: Row(
                                   children: [
-                                    FutureBuilder(
-                                      future:
-                                          FireStorageService.loadFromStorage(
-                                              context,
-                                              state.list[index].favAvtUrl),
-                                      initialData: '',
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<dynamic> snapshot) {
-                                        return Container(
-                                          width: 50,
-                                          height: 50,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10000.0),
-                                            child: CachedNetworkImage(
-                                              placeholder: (context, url) =>
-                                                  BottomLoader(),
-                                              errorWidget:
-                                                  (context, string, dynamic) {
-                                                return Icon(
-                                                  Icons.error,
-                                                  color: Colors.orange,
-                                                );
-                                              },
-                                              imageUrl: snapshot.data,
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10000.0),
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              BottomLoader(),
+                                          errorWidget:
+                                              (context, string, dynamic) {
+                                            return Icon(
+                                              Icons.error,
+                                              color: Colors.orange,
+                                            );
+                                          },
+                                          imageUrl:
+                                              state.list[index].favAvtUrl ?? '',
+                                        ),
+                                      ),
                                     ),
                                     Expanded(
                                       child: Padding(

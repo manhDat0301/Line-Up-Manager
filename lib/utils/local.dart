@@ -42,11 +42,11 @@ class MaroziLocal {
   Future clearAllContent() async {
     final helper = DatabaseHelper.instance;
     Database db = await helper.database;
-
-    db.delete(tableLeagues);
-    db.delete(tableClubs);
-    db.delete(tablePlayer);
-    db.delete(tableFavorite);
+//    await helper.deleteDB();
+    await db.delete(tableLeagues);
+    await db.delete(tableClubs);
+    await db.delete(tablePlayer);
+    await db.delete(tableFavorite);
   }
 
   Future deleteDB() async {

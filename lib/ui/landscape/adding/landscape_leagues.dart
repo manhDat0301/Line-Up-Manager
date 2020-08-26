@@ -36,9 +36,9 @@ class _LandscapeLeaguesState extends State<LandscapeLeagues> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: MyText(
                     text: widget.league.name,
-                    color: state is AddingSuccess &&
-                            state.league != null &&
-                            state.league.id == widget.league.id
+                    color: state is AddingLeagueSelecting &&
+                            state.leagueByNation['a'] != null &&
+                            state.leagueByNation['a'][0].id == widget.league.id
                         ? Colors.deepOrangeAccent
                         : Colors.black,
                     fontSize: 16,

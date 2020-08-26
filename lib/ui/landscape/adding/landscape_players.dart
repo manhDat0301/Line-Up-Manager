@@ -24,24 +24,24 @@ class _LandscapePlayersState extends State<LandscapePlayers> {
       ),
       child: BlocBuilder<AddingBloc, AddingState>(
         builder: (BuildContext context, AddingState state) {
-          if (state is AddingSuccess) {
+          if (state is AddingLeagueSelecting) {
             return ListView.builder(
-              itemCount: state.players.length,
+              itemCount: state.starting.length,
               itemBuilder: (BuildContext context, int index) {
                 var b = state.starting.any(
-                        (player) => player.id == state.players[index].id) ||
+                        (player) => player.id == state.starting[index].id) ||
                     state.subs
-                        .any((player) => player.id == state.players[index].id);
+                        .any((player) => player.id == state.starting[index].id);
                 return InkWell(
                   onTap: () {
                     context
                         .bloc<AddingBloc>()
-                        .add(MultiPlayerSelect(state.players[index]));
+                        .add(MultiPlayerSel(state.starting[index]));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      index != 0 && index < state.players.length
+                      index != 0 && index < state.starting.length
                           ? LandscapeAddingDivider()
                           : Container(),
                       Padding(
@@ -50,13 +50,13 @@ class _LandscapePlayersState extends State<LandscapePlayers> {
                         child: Row(
                           children: <Widget>[
                             AddingImage(
-                              state.players[index].avatarUrl,
+                              state.starting[index].avatarUrl,
                               isPlayer: true,
                             ),
                             Flexible(
                               fit: FlexFit.tight,
                               child: MyText(
-                                text: state.players[index].name,
+                                text: state.starting[index].name,
                                 color:
                                     b ? Colors.deepOrangeAccent : Colors.black,
                                 fontSize: 15,

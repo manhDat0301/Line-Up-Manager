@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/model/player/player.dart';
@@ -19,35 +20,24 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddingBloc, AddingState>(
       builder: (BuildContext context, AddingState state) {
-        if (state is AddingSuccess) {
-          if (state.clubs.isEmpty) {
-            return _buildLeagues(state.leagueByNation);
-          }
-          if (state.clubs.isNotEmpty && state.players.isEmpty) {
-            return _buildClubs(state.clubs, state.league);
-          }
-          if (state.players.isNotEmpty) {
-            return _buildPlayers(
-              state.players,
-              state.club,
-              state.starting,
-              state.subs,
-              state.isStarting,
-            );
-          }
+        if (state is AddingLeagueSelecting) {
+          return _buildLeagues(state.leagueByNation);
+        }
+        if (state is AddingClubsSelecting) {
+          return _buildClubs(state.clubs, state.league);
+        }
+        if (state is AddingPlayersSelecting) {
+          return _buildPlayers(club: state.club, players: state.players);
         }
         return BottomLoader();
       },
     );
   }
 
-  Widget _buildPlayers(
+  Widget _buildPlayers({
     List<Player> players,
     Club club,
-    List<Player> starting,
-    List<Player> subs,
-    bool isStarting,
-  ) {
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -60,7 +50,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
           ),
           child: InkWell(
             onTap: () {
-              context.bloc<AddingBloc>().add(ClearPlayers());
+              context.bloc<AddingBloc>().add(ClubBack());
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -96,46 +86,57 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               shrinkWrap: true,
               itemCount: players.length,
               itemBuilder: (context, index) {
-                bool bSt =
-                    starting.any((player) => player.id == players[index].id);
-                bool bSu = subs.any((player) => player.id == players[index].id);
-                return InkWell(
-                  onTap: () {
-                    context
-                        .bloc<AddingBloc>()
-                        .add(MultiPlayerSelect(players[index]));
-                  },
-                  child: Opacity(
-                    opacity: isStarting ? (bSu ? 0.3 : 1) : (bSt ? 0.3 : 1),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Row(
-                        children: <Widget>[
-                          AddingImage(players[index].avatarUrl, isPlayer: true),
-                          SizedBox(width: 4),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(
-                              players[index].name,
-                              style: TextStyle(
-                                color: null,
-                                fontSize: 19,
-                              ),
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.clip,
+                return BlocBuilder<PlayerBloc, PlayerState>(
+                  builder: (BuildContext context, PlayerState state) {
+                    if (state is PlayersSelected) {
+                      bool bSt = state.starting
+                          .any((player) => player.id == players[index].id);
+                      bool bSu = state.subs
+                          .any((player) => player.id == players[index].id);
+                      return InkWell(
+                        onTap: () {
+                          context
+                              .bloc<PlayerBloc>()
+                              .add(MultiPlayerSelect(players[index]));
+                        },
+                        child: Opacity(
+                          opacity: state.isStarting
+                              ? (bSu ? 0.3 : 1)
+                              : (bSt ? 0.3 : 1),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                            child: Row(
+                              children: <Widget>[
+                                AddingImage(players[index].avatarUrl,
+                                    isPlayer: true),
+                                SizedBox(width: 4),
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: Text(
+                                    players[index].name,
+                                    style: TextStyle(
+                                      color: null,
+                                      fontSize: 19,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                                bSt || bSu
+                                    ? Icon(
+                                        Icons.check,
+                                        size: 22,
+                                        color: Colors.orange,
+                                      )
+                                    : Container(),
+                              ],
                             ),
                           ),
-                          bSt || bSu
-                              ? Icon(
-                                  Icons.check,
-                                  size: 22,
-                                  color: Colors.orange,
-                                )
-                              : Container(),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                      );
+                    }
+                    return BottomLoader();
+                  },
                 );
               },
             ),
@@ -158,7 +159,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
           ),
           child: InkWell(
             onTap: () {
-              context.bloc<AddingBloc>().add(ClearClubs());
+              context.bloc<AddingBloc>().add(LeagueBack());
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

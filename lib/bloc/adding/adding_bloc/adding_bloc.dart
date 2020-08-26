@@ -13,49 +13,81 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   @override
   Stream<AddingState> mapEventToState(AddingEvent event) async* {
-    if (event is TableSelect) yield* _mapTableSelectToState(event);
+    if (event is GetLeagueByNation) yield* _mapGetLeagueByNationToState(event);
 
     if (event is LeagueSelect) yield* _mapLeagueSelectToState(event);
 
     if (event is ClubSelect) yield* _mapClubSelectToState(event);
 
-    if (event is ClearClubs) yield* _mapClearClubsToState(event);
+    if (event is ClubBack) yield* _mapClubBackToState(event);
 
-    if (event is ClearPlayers) yield* _mapClearPlayersToState(event);
+    if (event is LeagueBack) yield* _mapLeagueBackToState(event);
 
-    if (event is MultiPlayerSelect) yield* _mapMultiPlayerSelectToState(event);
+    if (event is MultiPlayerSel) yield* _mapMultiPlayerSelectToState(event);
+
+    if (event is TableSelect) yield* _mapTableSelectToState(event);
   }
 
-  Stream<AddingState> _mapClubSelectToState(ClubSelect event) async* {
+  Stream<AddingState> _mapGetLeagueByNationToState(
+      GetLeagueByNation event) async* {
+    final getData = FirebaseToLocal();
+    Map<String, List<League>> map = await getData.getLeagueByNation();
+    yield AddingLeagueSelecting(
+      leagueByNation: map,
+    );
+  }
+
+  Stream<AddingState> _mapLeagueSelectToState(LeagueSelect event) async* {
+    final getData = FirebaseToLocal();
+    List<Club> clubs = await getData.getClubsByLeague(event.league);
     var currentState = state;
-    if (currentState is AddingSuccess) {
-      final getPlayers = FirebaseToLocal();
-      List<Player> players = await getPlayers.getPlayersByClub(event.club);
-      yield currentState.copyWith(
-        club: event.club,
-        players: players,
+    if (currentState is AddingLeagueSelecting) {
+      yield AddingClubsSelecting(
+        league: event.league,
+        clubs: clubs,
+        leagueByNation: currentState.leagueByNation,
       );
     }
   }
 
-  Stream<AddingState> _mapClearClubsToState(ClearClubs event) async* {
+  Stream<AddingState> _mapClubSelectToState(ClubSelect event) async* {
+    final getPlayers = FirebaseToLocal();
+    List<Player> players = await getPlayers.getPlayersByClub(event.club);
     var currentState = state;
-    if (currentState is AddingSuccess) {
-      yield currentState.copyWith(clubs: []);
+    if (currentState is AddingClubsSelecting) {
+      yield AddingPlayersSelecting(
+        club: event.club,
+        players: players,
+        clubs: currentState.clubs,
+        league: currentState.league,
+        leagueByNation: currentState.leagueByNation,
+      );
     }
   }
 
-  Stream<AddingState> _mapClearPlayersToState(ClearPlayers event) async* {
+  Stream<AddingState> _mapClubBackToState(ClubBack event) async* {
     var currentState = state;
-    if (currentState is AddingSuccess) {
-      yield currentState.copyWith(players: []);
+    if (currentState is AddingPlayersSelecting) {
+      yield AddingClubsSelecting(
+          league: currentState.league,
+          clubs: currentState.clubs,
+          leagueByNation: currentState.leagueByNation);
+    }
+  }
+
+  Stream<AddingState> _mapLeagueBackToState(LeagueBack event) async* {
+    var currentState = state;
+    if (currentState is AddingClubsSelecting) {
+      yield AddingLeagueSelecting(
+        leagueByNation: currentState.leagueByNation,
+      );
     }
   }
 
   Stream<AddingState> _mapMultiPlayerSelectToState(
-      MultiPlayerSelect event) async* {
+      MultiPlayerSel event) async* {
     var currentState = state;
-    if (currentState is AddingSuccess) {
+    if (currentState is AddingLeagueSelecting) {
       if (currentState.isStarting) {
         List<Player> starting = List.from(currentState.starting);
         starting.any((player) => player.id == event.player.id)
@@ -72,52 +104,34 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
     }
   }
 
-  Stream<AddingState> _mapLeagueSelectToState(LeagueSelect event) async* {
-    var currentState = state;
-    if (currentState is AddingSuccess) {
-      final getClubs = FirebaseToLocal();
-      List<Club> clubs = await getClubs.getClubsByLeague(event.league);
-      yield currentState.copyWith(
-        league: event.league,
-        clubs: clubs,
-      );
-    }
-  }
-
   Stream<AddingState> _mapTableSelectToState(TableSelect event) async* {
     var currentState = state;
     if (currentState is AddingInitial) {
       final getData = FirebaseToLocal();
       Map<String, List<League>> map = await getData.getLeagueByNation();
-      yield AddingSuccess(
+      yield AddingLeagueSelecting(
         leagueByNation: map,
         isStarting: event.isStarting,
         starting: event.starting,
         subs: event.subs,
-        clubs: [],
-        players: [],
       );
     }
-    if (currentState is AddingSuccess) {
+    if (currentState is AddingLeagueSelecting) {
       if (event.isStarting) {
         List<Player> players = List<Player>.from(event.starting);
         yield currentState.copyWith(
           isStarting: event.isStarting,
           starting: players,
-          league: League(),
           club: Club(),
           players: [],
-          clubs: [],
         );
       } else {
         List<Player> subs = List<Player>.from(event.subs);
         yield currentState.copyWith(
           isStarting: event.isStarting,
           subs: subs,
-          league: League(),
           club: Club(),
           players: [],
-          clubs: [],
         );
       }
     }

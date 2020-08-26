@@ -10,6 +10,7 @@ class LeagueDao {
     final db = await helper.database;
     int result = Sqflite.firstIntValue(await db.rawQuery(
         'SELECT COUNT(*) FROM $tableLeagues WHERE id = \'${league.id}\''));
+
     if (result < 1) {
       result = await db.insert(tableLeagues, league.toMap());
     }

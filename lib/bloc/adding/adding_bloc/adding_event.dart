@@ -6,6 +6,8 @@ class AddingEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GetLeagueByNation extends AddingEvent {}
+
 class LeagueSelect extends AddingEvent {
   final League league;
 
@@ -38,27 +40,16 @@ class TableSelect extends AddingEvent {
   List<Object> get props => [starting, isStarting, subs];
 }
 
-class UpdateTable extends AddingEvent {
-  final List<Player> starting;
-  final List<Player> subs;
-
-  UpdateTable({this.starting, this.subs});
-
-  @override
-  // TODO: implement props
-  List<Object> get props => [starting, subs];
-}
-
-class MultiPlayerSelect extends AddingEvent {
+class MultiPlayerSel extends AddingEvent {
   final Player player;
 
-  MultiPlayerSelect(this.player);
+  MultiPlayerSel(this.player);
 
   @override
   // TODO: implement props
   List<Object> get props => [player];
 }
 
-class ClearPlayers extends AddingEvent {}
+class ClubBack extends AddingEvent {}
 
-class ClearClubs extends AddingEvent {}
+class LeagueBack extends AddingEvent {}

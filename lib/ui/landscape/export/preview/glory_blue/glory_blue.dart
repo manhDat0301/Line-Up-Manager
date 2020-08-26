@@ -7,7 +7,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PreviewGloryBlue extends StatefulWidget {
   @override
@@ -154,19 +153,13 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
       width: MediaQuery.of(context).size.width * 0.07,
       height: MediaQuery.of(context).size.width * 0.07,
       margin: EdgeInsets.only(left: 10, top: 10),
-      child: FutureBuilder(
-        initialData: ' ',
-        future: FireStorageService.loadFromStorage(context, logoUrl),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return CachedNetworkImage(
-            placeholder: (context, string) => BottomLoader(),
-            errorWidget: (context, string, dynamic) => Icon(
-              Icons.error,
-              color: Colors.grey,
-            ),
-            imageUrl: snapshot.data,
-          );
-        },
+      child: CachedNetworkImage(
+        placeholder: (context, string) => BottomLoader(),
+        errorWidget: (context, string, dynamic) => Icon(
+          Icons.error,
+          color: Colors.grey,
+        ),
+        imageUrl: logoUrl ?? '',
       ),
     );
   }
@@ -193,19 +186,13 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
           Container(
             width: MediaQuery.of(context).size.width * 0.05,
             height: MediaQuery.of(context).size.width * 0.05,
-            child: FutureBuilder(
-              initialData: ' ',
-              future: FireStorageService.loadFromStorage(context, avatarUrl),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return CachedNetworkImage(
-                  errorWidget: (context, string, dynamic) => Icon(
-                    Icons.error,
-                    color: Colors.grey,
-                  ),
-                  placeholder: (context, string) => BottomLoader(),
-                  imageUrl: snapshot.data,
-                );
-              },
+            child: CachedNetworkImage(
+              errorWidget: (context, string, dynamic) => Icon(
+                Icons.error,
+                color: Colors.grey,
+              ),
+              placeholder: (context, string) => BottomLoader(),
+              imageUrl: avatarUrl ?? '',
             ),
           ),
           Container(

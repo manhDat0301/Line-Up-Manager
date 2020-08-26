@@ -6,7 +6,6 @@ import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class DragPlayer extends StatefulWidget {
   final int index;
@@ -89,32 +88,24 @@ class _DragPlayerState extends State<DragPlayer> {
           Player player = state.players[widget.index];
           return Column(
             children: <Widget>[
-              FutureBuilder(
-                initialData: '',
-                future: FireStorageService.loadFromStorage(
-                    context, player.avatarUrl),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10000.0),
-                    child: Container(
-                      width: 65,
-                      height: 65,
-                      child: CachedNetworkImage(
-                        errorWidget: (context, string, dynamic) {
-                          return Icon(
-                            Icons.error,
-                            color: Colors.orange,
-                          );
-                        },
-                        placeholder: (context, string) {
-                          return BottomLoader();
-                        },
-                        imageUrl: snapshot.data ?? '',
-                      ),
-                    ),
-                  );
-                },
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10000.0),
+                child: Container(
+                  width: 65,
+                  height: 65,
+                  child: CachedNetworkImage(
+                    errorWidget: (context, string, dynamic) {
+                      return Icon(
+                        Icons.error,
+                        color: Colors.orange,
+                      );
+                    },
+                    placeholder: (context, string) {
+                      return BottomLoader();
+                    },
+                    imageUrl: state.players[widget.index].avatarUrl ?? '',
+                  ),
+                ),
               ),
               Text(
                 player.name.indexOf(' ') > 0

@@ -7,7 +7,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class GloryRedPlayersPosition extends StatefulWidget {
   @override
@@ -78,37 +77,26 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
             child: Stack(
               overflow: Overflow.visible,
               children: [
-                FutureBuilder(
-                  initialData: '',
-                  future: FireStorageService.loadFromStorage(
-                      context, player.avatarUrl),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(10000.0),
-                      child: CachedNetworkImage(
-                        imageUrl: snapshot.data ?? '',
-                        imageBuilder: (context, imageProvider) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              image: DecorationImage(
-                                image: imageProvider,
-                              ),
-                            ),
-                          );
-                        },
-                        errorWidget: (context, string, dynamic) {
-                          return Icon(
-                            Icons.error,
-                            color: Colors.orange,
-                          );
-                        },
-                        placeholder: (context, string) {
-                          return BottomLoader();
-                        },
+                CachedNetworkImage(
+                  imageUrl: player.avatarUrl ?? '',
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: imageProvider,
+                        ),
                       ),
                     );
+                  },
+                  errorWidget: (context, string, dynamic) {
+                    return Icon(
+                      Icons.error,
+                      color: Colors.orange,
+                    );
+                  },
+                  placeholder: (context, string) {
+                    return BottomLoader();
                   },
                 ),
                 Align(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/club/club_repository.dart';
@@ -19,8 +20,9 @@ class FirebaseToLocal {
 
   static Future splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
+//    await _maroziLocal.clearAllContent();
     if (await _leagueNeedUpdate()) {
-      _localUpdateAllLeague();
+      await _localUpdateAllLeague();
     }
   }
 
@@ -36,20 +38,26 @@ class FirebaseToLocal {
   }
 
   static _localUpdateAllLeague() async {
-    _firestoreInstance
+    await _firestoreInstance
         .collection('League')
         .orderBy('league_nation')
         .orderBy('league_name')
         .get()
-        .then((value) {
+        .then((value) async {
       for (var element in value.docs) {
+        var gsUrl = element.data()['league_logo_url'];
         League league = League();
         league.id = element.id;
         league.name = element.data()['league_name'];
         league.nation = element.data()['league_nation'];
-        league.logoUrl = element.data()['league_logo_url'];
+        league.logoUrl = gsUrl != null && gsUrl != ''
+            ? await FirebaseStorage.instance.getReferenceFromUrl(gsUrl).then(
+                (StorageReference ref) => ref
+                    .getDownloadURL()
+                    .then((dynamic snapshot) => snapshot.toString()))
+            : '';
         league.isExpand = false;
-        _maroziLocal.insertLeagueLocal(league);
+        await _maroziLocal.insertLeagueLocal(league);
       }
     });
   }
@@ -84,17 +92,23 @@ class FirebaseToLocal {
         .orderBy('club_name')
         .where('league_id', isEqualTo: league.id)
         .get()
-        .then((value) {
-      value.docs.forEach((element) {
+        .then((value) async {
+      for (var element in value.docs) {
+        var gsUrl = element.data()['club_logo_url'];
         Club club = Club();
         club.id = element.id;
         club.name = element.data()['club_name'];
         club.leagueId = element.data()['league_id'];
         club.leagueName = element.data()['league_name'];
-        club.logoUrl = element.data()['club_logo_url'];
+        club.logoUrl = gsUrl != null && gsUrl != ''
+            ? await FirebaseStorage.instance.getReferenceFromUrl(gsUrl).then(
+                (StorageReference ref) => ref
+                    .getDownloadURL()
+                    .then((dynamic snapshot) => snapshot.toString()))
+            : '';
         club.isExpand = false;
         clubs.add(club);
-      });
+      }
     });
     return clubs;
   }
@@ -123,8 +137,9 @@ class FirebaseToLocal {
         .orderBy('player_name')
         .where('club_id', isEqualTo: club.id)
         .get()
-        .then((value) {
-      value.docs.forEach((element) {
+        .then((value) async {
+      for (var element in value.docs) {
+        var gsUrl = element.data()['player_avatar_url'];
         Player player = Player();
         player.id = element.id;
         player.name = element.data()['player_name'];
@@ -142,7 +157,12 @@ class FirebaseToLocal {
         player.birthday = element.data()['date_of_birth_age'];
         player.weight = element.data()['weight'];
         player.height = element.data()['height'];
-        player.avatarUrl = element.data()['player_avatar_url'];
+        player.avatarUrl = gsUrl != null && gsUrl != ''
+            ? await FirebaseStorage.instance.getReferenceFromUrl(gsUrl).then(
+                (StorageReference ref) => ref
+                    .getDownloadURL()
+                    .then((dynamic snapshot) => snapshot.toString()))
+            : '';
         player.ballSkill = _countStat(element.data()['ball_skills']);
         player.shooting = _countStat(element.data()['shooting']);
         player.defence = _countStat(element.data()['defence']);
@@ -151,7 +171,7 @@ class FirebaseToLocal {
         player.isExpand = false;
         player.offset = Offset.zero;
         players.add(player);
-      });
+      }
     });
     return players;
   }

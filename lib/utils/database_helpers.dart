@@ -43,7 +43,7 @@ class DatabaseHelper {
 // Database helper methods:
 
   Future _createTable(Database db) async {
-    db.execute('''
+    await db.execute('''
     CREATE TABLE $tableLeagues(
     $leagueId TEXT PRIMARY KEY,
     $leagueName TEXT,

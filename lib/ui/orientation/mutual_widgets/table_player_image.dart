@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class TablePlayerImage extends StatefulWidget {
   final Player player;
@@ -34,24 +33,17 @@ class _TablePlayerImageState extends State<TablePlayerImage> {
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10000.0),
-          child: FutureBuilder(
-            initialData: '',
-            future: FireStorageService.loadFromStorage(
-                context, widget.player.avatarUrl),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return CachedNetworkImage(
-                errorWidget: (context, string, dynamic) {
-                  return Icon(
-                    Icons.error,
-                    color: Colors.orange,
-                  );
-                },
-                placeholder: (context, string) {
-                  return CircularProgressIndicator();
-                },
-                imageUrl: snapshot.data ?? '',
+          child: CachedNetworkImage(
+            errorWidget: (context, string, dynamic) {
+              return Icon(
+                Icons.error,
+                color: Colors.orange,
               );
             },
+            placeholder: (context, string) {
+              return CircularProgressIndicator();
+            },
+            imageUrl: widget.player.avatarUrl ?? '',
           ),
         ),
       ),

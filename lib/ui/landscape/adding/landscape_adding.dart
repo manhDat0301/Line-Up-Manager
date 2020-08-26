@@ -34,7 +34,7 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
       backgroundColor: colorInputBackground,
       floatingActionButton: BlocConsumer<AddingBloc, AddingState>(
         listener: (BuildContext context, AddingState state) {
-          if (state is AddingSuccess) {
+          if (state is AddingLeagueSelecting) {
             if (state.isStarting && state.starting.length == 11) {
               _showSnackBar();
             } else {
@@ -43,7 +43,7 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
           }
         },
         builder: (BuildContext context, AddingState state) {
-          if (state is AddingSuccess) {
+          if (state is AddingLeagueSelecting) {
             return Visibility(
               visible: state.starting.length > 4 || state.subs.length > 2,
               child: FloatingActionButton(
@@ -107,7 +107,7 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
   Widget _leaguesByNation() {
     return BlocBuilder<AddingBloc, AddingState>(
       builder: (BuildContext context, AddingState state) {
-        if (state is AddingSuccess) {
+        if (state is AddingLeagueSelecting) {
           return ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

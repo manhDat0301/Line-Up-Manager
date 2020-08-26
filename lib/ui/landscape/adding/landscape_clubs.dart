@@ -29,39 +29,39 @@ class _LandscapeClubsState extends State<LandscapeClubs> {
         ),
         child: BlocBuilder<AddingBloc, AddingState>(
           builder: (BuildContext context, AddingState state) {
-            if (state is AddingSuccess) {
+            if (state is AddingLeagueSelecting) {
               return ListView.builder(
                 shrinkWrap: true,
-                itemCount: state.clubs.length,
+                itemCount: state.starting.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      context
-                          .bloc<AddingBloc>()
-                          .add(ClubSelect(state.clubs[index]));
+//                      context
+//                          .bloc<AddingBloc>()
+//                          .add(ClubSelect(state.starting[index]));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        index != 0 && index < state.clubs.length
+                        index != 0 && index < state.starting.length
                             ? LandscapeAddingDivider()
                             : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 6.5),
                           child: Row(
                             children: <Widget>[
-                              AddingImage(state.clubs[index].logoUrl),
+                              AddingImage(state.starting[index].avatarUrl),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 8.0, right: 6),
                                   child: MyText(
-                                    text: state.clubs[index].name,
-                                    color: state.club != null &&
-                                            state.club.id ==
-                                                state.clubs[index].id
-                                        ? Colors.deepOrangeAccent
-                                        : Colors.black,
+                                    text: state.starting[index].name,
+//                                    color: state.club != null &&
+//                                            state.club.id ==
+//                                                state.starting[index].id
+//                                        ? Colors.deepOrangeAccent
+//                                        : Colors.black,
                                     fontSize: 15,
                                     textAlign: TextAlign.start,
                                   ),

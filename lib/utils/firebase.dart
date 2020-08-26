@@ -19,6 +19,8 @@ class MaroziFirebase {
   Future<int> countLeagueFirebase() async {
     var i = await firestoreInstance
         .collection('League')
+        .orderBy('league_nation')
+        .orderBy('league_name')
         .get()
         .then((value) => value.docs.length);
     return i;

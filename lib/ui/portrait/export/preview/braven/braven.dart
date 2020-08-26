@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/fonts.dart';
-import 'package:marozi/utils/firestore_service.dart';
 
 class PreviewBraven extends StatefulWidget {
   @override
@@ -249,36 +248,30 @@ class _PreviewBravenState extends State<PreviewBraven> {
           Container(
             width: MediaQuery.of(context).size.height * 0.079,
             height: MediaQuery.of(context).size.height * 0.079,
-            child: FutureBuilder(
-              initialData: '',
-              future: FireStorageService.loadFromStorage(context, avtUrl),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(10000.0),
-                  child: CachedNetworkImage(
-                    errorWidget: (context, string, dynamic) {
-                      return Icon(
-                        Icons.error,
-                        color: Colors.grey,
-                      );
-                    },
-                    imageBuilder: (context, imageProvider) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: imageProvider,
-                          ),
-                        ),
-                      );
-                    },
-                    placeholder: (context, string) {
-                      return BottomLoader();
-                    },
-                    imageUrl: snapshot.data ?? ' ',
-                  ),
-                );
-              },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10000.0),
+              child: CachedNetworkImage(
+                errorWidget: (context, string, dynamic) {
+                  return Icon(
+                    Icons.error,
+                    color: Colors.grey,
+                  );
+                },
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      image: DecorationImage(
+                        image: imageProvider,
+                      ),
+                    ),
+                  );
+                },
+                placeholder: (context, string) {
+                  return BottomLoader();
+                },
+                imageUrl: avtUrl ?? ' ',
+              ),
             ),
           ),
           SizedBox(height: 2),
