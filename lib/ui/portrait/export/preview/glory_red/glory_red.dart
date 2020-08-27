@@ -116,38 +116,40 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
         builder: (BuildContext context, ExportState state) {
           if (state is ExportFromPositionSuccess) {
             return state.showSubs
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: MyText(
-                          color: colorSubstitutesText,
-                          fontSize: 11,
-                          fontFamily: fontBebasNeueRegular,
-                          text: 'SUBSTITUTES'.toUpperCase(),
-                          isTitleCase: false,
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: MyText(
+                            color: colorSubstitutesText,
+                            fontSize: 12,
+                            fontFamily: fontBebasNeueRegular,
+                            text: 'SUBSTITUTES'.toUpperCase(),
+                            isTitleCase: false,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                ...Iterable<int>.generate(
-                                        state.subsNames.length)
-                                    .map(
-                                  (i) => _subsName(state.subsNames[i]),
-                                ),
-                              ],
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  ...Iterable<int>.generate(
+                                          state.subsNames.length)
+                                      .map(
+                                    (i) => _subsName(state.subsNames[i]),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 : Container();
           }
@@ -168,7 +170,7 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: MyText(
         color: Colors.white,
-        fontSize: 14,
+        fontSize: 15,
         fontFamily: fontBebasNeueRegular,
         text: text.toUpperCase(),
         isTitleCase: false,

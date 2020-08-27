@@ -26,7 +26,7 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   Stream<AddingState> _mapGetLeagueByNationToState(
       GetLeagueByNation event) async* {
-
+    yield AddingInitial();
     final getData = FirebaseToLocal();
     Map<String, List<League>> map = await getData.getLeagueByNation();
     yield AddingLeagueSelecting(
@@ -36,9 +36,10 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   Stream<AddingState> _mapLeagueSelectToState(LeagueSelect event) async* {
     final getData = FirebaseToLocal();
-    List<Club> clubs = await getData.getClubsByLeague(event.league);
     var currentState = state;
     if (currentState is AddingLeagueSelecting) {
+      yield AddingInitial();
+      List<Club> clubs = await getData.getClubsByLeague(event.league);
       yield AddingClubsSelecting(
         league: event.league,
         clubs: clubs,
@@ -49,9 +50,11 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   Stream<AddingState> _mapClubSelectToState(ClubSelect event) async* {
     final getPlayers = FirebaseToLocal();
-    List<Player> players = await getPlayers.getPlayersByClub(event.club);
+
     var currentState = state;
     if (currentState is AddingClubsSelecting) {
+      yield AddingInitial();
+      List<Player> players = await getPlayers.getPlayersByClub(event.club);
       yield AddingPlayersSelecting(
         club: event.club,
         players: players,
@@ -65,6 +68,7 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
   Stream<AddingState> _mapClubBackToState(ClubBack event) async* {
     var currentState = state;
     if (currentState is AddingPlayersSelecting) {
+      yield AddingInitial();
       yield AddingClubsSelecting(
           league: currentState.league,
           clubs: currentState.clubs,
@@ -75,6 +79,7 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
   Stream<AddingState> _mapLeagueBackToState(LeagueBack event) async* {
     var currentState = state;
     if (currentState is AddingClubsSelecting) {
+      yield AddingInitial();
       yield AddingLeagueSelecting(
         leagueByNation: currentState.leagueByNation,
       );

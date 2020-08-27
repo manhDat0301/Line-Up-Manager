@@ -28,7 +28,6 @@ class _PortraitTableState extends State<PortraitTable> {
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
-      backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
         child: Column(

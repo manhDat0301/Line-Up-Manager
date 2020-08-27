@@ -35,7 +35,8 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
                     ),
                     initiallyExpanded: false,
                     children: <Widget>[
-                      ListView.builder(padding: EdgeInsets.all(10),
+                      ListView.builder(
+                        padding: EdgeInsets.all(10),
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: favState.list.length,
@@ -54,7 +55,8 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
                                     FavoriteSelect(favState.list[index].favId));
                               },
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -82,7 +84,8 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
                                     Flexible(
                                       fit: FlexFit.tight,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: MyText(
                                           textAlign: TextAlign.start,
                                           color: Colors.black,

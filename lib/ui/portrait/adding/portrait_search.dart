@@ -47,7 +47,7 @@ class _PortraitSearchState extends State<PortraitSearch> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: colorInputBackground,
+          color: colorScaffoldBackground,
           borderRadius: BorderRadius.circular(8),
         ),
         child: _searchTextField2(iconConstraints),

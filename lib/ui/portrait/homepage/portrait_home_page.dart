@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
@@ -31,18 +33,16 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
             FocusScope.of(context).unfocus();
           },
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Align(
-                alignment: Alignment.topCenter,
-                child: MyText(
-                  text: 'Select mode',
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                ),
+              MyText(
+                text: 'Select mode',
+                color: Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
               ),
               _pageView(),
+              SizedBox(height: 30),
             ],
           ),
         ),
@@ -52,12 +52,21 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
 
   Widget _pageView() {
     return Expanded(
-      child: PageView(
-        controller: _pageController,
-        scrollDirection: Axis.horizontal,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _portrait(),
-          _landscape(),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: PageView(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                _portrait(),
+                _landscape(),
+              ],
+            ),
+          ),
+          _goButton(),
         ],
       ),
     );
@@ -79,6 +88,10 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pushNamed(table);
+                    SystemChrome.setPreferredOrientations([
+                      DeviceOrientation.portraitUp,
+                      DeviceOrientation.portraitDown,
+                    ]);
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -100,40 +113,48 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
               ],
             ),
           ),
-          _goButton(),
         ],
       ),
     );
   }
 
   Widget _landscape() {
-    return Container(
-      alignment: Alignment.center,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(table);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: Image.asset('assets/images/landscape.png'),
               ),
-              child: Image.asset('assets/images/landscape.png'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                child: MyText(
-                  text: 'Landscape Mode',
-                  color: Colors.black,
-                  fontSize: 16,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Center(
+                  child: MyText(
+                    text: 'Landscape Mode',
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -143,6 +164,15 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
     return RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       onPressed: () {
+        _pageController.page < 1
+            ? SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.portraitDown,
+              ])
+            : SystemChrome.setPreferredOrientations([
+                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight,
+              ]);
         Navigator.pushNamed(context, table);
       },
       textColor: Colors.white,

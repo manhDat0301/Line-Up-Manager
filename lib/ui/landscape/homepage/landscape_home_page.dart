@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/orientation/table.dart';
+import 'package:marozi/resources/strings.dart';
 
 class LandscapeHomePage extends StatefulWidget {
   @override
@@ -45,7 +46,6 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
         scrollDirection: Axis.horizontal,
         controller: _pageController,
         pageSnapping: true,
-        onPageChanged: (bool) {},
         children: <Widget>[
           _landscape(),
           _portrait(),
@@ -55,86 +55,103 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
   }
 
   Widget _landscape() {
-    return Container(
-      alignment: Alignment.center,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(CupertinoPageRoute(
-                      builder: (BuildContext context) => PlayerTable()));
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(8),
-                    topLeft: Radius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(table);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      },
+      child: Container(
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8),
+                  topLeft: Radius.circular(8),
+                ),
+                child: Image.asset('assets/images/landscape.png'),
+              ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Flexible(
+                        child: MyText(
+                          text: 'Landscape',
+                          color: Colors.black,
+                          fontSize: 17,
+                        ),
+                      ),
+                      Flexible(
+                        child: MyText(
+                          text: 'Mode',
+                          color: Colors.black,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
                   ),
-                  child: Image.asset('assets/images/landscape.png'),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Flexible(
-                    child: MyText(
-                      text: 'Landscape',
-                      color: Colors.black,
-                      fontSize: 17,
-                    ),
-                  ),
-                  Flexible(
-                    child: MyText(
-                      text: 'Mode',
-                      color: Colors.black,
-                      fontSize: 17,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _portrait() {
-    return Container(
-      alignment: Alignment.center,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: Image.asset(
-                'assets/images/portrait.png',
-                alignment: Alignment.center,
-                colorBlendMode: BlendMode.darken,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(table);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    topLeft: Radius.circular(8),
+                  ),
+                  child: Image.asset(
+                    'assets/images/portrait.png',
+                    alignment: Alignment.center,
+                    colorBlendMode: BlendMode.darken,
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: MyText(
-                text: 'Portrait Mode',
-                color: Colors.black,
-                fontSize: 17,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: MyText(
+                  text: 'Portrait Mode',
+                  color: Colors.black,
+                  fontSize: 17,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -147,8 +164,16 @@ class _ModeLandscapeState extends State<LandscapeHomePage> {
         borderRadius: BorderRadius.circular(8),
       ),
       onPressed: () {
-        Navigator.of(context).push(CupertinoPageRoute(
-            builder: (BuildContext context) => PlayerTable()));
+        _pageController.page < 1
+            ? SystemChrome.setPreferredOrientations([
+                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight,
+              ])
+            : SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.portraitDown,
+              ]);
+        Navigator.pushNamed(context, table);
       },
       child: Container(
         alignment: Alignment.center,

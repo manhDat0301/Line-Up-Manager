@@ -16,4 +16,4 @@ class GetPlayer extends AddingPlayerEvent {
   List<Object> get props => [club];
 }
 
-class ClearAddingPlayer extends AddingPlayerEvent{}
+class ClearAddingPlayer extends AddingPlayerEvent {}

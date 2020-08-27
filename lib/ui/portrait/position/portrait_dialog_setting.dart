@@ -105,7 +105,7 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: colorInputBackground,
+        color: colorScaffoldBackground,
       ),
       child: TextFormField(
         controller: controller,

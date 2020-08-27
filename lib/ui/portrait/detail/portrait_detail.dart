@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
-import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/portrait/detail/portrait_player_info.dart';
@@ -29,7 +28,6 @@ class _PortraitPlayerDetailState extends State<PortraitPlayerDetail> {
           DetailBloc(DetailInitial())..add(DetailFetch(widget.playerId)),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: colorInputBackground,
         body: SafeArea(
           top: true,
           child: BlocBuilder<DetailBloc, DetailState>(

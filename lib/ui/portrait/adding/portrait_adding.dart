@@ -64,7 +64,6 @@ class _PortraitAddingState extends State<PortraitAdding> {
           }
         },
       ),
-      backgroundColor: colorInputBackground,
       body: SafeArea(
         top: true,
         child: GestureDetector(

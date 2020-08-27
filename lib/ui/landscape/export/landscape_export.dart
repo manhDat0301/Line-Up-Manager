@@ -66,7 +66,11 @@ class _LandscapeExportState extends State<LandscapeExport> {
                 height: double.infinity,
                 child: Column(
                   children: <Widget>[
-                    Expanded(child: RepaintBoundary(key: _globalKey, child: LandscapePreview(),)),
+                    Expanded(
+                        child: RepaintBoundary(
+                      key: _globalKey,
+                      child: LandscapePreview(),
+                    )),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

@@ -1,5 +1,4 @@
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/ui/example/test.dart';
 
 class TestObj {
   String id;
@@ -14,8 +13,8 @@ class TestObj {
 
   Map<String, dynamic> toMap() {
     var map = {
-      playerId : id,
-      playerName : name,
+      playerId: id,
+      playerName: name,
     };
     return map;
   }

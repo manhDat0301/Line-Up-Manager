@@ -139,10 +139,12 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                         ),
                       ),
                       ...Iterable<int>.generate(7).map(
-                        (i) => i < subsName.length ?_subsText(
-                          name: subsName[i],
-                          fontSize: 13,
-                        ) : SizedBox(height: 20),
+                        (i) => i < subsName.length
+                            ? _subsText(
+                                name: subsName[i],
+                                fontSize: 13,
+                              )
+                            : SizedBox(height: 20),
                       ),
                     ],
                   ),

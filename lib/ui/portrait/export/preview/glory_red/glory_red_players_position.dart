@@ -77,27 +77,30 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
             child: Stack(
               overflow: Overflow.visible,
               children: [
-                CachedNetworkImage(
-                  imageUrl: player.avatarUrl ?? '',
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: imageProvider,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10000.0),
+                  child: CachedNetworkImage(
+                    imageUrl: player.avatarUrl ?? '',
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          image: DecorationImage(
+                            image: imageProvider,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  errorWidget: (context, string, dynamic) {
-                    return Icon(
-                      Icons.error,
-                      color: Colors.orange,
-                    );
-                  },
-                  placeholder: (context, string) {
-                    return BottomLoader();
-                  },
+                      );
+                    },
+                    errorWidget: (context, string, dynamic) {
+                      return Icon(
+                        Icons.error,
+                        color: Colors.orange,
+                      );
+                    },
+                    placeholder: (context, string) {
+                      return BottomLoader();
+                    },
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
@@ -139,7 +142,7 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontFamily: fontBebasNeueBold,
                     ),
                   ),
@@ -152,7 +155,7 @@ class _GloryRedPlayersPositionState extends State<GloryRedPlayersPosition> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.yellow,
-                            fontSize: 12,
+                            fontSize: 13,
                             fontFamily: fontBebasNeueBold,
                           ),
                         ),

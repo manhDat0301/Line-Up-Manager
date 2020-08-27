@@ -11,8 +11,7 @@ class LeagueRepository {
 
   Future<int> count() => leagueDao.count();
 
-  Future insertLeague(League league) =>
-      leagueDao.createLeague(league);
+  Future insertLeague(League league) => leagueDao.createLeague(league);
 
   Future updateLeague(League league) => leagueDao.updateLeague(league);
 

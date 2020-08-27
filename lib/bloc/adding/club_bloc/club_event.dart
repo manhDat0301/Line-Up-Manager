@@ -16,6 +16,4 @@ class GetClub extends ClubEvent {
   List<Object> get props => [league];
 }
 
-class ClearClub extends ClubEvent{
-
-}
+class ClearClub extends ClubEvent {}

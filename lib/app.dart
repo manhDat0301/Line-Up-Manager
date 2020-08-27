@@ -10,6 +10,7 @@ import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
+import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/example/test.dart';
@@ -40,8 +41,7 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => DetailBloc(DetailInitial()),
         ),
         BlocProvider<FavoriteBloc>(
-          create: (BuildContext context) =>
-              FavoriteBloc(FavoriteInitial()),
+          create: (BuildContext context) => FavoriteBloc(FavoriteInitial()),
         ),
         BlocProvider<PlayerBloc>(
           create: (BuildContext context) => PlayerBloc(PlayerInitial()),
@@ -60,8 +60,9 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.orange,
           accentColor: Colors.orange,
           fontFamily: fontSFDisplayRegular,
+          scaffoldBackgroundColor: colorScaffoldBackground,
         ),
-        initialRoute: table,
+        initialRoute: homepage,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

@@ -389,7 +389,7 @@ class _LandscapeDialogSettingState extends State<LandscapeDialogSetting> {
       height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: colorInputBackground,
+        color: colorScaffoldBackground,
       ),
       alignment: Alignment.center,
       child: TextFormField(

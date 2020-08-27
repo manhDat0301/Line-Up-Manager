@@ -52,7 +52,7 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: colorInputBackground,
+              color: colorScaffoldBackground,
             ),
             child: ScrollableAutoCompleteTextField(
               key: key,

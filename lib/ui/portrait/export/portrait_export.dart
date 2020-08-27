@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/repository/constants.dart';
+import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
@@ -22,36 +23,27 @@ class _PortraitExportState extends State<PortraitExport> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: colorPlayerBackground,
       body: SafeArea(
         top: true,
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: BlocListener<ExportBloc, ExportState>(
-            listener: (BuildContext context, ExportState state) {
-              if (state is ExportFromPositionSuccess) {
-                if (state.path != null)
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('${state.path}'),
-                  ));
-              }
-            },
-            child: Column(
-              children: <Widget>[
-                _topBar(),
-                _center(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: MyText(
-                    text: 'Style',
-                    color: Colors.black,
-                    fontSize: 17,
-                  ),
+          child: Column(
+            children: <Widget>[
+              _topBar(),
+              _center(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: MyText(
+                  text: 'Style',
+                  color: Colors.black,
+                  fontSize: 17,
                 ),
-                _bottom(),
-              ],
-            ),
+              ),
+              _bottom(),
+            ],
           ),
         ),
       ),

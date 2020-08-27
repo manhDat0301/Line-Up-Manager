@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
-import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
@@ -32,7 +31,6 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      backgroundColor: colorInputBackground,
       floatingActionButton: BlocConsumer<PlayerBloc, PlayerState>(
         listener: (BuildContext context, PlayerState state) {
           if (state is PlayersSelected) {

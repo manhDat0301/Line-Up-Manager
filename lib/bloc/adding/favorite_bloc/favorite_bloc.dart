@@ -4,7 +4,6 @@ import 'package:marozi/model/favorite/favorite.dart';
 import 'package:marozi/model/favorite/favorite_repository.dart';
 
 part 'favorite_event.dart';
-
 part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
