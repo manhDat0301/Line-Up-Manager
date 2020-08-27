@@ -17,6 +17,17 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
   );
 
   @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
