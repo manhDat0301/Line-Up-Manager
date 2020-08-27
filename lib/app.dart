@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/adding_players_bloc/adding_player_bloc.dart';
+import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
-import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
-import 'package:marozi/ui/example/example.dart';
+import 'package:marozi/ui/example/test.dart';
 import 'package:marozi/ui/orientation/adding.dart';
 import 'package:marozi/ui/orientation/detail.dart';
 import 'package:marozi/ui/orientation/export.dart';
@@ -43,7 +45,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PlayerBloc>(
           create: (BuildContext context) => PlayerBloc(PlayerInitial()),
-        )
+        ),
+        BlocProvider<ClubBloc>(
+          create: (BuildContext context) => ClubBloc(ClubInitial()),
+        ),
+        BlocProvider<AddingPlayerBloc>(
+          create: (BuildContext context) =>
+              AddingPlayerBloc(AddingPlayerInitial()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -82,7 +91,7 @@ class MyApp extends StatelessWidget {
               break;
             case '/example':
               return CupertinoPageRoute(
-                  builder: (BuildContext context) => ExpansionTileSample());
+                  builder: (BuildContext context) => Test());
               break;
             default:
               return CupertinoPageRoute(

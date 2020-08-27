@@ -28,18 +28,6 @@ class ClubSelect extends AddingEvent {
   List<Object> get props => [club];
 }
 
-class TableSelect extends AddingEvent {
-  final List<Player> starting;
-  final List<Player> subs;
-  final bool isStarting;
-
-  TableSelect({this.starting, this.isStarting, this.subs});
-
-  @override
-  // TODO: implement props
-  List<Object> get props => [starting, isStarting, subs];
-}
-
 class MultiPlayerSel extends AddingEvent {
   final Player player;
 

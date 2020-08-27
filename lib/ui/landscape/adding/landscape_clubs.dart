@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/adding_players_bloc/adding_player_bloc.dart';
+import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
 import 'package:marozi/ui/orientation/mutual_widgets/landscape_adding_divider.dart';
@@ -14,10 +15,6 @@ class LandscapeClubs extends StatefulWidget {
 class _LandscapeClubsState extends State<LandscapeClubs> {
   @override
   Widget build(BuildContext context) {
-    return _teamColumn();
-  }
-
-  Widget _teamColumn() {
     return Expanded(
       child: Container(
         height: double.infinity,
@@ -27,43 +24,52 @@ class _LandscapeClubsState extends State<LandscapeClubs> {
           borderRadius: BorderRadius.circular(8),
           color: Colors.white,
         ),
-        child: BlocBuilder<AddingBloc, AddingState>(
-          builder: (BuildContext context, AddingState state) {
-            if (state is AddingLeagueSelecting) {
+        child: BlocBuilder<ClubBloc, ClubState>(
+          builder: (BuildContext context, ClubState clubState) {
+            if (clubState is ClubFetchSuccess && clubState.clubs != null) {
               return ListView.builder(
                 shrinkWrap: true,
-                itemCount: state.starting.length,
+                itemCount: clubState.clubs.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-//                      context
-//                          .bloc<AddingBloc>()
-//                          .add(ClubSelect(state.starting[index]));
+                      context
+                          .bloc<AddingPlayerBloc>()
+                          .add(GetPlayer(clubState.clubs[index]));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        index != 0 && index < state.starting.length
+                        index != 0 && index < clubState.clubs.length
                             ? LandscapeAddingDivider()
                             : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 6.5),
                           child: Row(
                             children: <Widget>[
-                              AddingImage(state.starting[index].avatarUrl),
+                              AddingImage(clubState.clubs[index].logoUrl),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 8.0, right: 6),
-                                  child: MyText(
-                                    text: state.starting[index].name,
-//                                    color: state.club != null &&
-//                                            state.club.id ==
-//                                                state.starting[index].id
-//                                        ? Colors.deepOrangeAccent
-//                                        : Colors.black,
-                                    fontSize: 15,
-                                    textAlign: TextAlign.start,
+                                  child: BlocBuilder<AddingPlayerBloc,
+                                      AddingPlayerState>(
+                                    builder: (BuildContext context,
+                                        AddingPlayerState addingPlayerState) {
+                                      return MyText(
+                                        text: clubState.clubs[index].name,
+                                        color: addingPlayerState
+                                                    is PlayerFetchSuccess &&
+                                                addingPlayerState.club !=
+                                                    null &&
+                                                addingPlayerState.club.id ==
+                                                    clubState.clubs[index].id
+                                            ? Colors.deepOrangeAccent
+                                            : Colors.black,
+                                        fontSize: 15,
+                                        textAlign: TextAlign.start,
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

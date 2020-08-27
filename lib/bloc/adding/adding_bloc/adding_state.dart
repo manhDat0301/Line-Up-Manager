@@ -11,15 +11,8 @@ class AddingInitial extends AddingState {}
 class AddingLeagueSelecting extends AddingState {
   final Map<String, List<League>> leagueByNation;
 
-  final bool isStarting;
-  final List<Player> starting;
-  final List<Player> subs;
-
   AddingLeagueSelecting({
     this.leagueByNation,
-    this.isStarting,
-    this.starting,
-    this.subs,
   });
 
   AddingLeagueSelecting copyWith({
@@ -32,9 +25,6 @@ class AddingLeagueSelecting extends AddingState {
   }) {
     return AddingLeagueSelecting(
       leagueByNation: leagueByNation ?? this.leagueByNation,
-      isStarting: isStarting ?? this.isStarting,
-      starting: starting ?? this.starting,
-      subs: subs ?? this.subs,
     );
   }
 
@@ -42,9 +32,6 @@ class AddingLeagueSelecting extends AddingState {
   // TODO: implement props
   List<Object> get props => [
         this.leagueByNation,
-        isStarting,
-        starting,
-        subs,
       ];
 }
 

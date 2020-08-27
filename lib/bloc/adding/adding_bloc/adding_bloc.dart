@@ -22,14 +22,11 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
     if (event is ClubBack) yield* _mapClubBackToState(event);
 
     if (event is LeagueBack) yield* _mapLeagueBackToState(event);
-
-    if (event is MultiPlayerSel) yield* _mapMultiPlayerSelectToState(event);
-
-    if (event is TableSelect) yield* _mapTableSelectToState(event);
   }
 
   Stream<AddingState> _mapGetLeagueByNationToState(
       GetLeagueByNation event) async* {
+    await Future.delayed(Duration(seconds: 10));
     final getData = FirebaseToLocal();
     Map<String, List<League>> map = await getData.getLeagueByNation();
     yield AddingLeagueSelecting(
@@ -81,59 +78,6 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
       yield AddingLeagueSelecting(
         leagueByNation: currentState.leagueByNation,
       );
-    }
-  }
-
-  Stream<AddingState> _mapMultiPlayerSelectToState(
-      MultiPlayerSel event) async* {
-    var currentState = state;
-    if (currentState is AddingLeagueSelecting) {
-      if (currentState.isStarting) {
-        List<Player> starting = List.from(currentState.starting);
-        starting.any((player) => player.id == event.player.id)
-            ? starting.removeWhere((player) => player.id == event.player.id)
-            : starting.length < 11 ? starting.add(event.player) : print('');
-        yield currentState.copyWith(starting: starting);
-      } else {
-        List<Player> subs = List.from(currentState.subs);
-        subs.any((player) => player.id == event.player.id)
-            ? subs.removeWhere((player) => player.id == event.player.id)
-            : subs.length < 7 ? subs.add(event.player) : print('');
-        yield currentState.copyWith(subs: subs);
-      }
-    }
-  }
-
-  Stream<AddingState> _mapTableSelectToState(TableSelect event) async* {
-    var currentState = state;
-    if (currentState is AddingInitial) {
-      final getData = FirebaseToLocal();
-      Map<String, List<League>> map = await getData.getLeagueByNation();
-      yield AddingLeagueSelecting(
-        leagueByNation: map,
-        isStarting: event.isStarting,
-        starting: event.starting,
-        subs: event.subs,
-      );
-    }
-    if (currentState is AddingLeagueSelecting) {
-      if (event.isStarting) {
-        List<Player> players = List<Player>.from(event.starting);
-        yield currentState.copyWith(
-          isStarting: event.isStarting,
-          starting: players,
-          club: Club(),
-          players: [],
-        );
-      } else {
-        List<Player> subs = List<Player>.from(event.subs);
-        yield currentState.copyWith(
-          isStarting: event.isStarting,
-          subs: subs,
-          club: Club(),
-          players: [],
-        );
-      }
     }
   }
 }

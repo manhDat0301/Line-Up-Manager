@@ -1,4 +1,4 @@
-part of 'player_bloc.dart';
+part of 'selected_players_bloc.dart';
 
 class PlayerEvent extends Equatable {
   @override
@@ -26,4 +26,14 @@ class MultiPlayerSelect extends PlayerEvent {
   @override
   // TODO: implement props
   List<Object> get props => [player];
+}
+
+class FavoriteSelect extends PlayerEvent {
+  final String id;
+
+  FavoriteSelect(this.id);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id];
 }

@@ -1,4 +1,4 @@
-part of 'player_bloc.dart';
+part of 'selected_players_bloc.dart';
 
 class PlayerState extends Equatable {
   @override

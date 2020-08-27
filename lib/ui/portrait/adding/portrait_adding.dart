@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';

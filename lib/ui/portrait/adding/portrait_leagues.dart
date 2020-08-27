@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
-import 'package:marozi/bloc/adding/player_bloc/player_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/model/player/player.dart';

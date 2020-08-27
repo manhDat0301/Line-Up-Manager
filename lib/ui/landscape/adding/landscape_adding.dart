@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
@@ -32,9 +33,9 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
     return Scaffold(
       key: _scaffold,
       backgroundColor: colorInputBackground,
-      floatingActionButton: BlocConsumer<AddingBloc, AddingState>(
-        listener: (BuildContext context, AddingState state) {
-          if (state is AddingLeagueSelecting) {
+      floatingActionButton: BlocConsumer<PlayerBloc, PlayerState>(
+        listener: (BuildContext context, PlayerState state) {
+          if (state is PlayersSelected) {
             if (state.isStarting && state.starting.length == 11) {
               _showSnackBar();
             } else {
@@ -42,8 +43,8 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
             }
           }
         },
-        builder: (BuildContext context, AddingState state) {
-          if (state is AddingLeagueSelecting) {
+        builder: (BuildContext context, PlayerState state) {
+          if (state is PlayersSelected) {
             return Visibility(
               visible: state.starting.length > 4 || state.subs.length > 2,
               child: FloatingActionButton(
@@ -162,8 +163,10 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
   }
 
   void _showSnackBar() {
-    _scaffold.currentState.showSnackBar(SnackBar(
-      content: Text('Litmit Reached!'),
-    ));
+    _scaffold.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text('Limit Reached!'),
+      ));
   }
 }
