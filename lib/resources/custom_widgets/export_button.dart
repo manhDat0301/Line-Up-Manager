@@ -82,6 +82,11 @@ class _ExportDialogState extends State<ExportDialog> {
                                     .findRenderObject(),
                               ),
                             );
+                        Scaffold.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(SnackBar(
+                            content: Text('Exported to Gallery'),
+                          ));
                         Navigator.of(context).pop();
                       },
                       child:

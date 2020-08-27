@@ -5,6 +5,7 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/utils/firebase_to_local.dart';
 
 part 'adding_player_event.dart';
+
 part 'adding_player_state.dart';
 
 class AddingPlayerBloc extends Bloc<AddingPlayerEvent, AddingPlayerState> {
@@ -13,6 +14,8 @@ class AddingPlayerBloc extends Bloc<AddingPlayerEvent, AddingPlayerState> {
   @override
   Stream<AddingPlayerState> mapEventToState(AddingPlayerEvent event) async* {
     if (event is GetPlayer) yield* _mapGetPlayerToState(event);
+
+    if (event is ClearAddingPlayer) yield AddingPlayerInitial();
   }
 
   Stream<AddingPlayerState> _mapGetPlayerToState(GetPlayer event) async* {

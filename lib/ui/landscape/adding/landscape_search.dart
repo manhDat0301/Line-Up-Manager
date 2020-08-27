@@ -18,7 +18,7 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
   @override
   void initState() {
     super.initState();
-    key = GlobalKey();
+    key = GlobalKey<ScrollableAutoCompleteTextFieldState>();
     _focusNode = FocusNode();
     _textController = TextEditingController();
   }
@@ -27,7 +27,6 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
   void dispose() {
     super.dispose();
     _focusNode.dispose();
-    key.currentState.dispose();
     _textController.dispose();
   }
 
@@ -56,6 +55,7 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
               color: colorInputBackground,
             ),
             child: ScrollableAutoCompleteTextField(
+              key: key,
               focusNode: _focusNode,
               controller: _textController,
               decoration: InputDecoration(
@@ -107,7 +107,6 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
                   ],
                 );
               },
-              key: key,
             ),
           ),
         ],

@@ -12,9 +12,13 @@ class ClubBloc extends Bloc<ClubEvent, ClubState> {
 
   @override
   Stream<ClubState> mapEventToState(ClubEvent event) async* {
-    if (event is GetClub) {
+    if (event is GetClub)
       yield* _mapGetClubToState(event);
+
+    if(event is ClearClub) {
+      yield ClubInitial();
     }
+
   }
 
   Stream<ClubState> _mapGetClubToState(GetClub event) async* {

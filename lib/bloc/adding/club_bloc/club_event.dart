@@ -15,3 +15,7 @@ class GetClub extends ClubEvent {
   // TODO: implement props
   List<Object> get props => [league];
 }
+
+class ClearClub extends ClubEvent{
+
+}

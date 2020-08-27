@@ -68,6 +68,7 @@ class _LandscapePositionState extends State<LandscapePosition> {
                 onTap: () {
                   Navigator.pushNamed(context, export);
                   if (state is PositionSuccess) {
+                    print('####### ${state.players} ${state.subs}  ');
                     context.bloc<ExportBloc>().add(PositionToExport(
                         state.players, state.subs, state.offsets, false));
                   }

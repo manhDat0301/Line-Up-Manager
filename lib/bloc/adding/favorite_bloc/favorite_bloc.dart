@@ -4,6 +4,7 @@ import 'package:marozi/model/favorite/favorite.dart';
 import 'package:marozi/model/favorite/favorite_repository.dart';
 
 part 'favorite_event.dart';
+
 part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
@@ -18,6 +19,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Stream<FavoriteState> _mapFavFetchToState() async* {
     final favRepo = FavoriteRepository();
-    yield FavoriteLoadSuccess(list: await favRepo.getAllFavorite());
+    List<Favorite> favs = await favRepo.getAllFavorite();
+    yield FavoriteLoadSuccess(list: favs);
   }
 }

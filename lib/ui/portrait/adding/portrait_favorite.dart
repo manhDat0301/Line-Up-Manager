@@ -46,7 +46,7 @@ class _PortraitFavoritesState extends State<PortraitFavorites> {
                     onExpansionChanged: (bool) {},
                     children: <Widget>[
                       Container(
-                        height: favState.list.length < 5 ? null : 230,
+                        height: favState.list.length < 5 ? null : 250,
                         padding: const EdgeInsets.only(left: 15.5, bottom: 13),
                         child: ListView.builder(
                           shrinkWrap: true,

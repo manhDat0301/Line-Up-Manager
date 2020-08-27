@@ -26,7 +26,7 @@ class AddingBloc extends Bloc<AddingEvent, AddingState> {
 
   Stream<AddingState> _mapGetLeagueByNationToState(
       GetLeagueByNation event) async* {
-    await Future.delayed(Duration(seconds: 10));
+
     final getData = FirebaseToLocal();
     Map<String, List<League>> map = await getData.getLeagueByNation();
     yield AddingLeagueSelecting(

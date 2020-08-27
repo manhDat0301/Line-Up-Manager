@@ -57,7 +57,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                   ),
                 ),
                 _clubLogo(state.clubLogoUrl),
-                _rightCol(
+                _teamSubs(
                   subsName: state.subsNames,
                   coachName: state.coachName,
                   teamName: state.teamName,
@@ -75,7 +75,7 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
     );
   }
 
-  Widget _rightCol({
+  Widget _teamSubs({
     List<String> subsName,
     String coachName,
     String teamName,
@@ -97,7 +97,9 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                 Container(
                   alignment: Alignment.centerRight,
                   child: _subsText(
-                    name: teamName.isNotEmpty ? teamName : clubName,
+                    name: teamName != null && teamName.isNotEmpty
+                        ? teamName
+                        : clubName,
                     fontSize: 17,
                   ),
                 ),
@@ -105,7 +107,9 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                     ? Container(
                         alignment: Alignment.centerRight,
                         child: _subsText(
-                          name: coachName.isNotEmpty ? coachName : 'Coach Name',
+                          name: coachName != null && coachName.isNotEmpty
+                              ? coachName
+                              : 'Coach Name',
                           fontSize: 13,
                         ),
                       )
@@ -126,16 +130,19 @@ class _PreviewGloryBlueState extends State<PreviewGloryBlue> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _subsText(
-                        name: 'Substitutes',
-                        fontSize: 12,
-                        color: colorSubstitutesLandscapeText,
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: _subsText(
+                          name: 'Substitutes',
+                          fontSize: 12,
+                          color: colorSubstitutesLandscapeText,
+                        ),
                       ),
-                      ...Iterable<int>.generate(subsName.length).map(
-                        (i) => _subsText(
+                      ...Iterable<int>.generate(7).map(
+                        (i) => i < subsName.length ?_subsText(
                           name: subsName[i],
                           fontSize: 13,
-                        ),
+                        ) : SizedBox(height: 20),
                       ),
                     ],
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/adding_players_bloc/adding_player_bloc.dart';
 import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
 import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/model/player/player.dart';
@@ -47,6 +48,7 @@ class _AddButtonState extends State<AddButton> {
                 ));
             context.bloc<AddingBloc>().add(GetLeagueByNation());
             context.bloc<FavoriteBloc>().add(FavoriteFetch());
+
           },
         ),
       ),

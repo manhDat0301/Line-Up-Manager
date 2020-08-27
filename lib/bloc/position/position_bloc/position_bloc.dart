@@ -72,11 +72,11 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     }
   }
 
-  Stream<PositionState> _mapDropPlayerToState(event) async* {
+  Stream<PositionState> _mapDropPlayerToState(DropPlayer event) async* {
     var currentState = state;
     if (currentState is PositionSuccess) {
       List<Offset> offsets = List.from(currentState.offsets);
-      offsets[event.playersSelected] = event.offset - Offset(4, 51.5);
+      offsets[event.index] = event.offset - Offset(4, 51.5);
       yield currentState.copyWith(offsets: offsets);
       _updateOffset(
         currentState.listFormations[currentState.currentPage],

@@ -8,31 +8,29 @@ import 'package:marozi/ui/landscape/export/preview/glory_blue/glory_blue.dart';
 class LandscapePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.82,
-        height: MediaQuery.of(context).size.height * 0.75,
-        alignment: Alignment.center,
-        child: BlocBuilder<ExportBloc, ExportState>(
-          builder: (BuildContext context, ExportState state) {
-            if (state is ExportFromPositionSuccess) {
-              switch (state.currentPage) {
-                case 0:
-                  return PreviewGloryBlue();
-                  break;
-                case 1:
-                  return LandscapeBlueAndWhite();
-                  break;
-                case 2:
-                  return PreviewFieldXI();
-                  break;
-                default:
-                  return PreviewGloryBlue();
-              }
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.82,
+      height: MediaQuery.of(context).size.height * 0.75,
+      alignment: Alignment.center,
+      child: BlocBuilder<ExportBloc, ExportState>(
+        builder: (BuildContext context, ExportState state) {
+          if (state is ExportFromPositionSuccess) {
+            switch (state.currentPage) {
+              case 0:
+                return PreviewGloryBlue();
+                break;
+              case 1:
+                return LandscapeBlueAndWhite();
+                break;
+              case 2:
+                return PreviewFieldXI();
+                break;
+              default:
+                return PreviewGloryBlue();
             }
-            return Container();
-          },
-        ),
+          }
+          return Container();
+        },
       ),
     );
   }

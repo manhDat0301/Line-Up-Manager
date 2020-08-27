@@ -15,3 +15,5 @@ class GetPlayer extends AddingPlayerEvent {
   // TODO: implement props
   List<Object> get props => [club];
 }
+
+class ClearAddingPlayer extends AddingPlayerEvent{}

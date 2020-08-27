@@ -99,7 +99,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       width: width,
       height: height,
     );
-    print('###### ${event.subs}');
     List<String> subNames = [];
     event.subs.forEach((player) {
       subNames.add(player.name);

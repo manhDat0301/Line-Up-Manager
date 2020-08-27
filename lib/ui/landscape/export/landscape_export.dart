@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/ui/landscape/export/preview/landscape_preview.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
@@ -13,6 +14,8 @@ class LandscapeExport extends StatefulWidget {
 }
 
 class _LandscapeExportState extends State<LandscapeExport> {
+  final GlobalKey _globalKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +47,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
             onTap: () => Navigator.of(context).pop(),
             child: Icon(Icons.arrow_back_ios, color: Colors.orange),
           ),
-          MyText(
-            text: 'Export',
-            color: Colors.black,
-            fontSize: 19,
-          ),
-//          ExportDialog(),
+          ExportDialog(_globalKey),
         ],
       ),
     );
@@ -68,7 +66,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
                 height: double.infinity,
                 child: Column(
                   children: <Widget>[
-                    LandscapePreview(),
+                    Expanded(child: RepaintBoundary(key: _globalKey, child: LandscapePreview(),)),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

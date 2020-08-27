@@ -54,10 +54,14 @@ class _LandscapeTableState extends State<LandscapeTable> {
             return InkWell(
               onTap: () {
                 if (state is TableAddedSuccess) {
-                  Navigator.pushNamed(context, position);
-                  if (state.starting.length > 4 && state.subs.length > 2) {
-                    context.bloc<PositionBloc>().add(
-                        CreateFormation(state.starting, state.subs, false));
+                  if (state.starting != null && state.subs != null) {
+                    if (state.starting.length > 4 && state.subs.length > 2) {
+                      Navigator.pushNamed(context, position);
+                      context.bloc<PositionBloc>().add(
+                          CreateFormation(state.starting, state.subs, false));
+                    } else {
+                      _showSnackBar();
+                    }
                   } else {
                     _showSnackBar();
                   }

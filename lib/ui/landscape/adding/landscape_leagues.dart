@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
+import 'package:marozi/bloc/adding/adding_players_bloc/adding_player_bloc.dart';
 import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/model/league/league.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -20,6 +20,7 @@ class _LandscapeLeaguesState extends State<LandscapeLeagues> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        context.bloc<AddingPlayerBloc>().add(ClearAddingPlayer());
         context.bloc<ClubBloc>().add(GetClub(widget.league));
       },
       child: Row(
@@ -38,8 +39,8 @@ class _LandscapeLeaguesState extends State<LandscapeLeagues> {
                   child: MyText(
                     text: widget.league.name,
                     color: clubState is ClubFetchSuccess &&
-                        clubState.league != null &&
-                        clubState.league.id == widget.league.id
+                            clubState.league != null &&
+                            clubState.league.id == widget.league.id
                         ? Colors.deepOrangeAccent
                         : Colors.black,
                     fontSize: 16,
