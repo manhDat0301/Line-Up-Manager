@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 
 class TablePlayerImage extends StatefulWidget {
@@ -29,6 +31,7 @@ class _TablePlayerImageState extends State<TablePlayerImage> {
       height: 65,
       child: GestureDetector(
         onTap: () {
+          context.bloc<DetailBloc>().add(DetailFetch(widget.player.id));
           Navigator.pushNamed(context, '/detail', arguments: widget.player.id);
         },
         child: ClipRRect(

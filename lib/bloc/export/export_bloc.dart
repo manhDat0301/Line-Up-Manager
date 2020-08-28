@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:equatable/equatable.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'export_event.dart';
-
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {
@@ -24,10 +24,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
 
   @override
   Stream<ExportState> mapEventToState(ExportEvent event) async* {
-    if (event is PositionToExport)
-      yield* event.isPortrait
-          ? _mapPositionToPortraitExport(event)
-          : _mapPositionToLandscapeExport(event);
+    if (event is PositionToExport) yield* _mapPositionToExport(event);
 
     if (event is SelectType) yield* _mapSelectTypeToState(event);
 
@@ -44,8 +41,24 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       RenderPreviewByte event) async* {
     var currentState = state;
     if (currentState is ExportFromPositionSuccess) {
-      yield currentState.copyWith(
-          path: await _saveToCameraRoll(await _exportPng(event.boundary)));
+      switch (event.i) {
+        case 1:
+          yield currentState.copyWith(
+              path: await _saveToCameraRoll(await _exportPng(event.boundary)));
+          break;
+        case 2:
+          yield currentState.copyWith(
+              path: await _shareToFacebook(await _exportPng(event.boundary)));
+          break;
+        case 3:
+          yield currentState.copyWith(
+              path: await _shareToInsta(await _exportPng(event.boundary)));
+          break;
+        case 4:
+          yield currentState.copyWith(
+              path: await _shareToTwitter(await _exportPng(event.boundary)));
+          break;
+      }
     }
   }
 
@@ -83,8 +96,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     }
   }
 
-  Stream<ExportState> _mapPositionToPortraitExport(
-      PositionToExport event) async* {
+  Stream<ExportState> _mapPositionToExport(PositionToExport event) async* {
     final clubRepo = ClubRepository();
 
     String _clubUrl = await clubRepo
@@ -92,18 +104,24 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     String _clubName = await clubRepo
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
 
-    double width = Constants.width * 0.986;
-    double height = Constants.height * 0.66;
+    double width =
+        event.isPortrait ? Constants.width * 0.986 : Constants.width * 0.56;
+    double height =
+        event.isPortrait ? Constants.height * 0.66 : Constants.height * 0.92;
 
     List<Offset> offsets = _convertToExportOffset(
       position: event.offsets,
       width: width,
       height: height,
     );
+
     List<String> subNames = [];
-    event.subs.forEach((player) {
-      subNames.add(player.name);
-    });
+    if (event.subs != null) {
+      event.subs.forEach((player) {
+        subNames.add(player.name);
+      });
+    }
+
     yield ExportFromPositionSuccess(
       players: event.players,
       offsets: offsets,
@@ -127,18 +145,19 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubLogoUrl]);
     String _clubName = await clubRepo
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
-
-    double width = Constants.width * 0.56;
-    double height = Constants.height * 0.92;
-
+    double width =
+        event.isPortrait ? Constants.width * 0.986 : Constants.width * 0.56;
+    double height =
+        event.isPortrait ? Constants.height * 0.66 : Constants.height * 0.92;
     List<Offset> offsets = _convertToExportOffset(
         position: event.offsets, width: width, height: height);
 
     List<String> subNames = [];
-    event.subs.forEach((player) {
-      subNames.add(player.name);
-    });
-
+    if (event.subs != null) {
+      event.subs.forEach((player) {
+        subNames.add(player.name);
+      });
+    }
     yield ExportFromPositionSuccess(
       players: event.players,
       offsets: offsets,
@@ -192,6 +211,34 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     }
   }
 
+  Future<String> _shareToFacebook(Uint8List pngByte) async {
+    String tempDir = (await getTemporaryDirectory()).path;
+    File file = File('$tempDir/export.png');
+    file.writeAsBytesSync(pngByte);
+    await Share.file('position image', 'export.png', pngByte, 'image/png',
+        text: 'Checkout my cool formation!');
+    return 'share done';
+  }
+
+  Future<String> _shareToInsta(Uint8List pngByte) async {
+    String tempDir = (await getTemporaryDirectory()).path;
+    File file = File('$tempDir/export.png');
+    file.writeAsBytesSync(pngByte);
+    await Share.file('position image', 'export.png', pngByte, 'image/png',
+        text: 'Checkout my cool formation!');
+    return 'share done';
+  }
+
+  Future<String> _shareToTwitter(Uint8List pngByte) async {
+    String tempDir = (await getTemporaryDirectory()).path;
+    File file = File('$tempDir/export.png');
+    file.writeAsBytesSync(pngByte);
+    await Share.file('position image', 'export.png', pngByte, 'image/png',
+        text: 'Checkout my cool formation!');
+    return 'share done';
+  }
+
+  // ignore: missing_return
   Future<Uint8List> _exportPng(RenderRepaintBoundary boundary) async {
     try {
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);

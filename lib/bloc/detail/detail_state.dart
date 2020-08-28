@@ -14,10 +14,10 @@ class DetailInitial extends DetailState {
 
 class DetailedLoadSuccess extends DetailState {
   final Player player;
-  final String clubImageUrl;
+  final String clubUrl;
   final bool isFav;
 
-  DetailedLoadSuccess({this.player, this.clubImageUrl, this.isFav});
+  DetailedLoadSuccess({this.player, this.clubUrl, this.isFav});
 
   DetailedLoadSuccess copyWith({
     Player player,
@@ -26,11 +26,11 @@ class DetailedLoadSuccess extends DetailState {
   }) {
     return DetailedLoadSuccess(
         player: player ?? this.player,
-        clubImageUrl: clubImageUrl ?? this.clubImageUrl,
+        clubUrl: clubImageUrl ?? this.clubUrl,
         isFav: isFav ?? this.isFav);
   }
 
   @override
   // TODO: implement props
-  List<Object> get props => [player, clubImageUrl, isFav];
+  List<Object> get props => [player, clubUrl, isFav];
 }

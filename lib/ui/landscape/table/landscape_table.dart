@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
@@ -19,18 +20,29 @@ class _LandscapeTableState extends State<LandscapeTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        top: true,
-        left: true,
-        right: true,
-        child: Column(
-          children: [
-            _topBar(),
-            _center(),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+        return true;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          top: true,
+          left: true,
+          right: true,
+          child: Column(
+            children: [
+              _topBar(),
+              _center(),
+            ],
+          ),
         ),
       ),
     );
@@ -56,7 +68,7 @@ class _LandscapeTableState extends State<LandscapeTable> {
                     if (state.starting.length > 4 && state.subs.length > 2) {
                       Navigator.pushNamed(context, position);
                       context.bloc<PositionBloc>().add(
-                          CreateFormation(state.starting, state.subs, false));
+                          CreateFormation(state.starting, state.subs, true));
                     } else {
                       _showSnackBar();
                     }

@@ -4,16 +4,16 @@ import 'package:marozi/resources/custom_widgets/skill_chart.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_fix.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_info.dart';
 
-class PlayerStat extends StatefulWidget {
+class PortraitStat extends StatefulWidget {
   final Player player;
 
-  PlayerStat(this.player);
+  PortraitStat(this.player);
 
   @override
-  _PlayerStatState createState() => _PlayerStatState();
+  _PortraitStatState createState() => _PortraitStatState();
 }
 
-class _PlayerStatState extends State<PlayerStat> {
+class _PortraitStatState extends State<PortraitStat> {
   @override
   Widget build(BuildContext context) {
     return Expanded(

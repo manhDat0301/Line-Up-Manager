@@ -9,4 +9,5 @@ final position = '/position';
 final adding = '/adding';
 final detail = '/detail';
 final export = '/export';
+final subscribe = '/subscribe';
 final example = '/example';

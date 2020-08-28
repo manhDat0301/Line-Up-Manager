@@ -35,7 +35,17 @@ dependencies:
   recase: ^3.0.0
   expandable: ^4.1.4
 
-  # cache image
+  # in app purchase
+  in_app_purchase: ^0.3.4+5
+
+  # share
+  social_share: ^2.0.5
+  esys_flutter_share: ^1.0.2
+
+  # social login
+  flutter_facebook_login: ^3.0.0
+
+  # cache widget
   cached_network_image: ^2.2.0+1
 
   # cache manager
@@ -51,8 +61,9 @@ dependencies:
   # permission
   permission_handler: ^5.0.1+1
 
-  # export file
+  # image handle
   image_gallery_saver: ^1.5.0
+  screenshot: ^0.2.0
 
   # firebase
   firebase_core: ^0.5.0

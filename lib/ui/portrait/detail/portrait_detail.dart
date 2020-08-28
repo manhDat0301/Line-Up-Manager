@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
-import 'package:marozi/ui/portrait/detail/portrait_player_info.dart';
-import 'package:marozi/ui/portrait/detail/portrait_player_stat.dart';
+import 'package:marozi/ui/portrait/detail/portrait_info.dart';
+import 'package:marozi/ui/portrait/detail/portrait_stat.dart';
 
 class PortraitPlayerDetail extends StatefulWidget {
-  final String playerId;
-
-  PortraitPlayerDetail(this.playerId);
-
   @override
   _PortraitPlayerDetailState createState() => _PortraitPlayerDetailState();
 }
@@ -23,33 +19,29 @@ class _PortraitPlayerDetailState extends State<PortraitPlayerDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DetailBloc>(
-      create: (BuildContext context) =>
-          DetailBloc(DetailInitial())..add(DetailFetch(widget.playerId)),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          top: true,
-          child: BlocBuilder<DetailBloc, DetailState>(
-            builder: (BuildContext context, DetailState state) {
-              if (state is DetailedLoadSuccess) {
-                return Column(
-                  children: <Widget>[
-                    _topBar(),
-                    PlayerInfo(state.player, state.clubImageUrl),
-                    PlayerStat(state.player),
-                  ],
-                );
-              }
-              return BottomLoader();
-            },
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        top: true,
+        child: BlocBuilder<DetailBloc, DetailState>(
+          builder: (BuildContext context, DetailState state) {
+            if (state is DetailedLoadSuccess) {
+              return Column(
+                children: <Widget>[
+                  _topBar(state.player.name),
+                  PortraitInfo(state.player, state.clubUrl, state.isFav),
+                  PortraitStat(state.player),
+                ],
+              );
+            }
+            return BottomLoader();
+          },
         ),
       ),
     );
   }
 
-  Widget _topBar() {
+  Widget _topBar(String playerName) {
     return InkWell(
       onTap: () => Navigator.of(context).pop(),
       child: Row(
@@ -62,14 +54,10 @@ class _PortraitPlayerDetailState extends State<PortraitPlayerDetail> {
             color: Colors.orange,
           ),
           SizedBox(width: 8),
-          BlocBuilder<DetailBloc, DetailState>(
-            builder: (BuildContext context, DetailState state) {
-              if (state is DetailedLoadSuccess) {
-                return MyText(
-                    text: state.player.name, color: Colors.black, fontSize: 20);
-              }
-              return BottomLoader();
-            },
+          MyText(
+            text: playerName,
+            color: Colors.black,
+            fontSize: 20,
           ),
           Spacer(),
         ],

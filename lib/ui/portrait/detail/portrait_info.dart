@@ -9,17 +9,18 @@ import 'package:marozi/ui/portrait/detail/custom_widget/text_cm.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_fix.dart';
 import 'package:marozi/ui/portrait/detail/custom_widget/text_info.dart';
 
-class PlayerInfo extends StatefulWidget {
+class PortraitInfo extends StatefulWidget {
   final Player player;
   final String clubUrl;
+  final bool isFav;
 
-  PlayerInfo(this.player, this.clubUrl);
+  PortraitInfo(this.player, this.clubUrl, this.isFav);
 
   @override
-  _PlayerInfoState createState() => _PlayerInfoState();
+  _PortraitInfoState createState() => _PortraitInfoState();
 }
 
-class _PlayerInfoState extends State<PlayerInfo> {
+class _PortraitInfoState extends State<PortraitInfo> {
   bool isFavorite = false;
 
   @override
@@ -83,17 +84,19 @@ class _PlayerInfoState extends State<PlayerInfo> {
                     alignment: Alignment.topRight,
                     child: BlocBuilder<DetailBloc, DetailState>(
                       builder: (BuildContext context, DetailState state) {
-                        if (state is DetailedLoadSuccess)
+                        if (state is DetailedLoadSuccess) {
                           return GestureDetector(
-                              onTap: () {
-                                context
-                                    .bloc<DetailBloc>()
-                                    .add(UpdateFavorite(widget.player.id));
-                              },
-                              child: Icon(
-                                Icons.favorite,
-                                color: state.isFav ? Colors.red : Colors.grey,
-                              ));
+                            onTap: () {
+                              context
+                                  .bloc<DetailBloc>()
+                                  .add(UpdateFavorite(widget.player.id));
+                            },
+                            child: Icon(
+                              Icons.favorite,
+                              color: widget.isFav ? Colors.red : Colors.grey,
+                            ),
+                          );
+                        }
                         return BottomLoader();
                       },
                     ),

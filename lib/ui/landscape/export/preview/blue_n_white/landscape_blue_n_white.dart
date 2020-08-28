@@ -111,9 +111,15 @@ class _LandscapeBlueAndWhiteState extends State<LandscapeBlueAndWhite> {
                                   fontFamily: fontBangersRegular,
                                 ),
                               ),
-                              ...Iterable.generate(state.subsNames.length).map(
-                                (i) => _subText(
-                                    text: state.subsNames[i], fontSize: 15),
+                              ...Iterable.generate(7).map(
+                                (i) => i < state.subsNames.length
+                                    ? _subText(
+                                        text: state.subsNames[i],
+                                        fontSize: 15,
+                                      )
+                                    : SizedBox(
+                                        height: 20,
+                                      ),
                               ),
                             ],
                           ),

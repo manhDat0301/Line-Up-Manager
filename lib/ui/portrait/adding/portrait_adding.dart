@@ -31,23 +31,40 @@ class _PortraitAddingState extends State<PortraitAdding> {
       floatingActionButton: BlocConsumer<PlayerBloc, PlayerState>(
         builder: (BuildContext context, PlayerState state) {
           if (state is PlayersSelected) {
-            return Visibility(
-              visible: state.starting.length > 4 || state.subs.length > 2,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, table, ModalRoute.withName(homepage));
+            return WillPopScope(
+              onWillPop: () async {
+                bool canGoBack =
+                    state.starting.length > 4 || state.subs.length > 2;
+                if (canGoBack) {
                   context.bloc<TableBloc>().add(PlayerSelect(
                         state.isStarting ? state.starting : state.subs,
                         state.isStarting,
                       ));
-                },
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                  size: 25,
+                } else {
+                  _scaffold.currentState.showSnackBar(SnackBar(
+                    content: Text('Need at least 5 starting or 3 substitute'),
+                  ));
+                }
+                return canGoBack ? true : false;
+              },
+              child: Visibility(
+                visible: state.starting.length > 4 || state.subs.length > 2,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, table, ModalRoute.withName(homepage));
+                    context.bloc<TableBloc>().add(PlayerSelect(
+                          state.isStarting ? state.starting : state.subs,
+                          state.isStarting,
+                        ));
+                  },
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  backgroundColor: Colors.orange,
                 ),
-                backgroundColor: Colors.orange,
               ),
             );
           }

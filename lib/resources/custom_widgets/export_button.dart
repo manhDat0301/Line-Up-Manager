@@ -35,8 +35,6 @@ class _ExportDialogState extends State<ExportDialog> {
   }
 
   Widget _export() {
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     double width = MediaQuery.of(context).size.width;
     return Container(
       width: width,
@@ -63,9 +61,9 @@ class _ExportDialogState extends State<ExportDialog> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        width: isLandscape ? width * 0.5 : width,
-        height: isLandscape ? height * 0.57 : height * 0.38,
-        padding: EdgeInsets.all(20),
+        width: isLandscape ? width * 0.43 : width,
+        height: isLandscape ? height * 0.57 : height * 0.33,
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         color: Colors.white,
         child: BlocBuilder<ExportBloc, ExportState>(
           builder: (BuildContext context, ExportState state) {
@@ -80,6 +78,7 @@ class _ExportDialogState extends State<ExportDialog> {
                               RenderPreviewByte(
                                 widget.globalKey.currentContext
                                     .findRenderObject(),
+                                1,
                               ),
                             );
                         Scaffold.of(context)
@@ -97,6 +96,14 @@ class _ExportDialogState extends State<ExportDialog> {
                     child: InkWell(
                       onTap: () {
                         print('Facebook');
+                        context.bloc<ExportBloc>().add(
+                              RenderPreviewByte(
+                                widget.globalKey.currentContext
+                                    .findRenderObject(),
+                                2,
+                              ),
+                            );
+                        Navigator.of(context).pop();
                       },
                       child: _type(icon: CustomIcon.facebook, text: 'Facebook'),
                     ),
@@ -105,6 +112,14 @@ class _ExportDialogState extends State<ExportDialog> {
                     child: InkWell(
                       onTap: () {
                         print('Instagram');
+                        context.bloc<ExportBloc>().add(
+                              RenderPreviewByte(
+                                widget.globalKey.currentContext
+                                    .findRenderObject(),
+                                3,
+                              ),
+                            );
+                        Navigator.of(context).pop();
                       },
                       child:
                           _type(icon: CustomIcon.instagram, text: 'Instagram'),
@@ -114,6 +129,14 @@ class _ExportDialogState extends State<ExportDialog> {
                     child: InkWell(
                       onTap: () {
                         print('Twitter');
+                        context.bloc<ExportBloc>().add(
+                              RenderPreviewByte(
+                                widget.globalKey.currentContext
+                                    .findRenderObject(),
+                                4,
+                              ),
+                            );
+                        Navigator.of(context).pop();
                       },
                       child: _type(icon: CustomIcon.twitter, text: 'Twitter'),
                     ),
@@ -133,9 +156,9 @@ class _ExportDialogState extends State<ExportDialog> {
         MediaQuery.of(context).orientation == Orientation.landscape;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      width: isLandscape ? width * 0.5 : width,
-      height: 57,
-      padding: EdgeInsets.only(top: 10),
+      width: isLandscape ? width * 0.43 : width,
+      height: 53,
+      padding: EdgeInsets.only(top: 6),
       child: InkWell(
         child: RaisedButton(
           padding: EdgeInsets.all(0),

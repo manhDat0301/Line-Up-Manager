@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => AddingBloc(AddingInitial()),
         ),
         BlocProvider<PositionBloc>(
-            create: (BuildContext context) => PositionBloc(PositionInitial())),
+            create: (BuildContext context) => PositionBloc(PositionInitial())
+              ..add(PositionTestEvent(isPortrait: false))),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),
         ),
@@ -83,12 +84,15 @@ class MyApp extends StatelessWidget {
               break;
             case '/detail':
               return CupertinoPageRoute(
-                  builder: (BuildContext context) =>
-                      PlayerDetail(settings.arguments));
+                  builder: (BuildContext context) => PlayerDetail());
               break;
             case '/export':
               return CupertinoPageRoute(
                   builder: (BuildContext context) => Export());
+              break;
+            case '/subscribe':
+              return CupertinoPageRoute(
+                  builder: (BuildContext context) => Test());
               break;
             case '/example':
               return CupertinoPageRoute(

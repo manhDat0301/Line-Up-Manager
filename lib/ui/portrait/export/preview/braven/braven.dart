@@ -101,10 +101,15 @@ class _PreviewBravenState extends State<PreviewBraven> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ...Iterable<int>.generate(4).map(
-                      (i) => _player(
-                        name: state.players[i + 1].name,
-                        avtUrl: state.players[i + 1].avatarUrl,
-                      ),
+                      (i) => i + 1 < state.players.length
+                          ? _player(
+                              name: state.players[i + 1].name,
+                              avtUrl: state.players[i + 1].avatarUrl,
+                            )
+                          : Container(
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              width: MediaQuery.of(context).size.width * 0.19,
+                            ),
                     ),
                   ],
                 ),
@@ -112,10 +117,16 @@ class _PreviewBravenState extends State<PreviewBraven> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ...Iterable<int>.generate(3).map(
-                      (i) => _player(
-                        name: state.players[i + 5].name,
-                        avtUrl: state.players[i + 5].avatarUrl,
-                      ),
+                      (i) => i + 5 < state.players.length
+                          ? _player(
+                              name: state.players[i + 5].name,
+                              avtUrl: state.players[i + 5].avatarUrl,
+                            )
+                          : Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.085,
+                              width: MediaQuery.of(context).size.width * 0.19,
+                            ),
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.085,
@@ -127,10 +138,16 @@ class _PreviewBravenState extends State<PreviewBraven> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ...Iterable<int>.generate(3).map(
-                      (i) => _player(
-                        name: state.players[i + 8].name,
-                        avtUrl: state.players[i + 8].avatarUrl,
-                      ),
+                      (i) => i + 8 < state.players.length
+                          ? _player(
+                              name: state.players[i + 8].name,
+                              avtUrl: state.players[i + 8].avatarUrl,
+                            )
+                          : Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.085,
+                              width: MediaQuery.of(context).size.width * 0.19,
+                            ),
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.085,

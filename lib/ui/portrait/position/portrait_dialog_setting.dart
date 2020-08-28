@@ -23,7 +23,6 @@ class _MyCustomDialogState extends State<MyCustomDialog> {
   bool ratingSelected = false;
   bool formSelected = false;
   bool numberSelected = false;
-  String _captain;
 
   TextEditingController _coachName = TextEditingController();
   TextEditingController _teamName = TextEditingController();

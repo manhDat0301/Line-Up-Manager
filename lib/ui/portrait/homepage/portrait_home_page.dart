@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/subscribe_dialog.dart';
 
 class PortraitHomePage extends StatefulWidget {
   @override
@@ -98,7 +99,8 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(table);
+//                    Navigator.of(context).pushNamed(table);
+                    _showDialog();
                     SystemChrome.setPreferredOrientations([
                       DeviceOrientation.portraitUp,
                       DeviceOrientation.portraitDown,
@@ -209,5 +211,9 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
         ),
       ),
     );
+  }
+
+  void _showDialog() {
+    showDialog(context: context, builder: (context) => SubscribeDialog());
   }
 }

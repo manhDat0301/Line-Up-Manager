@@ -30,7 +30,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
 
     yield DetailedLoadSuccess(
       player: player,
-      clubImageUrl: await clubRepo.getAColOfClub(
+      clubUrl: await clubRepo.getAColOfClub(
         clubId: player.clubId,
         columns: [clubLogoUrl],
       ),
