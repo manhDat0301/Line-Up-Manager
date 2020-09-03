@@ -55,7 +55,7 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
           Container(
             width: MediaQuery.of(context).size.width * 0.13,
             height: MediaQuery.of(context).size.width * 0.13,
-            padding: EdgeInsets.all(5),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -73,36 +73,40 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
               imageUrl: state.clubLogoUrl ?? '',
             ),
           ),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              MyText(
-                color: Colors.white,
-                fontSize: 28.81,
-                fontFamily: fontBebasNeueBold,
-                text: state.teamName != null
-                    ? state.teamName.isNotEmpty
-                        ? state.teamName
-                        : state.captain.clubName
-                    : state.teamName,
-                isTitleCase: false,
-              ),
-              SizedBox(height: 2),
-              Text(
-                state.coachName != null
-                    ? state.coachName.isNotEmpty
-                        ? state.coachName.toUpperCase()
-                        : ''
-                    : '',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19.09,
-                  fontFamily: fontBebasNeueRegular,
+          Flexible(
+            fit: FlexFit.tight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  state.teamName != null
+                      ? state.teamName.isNotEmpty
+                          ? state.teamName
+                          : state.captain.clubName
+                      : state.teamName,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28.81,
+                    fontFamily: fontBebasNeueBold,
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 2),
+                Text(
+                  state.coachName != null
+                      ? state.coachName.isNotEmpty
+                          ? state.coachName.toUpperCase()
+                          : ''
+                      : '',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19.09,
+                    fontFamily: fontBebasNeueRegular,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

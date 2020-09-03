@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:search_widget/search_widget.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -12,121 +8,203 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
+  List<LeaderBoard> list = <LeaderBoard>[
+    LeaderBoard("Flutter", 54),
+    LeaderBoard("React", 22.5),
+    LeaderBoard("Ionic", 24.7),
+    LeaderBoard("Xamarin", 22.1),
+  ];
+
+  LeaderBoard _selectedItem;
+
+  bool _show = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Esys Share Plugin Sample'),
+      appBar: AppBar(
+        title: const Text("Search Widget"),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 16,
+            ),
+            if (_show)
+              SearchWidget<LeaderBoard>(
+                dataList: list,
+                hideSearchBoxWhenItemSelected: false,
+                listContainerHeight: MediaQuery.of(context).size.height / 4,
+                queryBuilder: (query, list) {
+                  return list
+                      .where((item) => item.username
+                          .toLowerCase()
+                          .contains(query.toLowerCase()))
+                      .toList();
+                },
+                popupListItemBuilder: (item) {
+                  return PopupListItemWidget(item);
+                },
+                selectedItemBuilder: (selectedItem, deleteSelectedItem) {
+                  return SelectedItemWidget(selectedItem, deleteSelectedItem);
+                },
+                // widget customization
+                noItemsFoundWidget: NoItemsFound(),
+                textFieldBuilder: (controller, focusNode) {
+                  return MyTextField(controller, focusNode);
+                },
+                onItemSelected: (item) {
+                  setState(() {
+                    _selectedItem = item;
+                  });
+                },
+              ),
+            const SizedBox(
+              height: 32,
+            ),
+            Text(
+              "${_selectedItem != null ? _selectedItem.username : ""
+                  "No item selected"}",
+            ),
+          ],
         ),
-        body: Container(
-            padding: const EdgeInsets.all(20.0),
-            child: ListView(
-              children: <Widget>[
-                MaterialButton(
-                  child: Text('Share text'),
-                  onPressed: () async => await _shareText(),
-                ),
-                MaterialButton(
-                  child: Text('Share image'),
-                  onPressed: () async => await _shareImage(),
-                ),
-                MaterialButton(
-                  child: Text('Share images'),
-                  onPressed: () async => await _shareImages(),
-                ),
-                MaterialButton(
-                  child: Text('Share CSV'),
-                  onPressed: () async => await _shareCSV(),
-                ),
-                MaterialButton(
-                  child: Text('Share mixed'),
-                  onPressed: () async => await _shareMixed(),
-                ),
-                MaterialButton(
-                  child: Text('Share image from url'),
-                  onPressed: () async => await _shareImageFromUrl(),
-                ),
-              ],
-            )));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+//            _show = !_show;
+          });
+        },
+        child: Icon(Icons.swap_horizontal_circle),
+      ),
+    );
   }
+}
 
-  Future<void> _shareText() async {
-    try {
-      Share.text('my text title',
-          'This is my text to share with other applications.', 'text/plain');
-    } catch (e) {
-      print('error: $e');
-    }
+class LeaderBoard {
+  LeaderBoard(this.username, this.score);
+
+  final String username;
+  final double score;
+}
+
+class SelectedItemWidget extends StatelessWidget {
+  const SelectedItemWidget(this.selectedItem, this.deleteSelectedItem);
+
+  final LeaderBoard selectedItem;
+  final VoidCallback deleteSelectedItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 2,
+        horizontal: 4,
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                selectedItem.username,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete_outline, size: 22),
+            color: Colors.grey[700],
+            onPressed: deleteSelectedItem,
+          ),
+        ],
+      ),
+    );
   }
+}
 
-  Future<void> _shareImage() async {
-    try {
-      final ByteData bytes =
-          await rootBundle.load('assets/images/england1.png');
-      await Share.file(
-          'esys image', 'esys.png', bytes.buffer.asUint8List(), 'image/png',
-          text: 'My optional text.');
-    } catch (e) {
-      print('error: $e');
-    }
+class MyTextField extends StatelessWidget {
+  const MyTextField(this.controller, this.focusNode);
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+        decoration: InputDecoration(
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0x4437474F),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
+          suffixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+          hintText: "Search here...",
+          contentPadding: const EdgeInsets.only(
+            left: 16,
+            right: 20,
+            top: 14,
+            bottom: 14,
+          ),
+        ),
+      ),
+    );
   }
+}
 
-  Future<void> _shareImages() async {
-    try {
-      final ByteData bytes1 = await rootBundle.load('assets/image1.png');
-      final ByteData bytes2 = await rootBundle.load('assets/image2.png');
-
-      await Share.files(
-          'esys images',
-          {
-            'esys.png': bytes1.buffer.asUint8List(),
-            'bluedan.png': bytes2.buffer.asUint8List(),
-          },
-          'image/png');
-    } catch (e) {
-      print('error: $e');
-    }
+class NoItemsFound extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Icon(
+          Icons.folder_open,
+          size: 24,
+          color: Colors.grey[900].withOpacity(0.7),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          "No Items Found",
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.grey[900].withOpacity(0.7),
+          ),
+        ),
+      ],
+    );
   }
+}
 
-  Future<void> _shareCSV() async {
-    try {
-      final ByteData bytes = await rootBundle.load('assets/addresses.csv');
-      await Share.file(
-          'addresses', 'addresses.csv', bytes.buffer.asUint8List(), 'text/csv');
-    } catch (e) {
-      print('error: $e');
-    }
-  }
+class PopupListItemWidget extends StatelessWidget {
+  const PopupListItemWidget(this.item);
 
-  Future<void> _shareMixed() async {
-    try {
-      final ByteData bytes1 = await rootBundle.load('assets/image1.png');
-      final ByteData bytes2 = await rootBundle.load('assets/image2.png');
-      final ByteData bytes3 = await rootBundle.load('assets/addresses.csv');
+  final LeaderBoard item;
 
-      await Share.files(
-          'esys images',
-          {
-            'esys.png': bytes1.buffer.asUint8List(),
-            'bluedan.png': bytes2.buffer.asUint8List(),
-            'addresses.csv': bytes3.buffer.asUint8List(),
-          },
-          '*/*',
-          text: 'My optional text.');
-    } catch (e) {
-      print('error: $e');
-    }
-  }
-
-  Future<void> _shareImageFromUrl() async {
-    try {
-      var request = await HttpClient().getUrl(Uri.parse(
-          'https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
-      var response = await request.close();
-      Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
-    } catch (e) {
-      print('error: $e');
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      child: Text(
+        item.username,
+        style: const TextStyle(fontSize: 16),
+      ),
+    );
   }
 }

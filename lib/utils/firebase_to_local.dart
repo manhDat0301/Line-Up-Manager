@@ -7,8 +7,8 @@ import 'package:marozi/model/league/league.dart';
 import 'package:marozi/model/league/league_repository.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
-import 'package:marozi/utils/firebase.dart';
 import 'package:marozi/utils/local.dart';
+import 'package:marozi/utils/log_in_service.dart';
 
 class FirebaseToLocal {
   static final _maroziFirebase = MaroziFirebase();
@@ -27,7 +27,7 @@ class FirebaseToLocal {
   }
 
   static Future<bool> _leagueNeedUpdate() async {
-    int firebase = await _maroziFirebase.countLeagueFirebase();
+    int firebase = await countLeagueFirebase();
     int local;
     try {
       local = await leagueRepo.count();
@@ -185,5 +185,15 @@ class FirebaseToLocal {
       stat /= map.values.length;
     }
     return stat.toString();
+  }
+
+  static Future<int> countLeagueFirebase() async {
+    var i = await _firestoreInstance
+        .collection('League')
+        .orderBy('league_nation')
+        .orderBy('league_name')
+        .get()
+        .then((value) => value.docs.length);
+    return i;
   }
 }

@@ -34,6 +34,7 @@ dependencies:
   lazy_load_scrollview: 1.1.0
   recase: ^3.0.0
   expandable: ^4.1.4
+  search_widget: ^1.0.2
 
   # in app purchase
   in_app_purchase: ^0.3.4+5
