@@ -37,7 +37,7 @@ dependencies:
   search_widget: ^1.0.2
 
   # in app purchase
-  in_app_purchase: ^0.3.4+5
+#  in_app_purchase: ^0.3.4+5
 
   # share
   social_share: ^2.0.5
