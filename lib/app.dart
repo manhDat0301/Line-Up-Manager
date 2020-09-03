@@ -5,6 +5,7 @@ import 'package:marozi/bloc/adding/adding_bloc/adding_bloc.dart';
 import 'package:marozi/bloc/adding/adding_players_bloc/adding_player_bloc.dart';
 import 'package:marozi/bloc/adding/club_bloc/club_bloc.dart';
 import 'package:marozi/bloc/adding/favorite_bloc/favorite_bloc.dart';
+import 'package:marozi/bloc/adding/search_bloc/search_bloc.dart';
 import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AddingPlayerBloc>(
           create: (BuildContext context) =>
               AddingPlayerBloc(AddingPlayerInitial()),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) => SearchBloc(SearchInitial()),
         ),
       ],
       child: MaterialApp(

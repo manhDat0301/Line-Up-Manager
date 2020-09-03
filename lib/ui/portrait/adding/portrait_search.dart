@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/my_search_widget.dart';
 import 'package:marozi/utils/search_service.dart';
-import 'package:search_widget/search_widget.dart';
 
 class PortraitSearch extends StatefulWidget {
   @override
@@ -19,21 +18,8 @@ class _PortraitSearchState extends State<PortraitSearch> {
       new GlobalKey(debugLabel: 'inputText');
   FocusNode _focusNode;
   TextEditingController _textController;
-  Stream streamQuery;
-  Future<QuerySnapshot> futureSearchResults;
-  List<Player> tempSearchStore;
-
-  initiateSearch(String value) {
-    if (value.length == 0) {
-      setState(() {
-        tempSearchStore = [];
-      });
-    }
-    SearchService().searchByName(value).then((QuerySnapshot documents) {
-      print('##### ${documents.docs}');
-      for (int i = 0; i < documents.docs.length; i++) {}
-    });
-  }
+  List<Player> searchList;
+  Future<QuerySnapshot> future;
 
   @override
   void dispose() {
@@ -44,7 +30,7 @@ class _PortraitSearchState extends State<PortraitSearch> {
 
   @override
   void initState() {
-    tempSearchStore = [];
+    searchList = [];
     _focusNode = FocusNode();
     _textController = TextEditingController();
     super.initState();
@@ -69,38 +55,81 @@ class _PortraitSearchState extends State<PortraitSearch> {
     );
   }
 
+  initiateSearch(String query) {
+    future = SearchService().searchByName(query);
+    future.then((value) => value.docs.forEach((element) {}));
+    //   ..then((snapShot) {
+    //   for (var element in snapShot.docs) {
+    //     var player =
+    //         Player(name: element.data()['player_name'], id: element.id);
+    //     if (!searchList.any((existedPlayer) => existedPlayer.id == player.id)) {
+    //       searchList.add(player);
+    //     }
+    //   }
+    // });
+  }
+
   Widget _searchWidget() {
-    return SearchWidget<Player>(
-      onItemSelected: (Player selected) {},
-      dataList: tempSearchStore,
-      listContainerHeight: MediaQuery.of(context).size.height * 0.4,
-      hideSearchBoxWhenItemSelected: false,
-      noItemsFoundWidget: Container(
-        child: Center(child: Text('No players match')),
-      ),
-      textFieldBuilder:
-          (TextEditingController controller, FocusNode focusNode) {
-        return _textField(controller, focusNode);
-      },
-      selectedItemBuilder: (item, void Function() deleteSelectedItem) {
-        return Container();
-      },
-      queryBuilder: (String query, List<Player> list) {
-        // setState(() {
-        // });
-        // SearchService().searchByName(query).then((QuerySnapshot documents) {
-        //
-        //   for (int i = 0; i < documents.docs.length; i++) {
-        //     queryResultSet.add(documents.docs[i].data());
-        //   }
-        // });
-        return list
-            .where((Player player) =>
-            player.name.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      },
-      popupListItemBuilder: (Player player) {
-        return _popupList(player);
+    return FutureBuilder(
+      future: future,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MySearchWidget<Player>(
+            onItemSelected: (Player selected) {},
+            dataList: searchList,
+            listContainerHeight: MediaQuery.of(context).size.height * 0.4,
+            listContainerWidth: MediaQuery.of(context).size.width * 0.4,
+            hideSearchBoxWhenItemSelected: false,
+            noItemsFoundWidget: Container(
+              child: Center(child: Text('No player match')),
+            ),
+            textFieldBuilder:
+                (TextEditingController controller, FocusNode focusNode) {
+              return _textField(controller, focusNode);
+            },
+            selectedItemBuilder: (item, void Function() deleteSelectedItem) {
+              return Container();
+            },
+            queryBuilder: (String query, List<Player> list) {
+              print('###### ${query}');
+              initiateSearch(query);
+              return list
+                  .where((Player player) =>
+                      player.name.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+            },
+            popupListItemBuilder: (Player player) {
+              return _popupList(player);
+            },
+          );
+        }
+        return MySearchWidget<Player>(
+          onItemSelected: (Player selected) {},
+          dataList: [],
+          listContainerHeight: MediaQuery.of(context).size.height * 0.4,
+          listContainerWidth: MediaQuery.of(context).size.width * 0.4,
+          hideSearchBoxWhenItemSelected: false,
+          noItemsFoundWidget: Container(
+            child: Center(child: Text('No player match')),
+          ),
+          textFieldBuilder:
+              (TextEditingController controller, FocusNode focusNode) {
+            return _textField(controller, focusNode);
+          },
+          selectedItemBuilder: (item, void Function() deleteSelectedItem) {
+            return Container();
+          },
+          queryBuilder: (String query, List<Player> list) {
+            initiateSearch(query);
+            return list
+                .where((Player player) =>
+                    player.name.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          popupListItemBuilder: (Player player) {
+            return _popupList(player);
+          },
+        );
       },
     );
   }
@@ -148,78 +177,6 @@ class _PortraitSearchState extends State<PortraitSearch> {
         player.name,
         style: TextStyle(fontSize: 16),
       ),
-    );
-  }
-
-  Widget _searchTextField() {
-    double customMinPrefixIconSize = 32;
-    BoxConstraints iconConstraints = BoxConstraints(
-      minWidth: customMinPrefixIconSize,
-      minHeight: customMinPrefixIconSize,
-    );
-    return searchTextField = ScrollableAutoCompleteTextField(
-      key: acfKey,
-      controller: _textController,
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 28),
-          child: Icon(
-            Icons.search,
-            size: 26,
-            color: Colors.black38,
-          ),
-        ),
-        prefixIconConstraints: iconConstraints,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-      ),
-      clearOnSubmit: true,
-      textChanged: (val) {
-//        initiateSearch(val);
-      },
-      suggestions: tempSearchStore,
-      itemFilter: (suggestion, String query) {
-        return suggestion
-            .toString()
-            .toLowerCase()
-            .startsWith(query.toLowerCase());
-      },
-      itemSorter: (a, b) {
-        return a.toString().compareTo(b.toString());
-      },
-      itemSubmitted: (data) {
-        print('itemSubmitted $data');
-      },
-      itemBuilder: (BuildContext context, suggestion) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.fromLTRB(14, 15, 14, 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  MyText(
-                    text: suggestion.toString(),
-                    color: Colors.black,
-                    fontSize: 19,
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              color: Colors.black,
-              height: 5,
-              thickness: 0.1,
-              indent: 14,
-            ),
-          ],
-        );
-      },
     );
   }
 }
