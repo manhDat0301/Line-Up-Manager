@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -19,32 +20,19 @@ class _PortraitSearchState extends State<PortraitSearch> {
   FocusNode _focusNode;
   TextEditingController _textController;
   Stream streamQuery;
-  List<Map<String, dynamic>> queryResultSet;
-  List<String> tempSearchStore= ['aaa', 'aaaaaa'];
+  Future<QuerySnapshot> futureSearchResults;
+  List<Player> tempSearchStore;
 
   initiateSearch(String value) {
     if (value.length == 0) {
       setState(() {
-        queryResultSet = [];
         tempSearchStore = [];
       });
     }
-    if (queryResultSet.length == 0 && value.length == 1) {
-      SearchService().searchByName(value).then((QuerySnapshot documents) {
-        print('##### ${documents.docs}');
-        for (int i = 0; i < documents.docs.length; i++) {
-          queryResultSet.add(documents.docs[i].data());
-        }
-      });
-    } else {
-      tempSearchStore = [];
-      queryResultSet.forEach((Map<String, dynamic> element) {
-//        if (element['player_name'].startsWith(value.substring(0))) {
-        tempSearchStore.add(element['player_name']);
-//        }
-      });
-      setState(() {});
-    }
+    SearchService().searchByName(value).then((QuerySnapshot documents) {
+      print('##### ${documents.docs}');
+      for (int i = 0; i < documents.docs.length; i++) {}
+    });
   }
 
   @override
@@ -56,8 +44,7 @@ class _PortraitSearchState extends State<PortraitSearch> {
 
   @override
   void initState() {
-//    tempSearchStore = ['aaa', 'aaaaaa'];
-    queryResultSet = [];
+    tempSearchStore = [];
     _focusNode = FocusNode();
     _textController = TextEditingController();
     super.initState();
@@ -83,43 +70,50 @@ class _PortraitSearchState extends State<PortraitSearch> {
   }
 
   Widget _searchWidget() {
-    return SearchWidget(
-      listContainerHeight: 300,
-      onItemSelected: (String selected) {
-        print('##### onItemSelected');
-      },
+    return SearchWidget<Player>(
+      onItemSelected: (Player selected) {},
       dataList: tempSearchStore,
+      listContainerHeight: MediaQuery.of(context).size.height * 0.4,
       hideSearchBoxWhenItemSelected: false,
       noItemsFoundWidget: Container(
         child: Center(child: Text('No players match')),
       ),
       textFieldBuilder:
           (TextEditingController controller, FocusNode focusNode) {
-        return _textField();
+        return _textField(controller, focusNode);
       },
       selectedItemBuilder: (item, void Function() deleteSelectedItem) {
         return Container();
       },
-      queryBuilder: (String query, List<String> list) {
+      queryBuilder: (String query, List<Player> list) {
+        // setState(() {
+        // });
+        // SearchService().searchByName(query).then((QuerySnapshot documents) {
+        //
+        //   for (int i = 0; i < documents.docs.length; i++) {
+        //     queryResultSet.add(documents.docs[i].data());
+        //   }
+        // });
         return list
-            .where((String name) =>
-                name.toLowerCase().contains(query.toLowerCase()))
+            .where((Player player) =>
+            player.name.toLowerCase().contains(query.toLowerCase()))
             .toList();
       },
-      popupListItemBuilder: (String item) {
-        print('##### $item');
-        return _popupList(item);
+      popupListItemBuilder: (Player player) {
+        return _popupList(player);
       },
     );
   }
 
-  Widget _textField() {
+  Widget _textField(TextEditingController controller, FocusNode focusNode) {
     double customMinPrefixIconSize = 32;
     BoxConstraints iconConstraints = BoxConstraints(
       minWidth: customMinPrefixIconSize,
       minHeight: customMinPrefixIconSize,
     );
     return TextField(
+      controller: controller,
+      focusNode: focusNode,
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(vertical: 12.0),
@@ -131,6 +125,15 @@ class _PortraitSearchState extends State<PortraitSearch> {
             color: Colors.black38,
           ),
         ),
+        // suffixIcon: IconButton(
+        //   padding: EdgeInsets.all(0.0),
+        //   constraints: iconConstraints,
+        //   icon: Icon(Icons.clear, color: Colors.black),
+        //   onPressed: () {
+        //     controller.clear();
+        //   },
+        // ),
+        suffixIconConstraints: iconConstraints,
         prefixIconConstraints: iconConstraints,
         enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
@@ -138,11 +141,11 @@ class _PortraitSearchState extends State<PortraitSearch> {
     );
   }
 
-  Widget _popupList(String item) {
+  Widget _popupList(Player player) {
     return Container(
       padding: EdgeInsets.all(12),
       child: Text(
-        item,
+        player.name,
         style: TextStyle(fontSize: 16),
       ),
     );
@@ -185,12 +188,8 @@ class _PortraitSearchState extends State<PortraitSearch> {
       },
       itemSorter: (a, b) {
         return a.toString().compareTo(b.toString());
-        ;
       },
       itemSubmitted: (data) {
-        setState(() {
-          tempSearchStore = ['bncas', 'asddcv', 'aaasdd'];
-        });
         print('itemSubmitted $data');
       },
       itemBuilder: (BuildContext context, suggestion) {

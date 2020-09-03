@@ -244,13 +244,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
-  flutter_facebook_login:
-    dependency: "direct main"
-    description:
-      name: flutter_facebook_login
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -331,13 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.2"
-  lazy_load_scrollview:
-    dependency: "direct main"
-    description:
-      name: lazy_load_scrollview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
@@ -518,13 +504,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  social_share:
-    dependency: "direct main"
-    description:
-      name: social_share
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.5"
   source_span:
     dependency: transitive
     description:
