@@ -1,4 +1,4 @@
-package com.example.marozi_flutter
+package com.braven.maroziv2
 
 import io.flutter.app.FlutterApplication
 import io.flutter.embedding.android.FlutterActivity
