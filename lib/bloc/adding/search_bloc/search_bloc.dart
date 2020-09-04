@@ -4,7 +4,6 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/utils/search_service.dart';
 
 part 'search_event.dart';
-
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {

@@ -1,21 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recase/recase.dart';
 
 class SearchService {
   Future<QuerySnapshot> searchByName(String searchField) async {
-    var docs = FirebaseFirestore.instance
-        .collection('Player')
-        .where('player_name', isGreaterThanOrEqualTo: searchField)
-        .where("player_name", isLessThan: searchField + 'z')
-        .limit(20)
-        .get();
-    docs.then((value) => value.docs.forEach((element) {
-        }));
+    Future<QuerySnapshot> result;
+    String query = ReCase(searchField).titleCase;
 
-    return FirebaseFirestore.instance
+    result = FirebaseFirestore.instance
         .collection('Player')
-        .where('player_name', isGreaterThanOrEqualTo: searchField)
-        .where("player_name", isLessThan: searchField + 'z')
+        .where('player_name', isGreaterThanOrEqualTo: query)
+        .where("player_name", isLessThan: query + 'z')
         .limit(20)
         .get();
+
+    return searchField.isEmpty ? null : result;
   }
 }

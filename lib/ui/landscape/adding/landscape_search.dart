@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:marozi/repository/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
-import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/utils/search_service.dart';
 
 class LandscapeSearch extends StatefulWidget {
   @override
@@ -14,6 +18,8 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
   ScrollableAutoCompleteTextField searchTf;
   TextEditingController _textController;
   GlobalKey<ScrollableAutoCompleteTextFieldState> key;
+  Future<QuerySnapshot> future;
+  List<Player> players = [];
 
   @override
   void initState() {
@@ -30,6 +36,12 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
     _textController.dispose();
   }
 
+  initiateSearch(String query) {
+    setState(() {
+      future = SearchService().searchByName(query);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double customIconSize = 32;
@@ -39,7 +51,7 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
     );
     return Container(
       width: MediaQuery.of(context).size.width * 0.33,
-      height: 55,
+      // height: 55,
       alignment: Alignment.center,
       padding: EdgeInsets.fromLTRB(17, 10, 10, 0),
       decoration: BoxDecoration(
@@ -54,10 +66,14 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
               borderRadius: BorderRadius.circular(8),
               color: colorScaffoldBackground,
             ),
-            child: ScrollableAutoCompleteTextField(
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextField(
               key: key,
               focusNode: _focusNode,
               controller: _textController,
+              onChanged: (String query) {
+                initiateSearch(query);
+              },
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 8.0),
                 isDense: true,
@@ -70,44 +86,105 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
                 border: InputBorder.none,
                 prefixIconConstraints: iconConstraints,
               ),
-              itemSorter: (a, b) {
-                return a.toString().compareTo(b.toString());
-              },
-              suggestions: Constants.playersName(),
-              itemSubmitted: (data) {
-                setState(() {
-                  searchTf.textField.controller.text = data.toString();
-                });
-              },
-              itemFilter: (suggestion, String query) {
-                return suggestion
-                    .toString()
-                    .toLowerCase()
-                    .startsWith(query.toLowerCase());
-              },
-              itemBuilder: (BuildContext context, suggestion) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(14, 10, 10, 14),
-                      width: double.maxFinite,
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: suggestion.toString(),
-                        color: Colors.black,
-                        fontSize: 19,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 0.1,
-                      indent: 14,
-                    ),
-                  ],
-                );
-              },
             ),
+          ),
+          FutureBuilder(
+            future: future,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.data == null) {
+                return Container();
+              }
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return BottomLoader();
+                  break;
+                case ConnectionState.done:
+                  players = [];
+                  snapshot.data.docs.forEach((element) async {
+                    var player = Player();
+                    player.name = element.data()['player_name'];
+                    player.id = element.id;
+                    players.add(player);
+                  });
+                  return players.isEmpty
+                      ? Container()
+                      : Container(
+                          height: snapshot.data.docs.length < 5 ? null : 100,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              )),
+                          child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: players.length,
+                            padding: const EdgeInsets.only(bottom: 2),
+                            separatorBuilder: (context, index) => const Divider(
+                              height: 0.8,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    context
+                                        .bloc<PlayerBloc>()
+                                        .add(MultiPlayerSelect(players[index]));
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.fromLTRB(10, 14, 5, 8),
+                                    child: BlocBuilder<PlayerBloc, PlayerState>(
+                                      builder: (BuildContext context,
+                                          PlayerState playerState) {
+                                        if (playerState is PlayersSelected) {
+                                          bool isSub = playerState.subs.any(
+                                              (player) =>
+                                                  player.id ==
+                                                  players[index].id);
+                                          bool isSt = playerState.starting.any(
+                                              (player) =>
+                                                  player.id ==
+                                                  players[index].id);
+                                          return Row(
+                                            children: [
+                                              Flexible(
+                                                fit: FlexFit.tight,
+                                                child: Text(
+                                                  players[index].name,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                              isSub || isSt
+                                                  ? Icon(
+                                                      Icons.check,
+                                                      color: Colors.orange,
+                                                    )
+                                                  : Container(),
+                                            ],
+                                          );
+                                        }
+                                        return BottomLoader();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                  break;
+                default:
+                  return Container();
+                  break;
+              }
+            },
           ),
         ],
       ),

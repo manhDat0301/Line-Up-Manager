@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
-import 'package:marozi/ui/orientation/mutual_widgets/my_search_widget.dart';
+import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/utils/search_service.dart';
 
 class PortraitSearch extends StatefulWidget {
@@ -16,10 +18,10 @@ class _PortraitSearchState extends State<PortraitSearch> {
 
   GlobalKey<ScrollableAutoCompleteTextFieldState> acfKey =
       new GlobalKey(debugLabel: 'inputText');
-  FocusNode _focusNode;
-  TextEditingController _textController;
-  List<Player> searchList;
+  FocusNode _focusNode = FocusNode();
+  TextEditingController _textController = TextEditingController();
   Future<QuerySnapshot> future;
+  List<Player> players = [];
 
   @override
   void dispose() {
@@ -30,107 +32,127 @@ class _PortraitSearchState extends State<PortraitSearch> {
 
   @override
   void initState() {
-    searchList = [];
-    _focusNode = FocusNode();
-    _textController = TextEditingController();
     super.initState();
+  }
+
+  initiateSearch(String query) {
+    setState(() {
+      future = SearchService().searchByName(query);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 85,
       padding: EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 30),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorScaffoldBackground,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: _searchWidget(),
-      ),
-    );
-  }
-
-  initiateSearch(String query) {
-    future = SearchService().searchByName(query);
-    future.then((value) => value.docs.forEach((element) {}));
-    //   ..then((snapShot) {
-    //   for (var element in snapShot.docs) {
-    //     var player =
-    //         Player(name: element.data()['player_name'], id: element.id);
-    //     if (!searchList.any((existedPlayer) => existedPlayer.id == player.id)) {
-    //       searchList.add(player);
-    //     }
-    //   }
-    // });
-  }
-
-  Widget _searchWidget() {
-    return FutureBuilder(
-      future: future,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MySearchWidget<Player>(
-            onItemSelected: (Player selected) {},
-            dataList: searchList,
-            listContainerHeight: MediaQuery.of(context).size.height * 0.4,
-            listContainerWidth: MediaQuery.of(context).size.width * 0.4,
-            hideSearchBoxWhenItemSelected: false,
-            noItemsFoundWidget: Container(
-              child: Center(child: Text('No player match')),
-            ),
-            textFieldBuilder:
-                (TextEditingController controller, FocusNode focusNode) {
-              return _textField(controller, focusNode);
+      child: Column(
+        children: [
+          _textField(_textController, _focusNode),
+          FutureBuilder(
+            future: future,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.data == null) {
+                return Container();
+              }
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return BottomLoader();
+                  break;
+                case ConnectionState.done:
+                  players = [];
+                  snapshot.data.docs.forEach((element) async {
+                    var player = Player();
+                    player.name = element.data()['player_name'];
+                    player.id = element.id;
+                    players.add(player);
+                  });
+                  return players.isEmpty
+                      ? Container()
+                      : Container(
+                          height: snapshot.data.docs.length < 5 ? null : 170,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              )),
+                          child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: players.length,
+                            padding: const EdgeInsets.only(bottom: 2),
+                            separatorBuilder: (context, index) => const Divider(
+                              height: 0.8,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    context
+                                        .bloc<PlayerBloc>()
+                                        .add(MultiPlayerSelect(players[index]));
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.fromLTRB(10, 17, 10, 11),
+                                    child: BlocBuilder<PlayerBloc, PlayerState>(
+                                      builder: (BuildContext context,
+                                          PlayerState playerState) {
+                                        if (playerState is PlayersSelected) {
+                                          bool isSub = playerState.subs.any(
+                                              (player) =>
+                                                  player.id ==
+                                                  players[index].id);
+                                          bool isSt = playerState.starting.any(
+                                              (player) =>
+                                                  player.id ==
+                                                  players[index].id);
+                                          return Row(
+                                            children: [
+                                              Flexible(
+                                                fit: FlexFit.tight,
+                                                child: Text(
+                                                  players[index].name,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                              isSt || isSub
+                                                  ? Icon(
+                                                      Icons.check,
+                                                      color: Colors.orange,
+                                                    )
+                                                  : Container(),
+                                            ],
+                                          );
+                                        }
+                                        return BottomLoader();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                  break;
+                default:
+                  return Container();
+                  break;
+              }
             },
-            selectedItemBuilder: (item, void Function() deleteSelectedItem) {
-              return Container();
-            },
-            queryBuilder: (String query, List<Player> list) {
-              print('###### ${query}');
-              initiateSearch(query);
-              return list
-                  .where((Player player) =>
-                      player.name.toLowerCase().contains(query.toLowerCase()))
-                  .toList();
-            },
-            popupListItemBuilder: (Player player) {
-              return _popupList(player);
-            },
-          );
-        }
-        return MySearchWidget<Player>(
-          onItemSelected: (Player selected) {},
-          dataList: [],
-          listContainerHeight: MediaQuery.of(context).size.height * 0.4,
-          listContainerWidth: MediaQuery.of(context).size.width * 0.4,
-          hideSearchBoxWhenItemSelected: false,
-          noItemsFoundWidget: Container(
-            child: Center(child: Text('No player match')),
           ),
-          textFieldBuilder:
-              (TextEditingController controller, FocusNode focusNode) {
-            return _textField(controller, focusNode);
-          },
-          selectedItemBuilder: (item, void Function() deleteSelectedItem) {
-            return Container();
-          },
-          queryBuilder: (String query, List<Player> list) {
-            initiateSearch(query);
-            return list
-                .where((Player player) =>
-                    player.name.toLowerCase().contains(query.toLowerCase()))
-                .toList();
-          },
-          popupListItemBuilder: (Player player) {
-            return _popupList(player);
-          },
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -140,32 +162,41 @@ class _PortraitSearchState extends State<PortraitSearch> {
       minWidth: customMinPrefixIconSize,
       minHeight: customMinPrefixIconSize,
     );
-    return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 28),
-          child: Icon(
-            Icons.search,
-            size: 26,
-            color: Colors.black38,
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScaffoldBackground,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        onChanged: (query) {
+          initiateSearch(query);
+        },
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 28),
+            child: Icon(
+              Icons.search,
+              size: 26,
+              color: Colors.black38,
+            ),
           ),
+          // suffixIcon: IconButton(
+          //   padding: EdgeInsets.all(0.0),
+          //   constraints: iconConstraints,
+          //   icon: Icon(Icons.clear, color: Colors.black),
+          //   onPressed: () {
+          //     controller.clear();
+          //   },
+          // ),
+          suffixIconConstraints: iconConstraints,
+          prefixIconConstraints: iconConstraints,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
         ),
-        // suffixIcon: IconButton(
-        //   padding: EdgeInsets.all(0.0),
-        //   constraints: iconConstraints,
-        //   icon: Icon(Icons.clear, color: Colors.black),
-        //   onPressed: () {
-        //     controller.clear();
-        //   },
-        // ),
-        suffixIconConstraints: iconConstraints,
-        prefixIconConstraints: iconConstraints,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
       ),
     );
   }

@@ -15,6 +15,4 @@ class MaroziFirebase {
       print('currentUser: ${currentUser.email}');
     });
   }
-
-
 }

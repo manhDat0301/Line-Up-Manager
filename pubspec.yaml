@@ -31,20 +31,12 @@ dependencies:
 
   # UI libs
   carousel_slider: ^2.1.0
-#  lazy_load_scrollview: 1.1.0
   recase: ^3.0.0
   expandable: ^4.1.4
   search_widget: ^1.0.2
 
-  # in app purchase
-#  in_app_purchase: ^0.3.4+5
-
   # share
-#  social_share: ^2.0.5
   esys_flutter_share: ^1.0.2
-
-  # social login
-#  flutter_facebook_login: ^3.0.0
 
   # cache widget
   cached_network_image: ^2.2.0+1

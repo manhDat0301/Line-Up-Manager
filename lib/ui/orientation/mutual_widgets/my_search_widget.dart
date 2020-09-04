@@ -113,6 +113,12 @@ class MySingleChoiceSearchState<T> extends State<MySearchWidget<T>> {
           overlayEntry.markNeedsBuild();
         }
       } else {
+        final filterList = widget.queryBuilder(text, widget.dataList);
+        if (filterList == null) {
+          throw Exception(
+            "Filtered List cannot be null. Pass empty list instead",
+          );
+        }
         _tempList
           ..clear()
           ..addAll(_list);
@@ -270,15 +276,18 @@ class MySingleChoiceSearchState<T> extends State<MySearchWidget<T>> {
                             indent: 10,
                             endIndent: 10,
                           ),
-                          itemBuilder: (context, index) => Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => onDropDownItemTap(_tempList[index]),
-                              child: widget.popupListItemBuilder(
-                                _tempList.elementAt(index),
+                          itemBuilder: (context, index) {
+                            return Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () =>
+                                    onDropDownItemTap(_tempList[index]),
+                                child: widget.popupListItemBuilder(
+                                  _tempList.elementAt(index),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                           itemCount: _tempList.length,
                         ),
                       )

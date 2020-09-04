@@ -1,5 +1,6 @@
 part of 'search_bloc.dart';
-class SearchEvent extends Equatable{
+
+class SearchEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [];
