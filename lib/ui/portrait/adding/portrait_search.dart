@@ -98,7 +98,7 @@ class _PortraitSearchState extends State<PortraitSearch> {
                                   onTap: () {
                                     context
                                         .bloc<PlayerBloc>()
-                                        .add(MultiPlayerSelect(players[index]));
+                                        .add(SearchSelect(players[index].id));
                                   },
                                   child: Container(
                                     padding:

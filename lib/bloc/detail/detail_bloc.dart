@@ -14,12 +14,9 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
 
   @override
   Stream<DetailState> mapEventToState(DetailEvent event) async* {
-    if (event is DetailFetch) {
-      yield* _mapDetailFetchToState(event);
-    }
-    if (event is UpdateFavorite) {
-      yield* _mapUpdateFavoriteToState(event);
-    }
+    if (event is DetailFetch) yield* _mapDetailFetchToState(event);
+
+    if (event is UpdateFavorite) yield* _mapUpdateFavoriteToState(event);
   }
 
   Stream<DetailState> _mapDetailFetchToState(DetailFetch event) async* {
@@ -43,10 +40,10 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
     final favRepo = FavoriteRepository();
     if (currentState is DetailedLoadSuccess) {
       if (currentState.isFav) {
-        int i = await favRepo.deleteFavorite(playerId: event.playerId);
+        await favRepo.deleteFavorite(playerId: event.playerId);
         yield currentState.copyWith(isFav: !currentState.isFav);
       } else {
-        int i = await favRepo.insertFavorite(playerId: event.playerId);
+        await favRepo.insertFavorite(playerId: event.playerId);
         yield currentState.copyWith(isFav: !currentState.isFav);
       }
     }

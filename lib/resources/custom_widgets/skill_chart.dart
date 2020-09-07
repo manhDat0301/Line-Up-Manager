@@ -28,11 +28,11 @@ class MyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Offset> pixel2 = [
-      Offset(10, 103),
-      Offset(76, 143),
-      Offset(136, 95),
-      Offset(107, 17),
-      Offset(26, 22),
+      Offset(10, 90),
+      Offset(78, 140),
+      Offset(148, 90),
+      Offset(120, 6),
+      Offset(33, 8),
     ];
     List<double> degrees = [
       37 / 360,
@@ -46,6 +46,7 @@ class MyChart extends StatelessWidget {
       maxHeight: fallbackHeight,
       child: labels != null
           ? Stack(
+              overflow: Overflow.visible,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 13),

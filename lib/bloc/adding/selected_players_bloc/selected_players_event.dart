@@ -28,6 +28,16 @@ class MultiPlayerSelect extends PlayerEvent {
   List<Object> get props => [player];
 }
 
+class SearchSelect extends PlayerEvent {
+  final String playerId;
+
+  SearchSelect(this.playerId);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [playerId];
+}
+
 class FavoriteSelect extends PlayerEvent {
   final String id;
 

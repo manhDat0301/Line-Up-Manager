@@ -62,7 +62,7 @@ class ClubDao {
     List<Map<String, dynamic>> result;
     result = await db.query(tableClubs,
         columns: columns ?? [], where: 'id = ?', whereArgs: [clubId]);
-    String str = result[0][columns[0]];
+    String str = result[0][columns[0]] ?? '';
     return str;
   }
 }

@@ -134,7 +134,7 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
                                   onTap: () {
                                     context
                                         .bloc<PlayerBloc>()
-                                        .add(MultiPlayerSelect(players[index]));
+                                        .add(SearchSelect(players[index].id));
                                   },
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(10, 14, 5, 8),

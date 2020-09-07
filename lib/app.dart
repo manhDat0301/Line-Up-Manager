@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           fontFamily: fontSFDisplayRegular,
           scaffoldBackgroundColor: colorScaffoldBackground,
         ),
-        initialRoute: table,
+        initialRoute: homepage,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':
