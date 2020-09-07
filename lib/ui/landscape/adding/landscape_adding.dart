@@ -31,8 +31,9 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      floatingActionButton: BlocConsumer<PlayerBloc, PlayerState>(
-        listener: (BuildContext context, PlayerState state) {
+      floatingActionButton:
+          BlocConsumer<SelectedPlayerBloc, SelectedPlayerEventPlayerState>(
+        listener: (BuildContext context, SelectedPlayerEventPlayerState state) {
           if (state is PlayersSelected) {
             if (state.isStarting && state.starting.length == 11) {
               _showSnackBar();
@@ -41,7 +42,7 @@ class _LandscapeAddingState extends State<LandscapeAdding> {
             }
           }
         },
-        builder: (BuildContext context, PlayerState state) {
+        builder: (BuildContext context, SelectedPlayerEventPlayerState state) {
           if (state is PlayersSelected) {
             return WillPopScope(
               onWillPop: () async {

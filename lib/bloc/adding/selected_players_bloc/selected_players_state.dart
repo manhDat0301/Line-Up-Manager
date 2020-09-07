@@ -1,14 +1,14 @@
 part of 'selected_players_bloc.dart';
 
-class PlayerState extends Equatable {
+class SelectedPlayerEventPlayerState extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class PlayerInitial extends PlayerState {}
+class PlayerInitial extends SelectedPlayerEventPlayerState {}
 
-class PlayersSelected extends PlayerState {
+class PlayersSelected extends SelectedPlayerEventPlayerState {
   final bool isStarting;
   final List<Player> starting;
   final List<Player> subs;

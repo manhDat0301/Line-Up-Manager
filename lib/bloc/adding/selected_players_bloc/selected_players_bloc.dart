@@ -9,11 +9,14 @@ import 'package:marozi/utils/firestore_service.dart';
 part 'selected_players_event.dart';
 part 'selected_players_state.dart';
 
-class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
-  PlayerBloc(PlayerState initialState) : super(initialState);
+class SelectedPlayerBloc
+    extends Bloc<SelectedPlayerEvent, SelectedPlayerEventPlayerState> {
+  SelectedPlayerBloc(SelectedPlayerEventPlayerState initialState)
+      : super(initialState);
 
   @override
-  Stream<PlayerState> mapEventToState(PlayerEvent event) async* {
+  Stream<SelectedPlayerEventPlayerState> mapEventToState(
+      SelectedPlayerEvent event) async* {
     if (event is TableUpdate) yield* _mapTableUpdateToState(event);
 
     if (event is MultiPlayerSelect) yield* _mapMultiPlayerSelectToState(event);
@@ -23,7 +26,8 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     if (event is FavoriteSelect) yield* _mapFavoriteSelectToState(event);
   }
 
-  Stream<PlayerState> _mapTableUpdateToState(TableUpdate event) async* {
+  Stream<SelectedPlayerEventPlayerState> _mapTableUpdateToState(
+      TableUpdate event) async* {
     yield PlayersSelected(
       isStarting: event.isStarting,
       starting: event.starting,
@@ -31,12 +35,13 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     );
   }
 
-  Stream<PlayerState> _mapSearchSelectToState(SearchSelect event) async* {
+  Stream<SelectedPlayerEventPlayerState> _mapSearchSelectToState(
+      SearchSelect event) async* {
     var currentState = state;
     var playerRepo = PlayerRepository();
     var clubRepo = ClubRepository();
-    Player player = Player();
-    Club club = Club();
+    Player player;
+    Club club;
 
     if (currentState is PlayersSelected) {
       if (currentState.isStarting) {
@@ -44,7 +49,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         player = await FirestoreService().getPlayer(event.playerId);
         club = await FirestoreService().getClub(player.clubId);
         await playerRepo.insertPlayer(player);
-        clubRepo.insertClub(club);
+        await clubRepo.insertClub(club);
         starting.any((player) => player.id == event.playerId)
             ? starting.removeWhere((player) => player.id == event.playerId)
             : starting.length < 11 ? starting.add(player) : print('');
@@ -54,7 +59,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         player = await FirestoreService().getPlayer(event.playerId);
         club = await FirestoreService().getClub(player.clubId);
         await playerRepo.insertPlayer(player);
-        clubRepo.insertClub(club);
+        await clubRepo.insertClub(club);
         subs.any((player) => player.id == event.playerId)
             ? subs.removeWhere((player) => player.id == event.playerId)
             : subs.length < 7 ? subs.add(player) : print('');
@@ -63,7 +68,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     }
   }
 
-  Stream<PlayerState> _mapMultiPlayerSelectToState(
+  Stream<SelectedPlayerEventPlayerState> _mapMultiPlayerSelectToState(
       MultiPlayerSelect event) async* {
     var currentState = state;
     if (currentState is PlayersSelected) {
@@ -83,7 +88,8 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     }
   }
 
-  Stream<PlayerState> _mapFavoriteSelectToState(FavoriteSelect event) async* {
+  Stream<SelectedPlayerEventPlayerState> _mapFavoriteSelectToState(
+      FavoriteSelect event) async* {
     var currentState = state;
     final playerRepo = PlayerRepository();
     if (currentState is PlayersSelected) {

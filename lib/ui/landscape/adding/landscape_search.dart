@@ -133,14 +133,16 @@ class _LandscapeSearchState extends State<LandscapeSearch> {
                                 child: InkWell(
                                   onTap: () {
                                     context
-                                        .bloc<PlayerBloc>()
+                                        .bloc<SelectedPlayerBloc>()
                                         .add(SearchSelect(players[index].id));
                                   },
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(10, 14, 5, 8),
-                                    child: BlocBuilder<PlayerBloc, PlayerState>(
+                                    child: BlocBuilder<SelectedPlayerBloc,
+                                        SelectedPlayerEventPlayerState>(
                                       builder: (BuildContext context,
-                                          PlayerState playerState) {
+                                          SelectedPlayerEventPlayerState
+                                              playerState) {
                                         if (playerState is PlayersSelected) {
                                           bool isSub = playerState.subs.any(
                                               (player) =>

@@ -23,8 +23,10 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
               borderRadius: BorderRadius.circular(8),
               color: Colors.white,
             ),
-            child: BlocBuilder<PlayerBloc, PlayerState>(
-              builder: (BuildContext context, PlayerState playerState) {
+            child:
+                BlocBuilder<SelectedPlayerBloc, SelectedPlayerEventPlayerState>(
+              builder: (BuildContext context,
+                  SelectedPlayerEventPlayerState playerState) {
                 if (playerState is PlayersSelected) {
                   return ExpansionTile(
                     title: MyText(
@@ -51,7 +53,7 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
                                 : (bSt ? 0.3 : 1),
                             child: InkWell(
                               onTap: () {
-                                context.bloc<PlayerBloc>().add(
+                                context.bloc<SelectedPlayerBloc>().add(
                                     FavoriteSelect(favState.list[index].favId));
                               },
                               child: Padding(
@@ -96,7 +98,7 @@ class _LandscapeFavoriteState extends State<LandscapeFavorite> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        context.bloc<PlayerBloc>().add(
+                                        context.bloc<SelectedPlayerBloc>().add(
                                             FavoriteSelect(
                                                 favState.list[index].favId));
                                       },

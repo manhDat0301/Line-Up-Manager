@@ -1,12 +1,12 @@
 part of 'selected_players_bloc.dart';
 
-class PlayerEvent extends Equatable {
+class SelectedPlayerEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
-class TableUpdate extends PlayerEvent {
+class TableUpdate extends SelectedPlayerEvent {
   final bool isStarting;
   final List<Player> starting;
   final List<Player> subs;
@@ -18,7 +18,7 @@ class TableUpdate extends PlayerEvent {
   List<Object> get props => [isStarting, starting, subs];
 }
 
-class MultiPlayerSelect extends PlayerEvent {
+class MultiPlayerSelect extends SelectedPlayerEvent {
   final Player player;
 
   MultiPlayerSelect(this.player);
@@ -28,7 +28,7 @@ class MultiPlayerSelect extends PlayerEvent {
   List<Object> get props => [player];
 }
 
-class SearchSelect extends PlayerEvent {
+class SearchSelect extends SelectedPlayerEvent {
   final String playerId;
 
   SearchSelect(this.playerId);
@@ -38,7 +38,7 @@ class SearchSelect extends PlayerEvent {
   List<Object> get props => [playerId];
 }
 
-class FavoriteSelect extends PlayerEvent {
+class FavoriteSelect extends SelectedPlayerEvent {
   final String id;
 
   FavoriteSelect(this.id);

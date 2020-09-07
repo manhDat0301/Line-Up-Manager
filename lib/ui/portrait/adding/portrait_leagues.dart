@@ -86,8 +86,10 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               shrinkWrap: true,
               itemCount: players.length,
               itemBuilder: (context, index) {
-                return BlocBuilder<PlayerBloc, PlayerState>(
-                  builder: (BuildContext context, PlayerState state) {
+                return BlocBuilder<SelectedPlayerBloc,
+                    SelectedPlayerEventPlayerState>(
+                  builder: (BuildContext context,
+                      SelectedPlayerEventPlayerState state) {
                     if (state is PlayersSelected) {
                       bool bSt = state.starting
                           .any((player) => player.id == players[index].id);
@@ -96,7 +98,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
                       return InkWell(
                         onTap: () {
                           context
-                              .bloc<PlayerBloc>()
+                              .bloc<SelectedPlayerBloc>()
                               .add(MultiPlayerSelect(players[index]));
                         },
                         child: Opacity(

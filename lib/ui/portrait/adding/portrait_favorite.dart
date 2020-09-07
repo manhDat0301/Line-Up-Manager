@@ -54,14 +54,16 @@ class _PortraitFavoritesState extends State<PortraitFavorites> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                context.bloc<PlayerBloc>().add(
+                                context.bloc<SelectedPlayerBloc>().add(
                                     FavoriteSelect(favState.list[index].favId));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 16.0),
-                                child: BlocBuilder<PlayerBloc, PlayerState>(
+                                child: BlocBuilder<SelectedPlayerBloc,
+                                    SelectedPlayerEventPlayerState>(
                                   builder: (BuildContext context,
-                                      PlayerState playerState) {
+                                      SelectedPlayerEventPlayerState
+                                          playerState) {
                                     if (playerState is PlayersSelected) {
                                       bool bSt = playerState.starting.any(
                                           (player) =>
@@ -115,8 +117,9 @@ class _PortraitFavoritesState extends State<PortraitFavorites> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                context.bloc<PlayerBloc>().add(
-                                                    FavoriteSelect(favState
+                                                context
+                                                    .bloc<SelectedPlayerBloc>()
+                                                    .add(FavoriteSelect(favState
                                                         .list[index].favId));
                                               },
                                               child: Padding(

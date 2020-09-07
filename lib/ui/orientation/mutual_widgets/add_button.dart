@@ -40,7 +40,7 @@ class _AddButtonState extends State<AddButton> {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(adding);
-            context.bloc<PlayerBloc>().add(TableUpdate(
+            context.bloc<SelectedPlayerBloc>().add(TableUpdate(
                   starting: widget.starting,
                   isStarting: widget.isStartingSelect,
                   subs: widget.subs,

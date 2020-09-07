@@ -33,7 +33,7 @@ class _LandscapePlayersState extends State<LandscapePlayers> {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    context.bloc<PlayerBloc>().add(
+                    context.bloc<SelectedPlayerBloc>().add(
                         MultiPlayerSelect(addingPlayerState.players[index]));
                   },
                   child: Column(
@@ -45,9 +45,10 @@ class _LandscapePlayersState extends State<LandscapePlayers> {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 10, bottom: 10, left: 6, right: 5),
-                        child: BlocBuilder<PlayerBloc, PlayerState>(
-                          builder:
-                              (BuildContext context, PlayerState playerState) {
+                        child: BlocBuilder<SelectedPlayerBloc,
+                            SelectedPlayerEventPlayerState>(
+                          builder: (BuildContext context,
+                              SelectedPlayerEventPlayerState playerState) {
                             if (playerState is PlayersSelected) {
                               bool bSt = playerState.starting.any((player) =>
                                   player.id ==

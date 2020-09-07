@@ -28,8 +28,9 @@ class _PortraitAddingState extends State<PortraitAdding> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffold,
-      floatingActionButton: BlocConsumer<PlayerBloc, PlayerState>(
-        builder: (BuildContext context, PlayerState state) {
+      floatingActionButton:
+          BlocConsumer<SelectedPlayerBloc, SelectedPlayerEventPlayerState>(
+        builder: (BuildContext context, SelectedPlayerEventPlayerState state) {
           if (state is PlayersSelected) {
             return WillPopScope(
               onWillPop: () async {
@@ -70,7 +71,7 @@ class _PortraitAddingState extends State<PortraitAdding> {
           }
           return Container();
         },
-        listener: (BuildContext context, PlayerState state) {
+        listener: (BuildContext context, SelectedPlayerEventPlayerState state) {
           if (state is PlayersSelected) {
             if (state.isStarting && state.starting.length == 11) {
               _showSnackBar();
@@ -119,8 +120,10 @@ class _PortraitAddingState extends State<PortraitAdding> {
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (BuildContext context, int index) {
-          return BlocBuilder<PlayerBloc, PlayerState>(
-            builder: (BuildContext context, PlayerState state) {
+          return BlocBuilder<SelectedPlayerBloc,
+              SelectedPlayerEventPlayerState>(
+            builder:
+                (BuildContext context, SelectedPlayerEventPlayerState state) {
               if (state is PlayersSelected) {
                 return Container(
                   width: 70,

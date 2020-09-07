@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<FavoriteBloc>(
           create: (BuildContext context) => FavoriteBloc(FavoriteInitial()),
         ),
-        BlocProvider<PlayerBloc>(
-          create: (BuildContext context) => PlayerBloc(PlayerInitial()),
+        BlocProvider<SelectedPlayerBloc>(
+          create: (BuildContext context) => SelectedPlayerBloc(PlayerInitial()),
         ),
         BlocProvider<ClubBloc>(
           create: (BuildContext context) => ClubBloc(ClubInitial()),
