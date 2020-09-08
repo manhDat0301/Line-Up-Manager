@@ -5,6 +5,7 @@ import 'package:marozi/bloc/detail/detail_bloc.dart';
 import 'package:marozi/bloc/position/position_bloc/position_bloc.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/resources/strings.dart';
 
 class DragPlayer extends StatefulWidget {
@@ -47,6 +48,7 @@ class _DragPlayerState extends State<DragPlayer> {
                     arguments: state.players[widget.index].id);
               },
               child: Draggable(
+                childWhenDragging: Container(),
                 child: _dragChild(),
                 feedback: _dragChild(),
                 data: widget.index,
@@ -116,6 +118,7 @@ class _DragPlayerState extends State<DragPlayer> {
                   decoration: TextDecoration.none,
                   fontSize: 12,
                   color: Colors.black,
+                  fontFamily: fontSFDisplayRegular,
                   fontWeight: FontWeight.normal,
                 ),
               ),

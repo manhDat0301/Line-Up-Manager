@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -17,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'export_event.dart';
+
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {
@@ -137,42 +137,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     );
   }
 
-  Stream<ExportState> _mapPositionToLandscapeExport(
-      PositionToExport event) async* {
-    final clubRepo = ClubRepository();
-
-    String _clubUrl = await clubRepo
-        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubLogoUrl]);
-    String _clubName = await clubRepo
-        .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
-    double width =
-        event.isPortrait ? Constants.width * 0.986 : Constants.width * 0.56;
-    double height =
-        event.isPortrait ? Constants.height * 0.66 : Constants.height * 0.92;
-    List<Offset> offsets = _convertToExportOffset(
-        position: event.offsets, width: width, height: height);
-
-    List<String> subNames = [];
-    if (event.subs != null) {
-      event.subs.forEach((player) {
-        subNames.add(player.name);
-      });
-    }
-    yield ExportFromPositionSuccess(
-      players: event.players,
-      offsets: offsets,
-      exportTypes: Constants.listExport,
-      currentPage: 0,
-      clubLogoUrl: _clubUrl,
-      teamName: _clubName,
-      subsNames: subNames,
-      showCaptain: true,
-      showCoach: true,
-      showSubs: true,
-      captain: event.players[0],
-    );
-  }
-
   List<Offset> _convertToExportOffset(
       {@required List<Offset> position,
       @required double width,
@@ -182,11 +146,9 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
     for (int i = 0; i < position.length; i++) {
       double dx;
       double dy;
-      if (false) {
-      } else {
-        dx = position[i].dx / Constants.width * width + 5;
-        dy = position[i].dy / Constants.height * height;
-      }
+
+      dx = position[i].dx / Constants.width * width + 5;
+      dy = position[i].dy / Constants.height * height;
 
       result.add(Offset(dx, dy));
     }
@@ -245,7 +207,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       var pngBytes = byteData.buffer.asUint8List();
-      var bs64 = base64Encode(pngBytes);
+      // var bs64 = base64Encode(pngBytes);
       return pngBytes;
     } catch (e) {
       print(e);

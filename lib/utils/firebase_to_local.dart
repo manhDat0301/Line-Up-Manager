@@ -31,7 +31,7 @@ class FirebaseToLocal {
     int local;
     try {
       local = await leagueRepo.count();
-    } on Exception catch (e) {
+    } on Exception {
       local = 0;
     }
     return (local == 0 || local != firebase);

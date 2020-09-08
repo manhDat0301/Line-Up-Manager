@@ -74,7 +74,7 @@ class _PreviewGloryRedState extends State<PreviewGloryRed> {
             ),
           ),
           Flexible(
-            fit: FlexFit.tight,
+            fit: FlexFit.loose,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,

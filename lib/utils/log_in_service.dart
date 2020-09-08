@@ -11,7 +11,7 @@ class MaroziFirebase {
         .signInWithEmailAndPassword(
             email: "marozi@gmail.com", password: "Marozi@123")
         .whenComplete(() async {
-      User currentUser = await mAuth.currentUser;
+      User currentUser = mAuth.currentUser;
       print('currentUser: ${currentUser.email}');
     });
   }

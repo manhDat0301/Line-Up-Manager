@@ -225,34 +225,34 @@ class PainterLearn extends CustomPainter {
   @override
   void paint(ui.Canvas canvas, ui.Size size) {
     /// Paint Points
-    final pointMode = ui.PointMode.points;
-    Offset centerPoints = size.center(Offset.zero);
-    final pointsList = [
-      centerPoints,
-    ];
-    final paintPoints = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
+    // final pointMode = ui.PointMode.points;
+    // Offset centerPoints = size.center(Offset.zero);
+    // final pointsList = [
+    //   centerPoints,
+    // ];
+    // final paintPoints = Paint()
+    //   ..color = Colors.black
+    //   ..strokeWidth = 2
+    //   ..strokeCap = StrokeCap.round;
 
     /// Paint Rect
     final left = 50.0;
     final top = 100.0;
     final right = 150.0;
     final bottom = 200.0;
-    final rect = Rect.fromLTRB(left, top, right, bottom);
-    final paintRect = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    // final rect = Rect.fromLTRB(left, top, right, bottom);
+    // final paintRect = Paint()
+    //   ..color = Colors.black
+    //   ..strokeWidth = 2
+    //   ..style = PaintingStyle.stroke;
 
     /// Paint Circle
-    final centerCircle = size.center(Offset(0, 0));
-    final radius = 100.0;
-    final paintCircle = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+    // final centerCircle = size.center(Offset(0, 0));
+    // final radius = 100.0;
+    // final paintCircle = Paint()
+    //   ..color = Colors.black
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 2;
 
     /// Paint Oval
     final rectOval = Rect.fromLTRB(50, 100, 250, 220);
@@ -272,12 +272,12 @@ class PainterLearn extends CustomPainter {
 
     /// The sweepAngle is how much of the oval is included in the arc.
     /// Again, angles are in radians. A value of 2π would draw the entire oval.
-    final sweepAngle = pi;
-    final useCenter = false;
-    final paintArcs = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+    // final sweepAngle = pi;
+    // final useCenter = false;
+    // final paintArcs = Paint()
+    //   ..color = Colors.black
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 2;
   }
 
   @override

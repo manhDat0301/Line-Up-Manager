@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:search_widget/search_widget.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/my_search_widget.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _TestState extends State<Test> {
               height: 16,
             ),
             if (_show)
-              SearchWidget<LeaderBoard>(
+              MySearchWidget<LeaderBoard>(
                 dataList: list,
                 hideSearchBoxWhenItemSelected: false,
                 listContainerHeight: MediaQuery.of(context).size.height / 4,
