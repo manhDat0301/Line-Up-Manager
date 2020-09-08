@@ -20,7 +20,6 @@ class FirebaseToLocal {
 
   static Future splashDataLoading() async {
     await _maroziFirebase.getCurrentUser();
-//    await _maroziLocal.clearAllContent();
     if (await _leagueNeedUpdate()) {
       await _localUpdateAllLeague();
     }
@@ -71,18 +70,15 @@ class FirebaseToLocal {
 
   Future<List<Club>> getClubsByLeague(League league) async {
     int local = await _maroziLocal.countClubByLeague(league: league);
-    List<Club> listFirebase = await _getClubsByLeague(league);
-    List<Club> clubs;
-    if (local != 0) {
-      clubs = await _maroziLocal.getClubsByLeague(league);
-    }
-    if (local == 0 || local != listFirebase.length) {
-      listFirebase.forEach((club) {
+    List<Club> clubsByLeague = await _getClubsByLeague(league);
+    if (local == 0 || local != clubsByLeague.length) {
+      clubsByLeague.forEach((club) {
         clubRepo.insertClub(club);
       });
-      return listFirebase;
+    } else {
+      return clubsByLeague;
     }
-    return clubs;
+    return clubsByLeague;
   }
 
   Future<List<Club>> _getClubsByLeague(League league) async {
@@ -115,19 +111,16 @@ class FirebaseToLocal {
 
   Future<List<Player>> getPlayersByClub(Club club) async {
     int local = await _maroziLocal.countPlayersByClub(club: club);
-    List<Player> firebaseList = await _playersByClubFirebase(club);
-    int firebase = firebaseList.length;
-    List<Player> players;
-    if (local != 0) {
-      players = await _maroziLocal.getPlayersByClub(club);
-    }
+    List<Player> playersByClub = await _playersByClubFirebase(club);
+    int firebase = playersByClub.length;
     if (local == 0 || local != firebase) {
-      firebaseList.forEach((player) {
+      playersByClub.forEach((player) {
         playerRepo.insertPlayer(player);
       });
-      return firebaseList;
+    } else {
+      return playersByClub;
     }
-    return players;
+    return playersByClub;
   }
 
   Future<List<Player>> _playersByClubFirebase(Club club) async {

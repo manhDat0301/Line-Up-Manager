@@ -50,6 +50,6 @@ class MaroziLocal {
 
   Future deleteDB() async {
     final helper = DatabaseHelper.instance;
-    helper.deleteDB();
+    await helper.deleteDB();
   }
 }

@@ -203,13 +203,13 @@ class _PortraitSearchState extends State<PortraitSearch> {
     );
   }
 
-  // Widget _popupList(Player player) {
-  //   return Container(
-  //     padding: EdgeInsets.all(12),
-  //     child: Text(
-  //       player.name,
-  //       style: TextStyle(fontSize: 16),
-  //     ),
-  //   );
-  // }
+// Widget _popupList(Player player) {
+//   return Container(
+//     padding: EdgeInsets.all(12),
+//     child: Text(
+//       player.name,
+//       style: TextStyle(fontSize: 16),
+//     ),
+//   );
+// }
 }
