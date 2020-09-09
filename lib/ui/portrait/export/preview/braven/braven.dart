@@ -18,9 +18,12 @@ class _PreviewBravenState extends State<PreviewBraven> {
       alignment: Alignment.center,
       fit: StackFit.expand,
       children: [
-        Image.asset(
-          'assets/images/blue_export.png',
-          fit: BoxFit.fitWidth,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            'assets/images/blue_export.png',
+            fit: BoxFit.fill,
+          ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(25, 25, 22, 15),

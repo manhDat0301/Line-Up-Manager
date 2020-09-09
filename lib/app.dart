@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PositionBloc>(
             create: (BuildContext context) => PositionBloc(PositionInitial())
-              ..add(PositionTestEvent(isPortrait: false))),
+              ..add(PositionTestEvent(isPortrait: true))),
         BlocProvider<ExportBloc>(
           create: (BuildContext context) => ExportBloc(ExportInitial()),
         ),
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           fontFamily: fontSFDisplayRegular,
           scaffoldBackgroundColor: colorScaffoldBackground,
         ),
-        initialRoute: homepage,
+        initialRoute: position,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/homepage':

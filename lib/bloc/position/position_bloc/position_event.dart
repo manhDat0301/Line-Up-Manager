@@ -52,12 +52,14 @@ class PositionSwap extends PositionEvent {
 class DropPlayer extends PositionEvent {
   final Offset offset;
   final int index;
+  final double width;
+  final double height;
 
-  DropPlayer(this.offset, this.index);
+  DropPlayer(this.offset, this.index, this.width, this.height);
 
   @override
   // TODO: implement props
-  List<Object> get props => [offset, index];
+  List<Object> get props => [offset, index, width, height];
 }
 
 class PositionOrientationChange extends PositionEvent {

@@ -11,7 +11,7 @@ import 'package:marozi/utils/local.dart';
 import 'package:marozi/utils/log_in_service.dart';
 
 class FirebaseToLocal {
-  static final _maroziFirebase = MaroziFirebase();
+  static final _maroziFirebase = LogInService();
   static final _maroziLocal = MaroziLocal();
   static final leagueRepo = LeagueRepository();
   static final clubRepo = ClubRepository();

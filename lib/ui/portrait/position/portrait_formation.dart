@@ -12,21 +12,25 @@ class PortraitFormation extends StatefulWidget {
 
 class _PortraitFormationState extends State<PortraitFormation> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.only(bottom: 5.0),
-        width: double.infinity,
-        child: Card(
-          child: BlocBuilder<PositionBloc, PositionState>(
-            builder: (BuildContext context, PositionState state) {
-              return state is PositionSuccess
-                  ? Stack(
-                      children: _stackItems(state.players, state.offsets),
-                    )
-                  : BottomLoader();
-            },
-          ),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.83,
+      padding: const EdgeInsets.only(bottom: 5.0),
+      width: MediaQuery.of(context).size.width,
+      child: Card(
+        child: BlocBuilder<PositionBloc, PositionState>(
+          builder: (BuildContext context, PositionState state) {
+            return state is PositionSuccess
+                ? Stack(
+                    children: _stackItems(state.players, state.offsets),
+                  )
+                : BottomLoader();
+          },
         ),
       ),
     );

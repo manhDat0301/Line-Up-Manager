@@ -15,7 +15,7 @@ class _LandscapeFormationState extends State<LandscapeFormation> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.82,
-      height: double.infinity,
+      height: MediaQuery.of(context).size.height,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Card(

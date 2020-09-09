@@ -104,7 +104,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
 
     double width =
-        event.isPortrait ? Constants.width * 0.986 : Constants.width * 0.56;
+        event.isPortrait ? Constants.width * 0.97 : Constants.width * 0.56;
     double height =
         event.isPortrait ? Constants.height * 0.66 : Constants.height * 0.92;
 

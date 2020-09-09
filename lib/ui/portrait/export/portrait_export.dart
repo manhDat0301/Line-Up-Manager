@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +81,7 @@ class _PortraitExportState extends State<PortraitExport> {
           children: <Widget>[
             Spacer(),
             Container(
-              width: MediaQuery.of(context).size.width * 0.986,
+              width: MediaQuery.of(context).size.width * 0.96,
               height: MediaQuery.of(context).size.height * 0.756,
               child: RepaintBoundary(
                 key: _globalKey,

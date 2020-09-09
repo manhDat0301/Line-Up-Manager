@@ -52,10 +52,19 @@ class _DragPlayerState extends State<DragPlayer> {
                 child: _dragChild(),
                 feedback: _dragChild(),
                 data: widget.index,
-                onDraggableCanceled: (velocity, offset) {
-                  context
-                      .bloc<PositionBloc>()
-                      .add(DropPlayer(offset, widget.index));
+                onDraggableCanceled: (velocity, cancelOffset) {
+                  double height;
+                  double width;
+                  if (MediaQuery.of(context).orientation ==
+                      Orientation.portrait) {
+                    height = MediaQuery.of(context).size.height * 0.83;
+                    width = MediaQuery.of(context).size.width;
+                  } else {
+                    width = MediaQuery.of(context).size.width * 0.82;
+                    height = MediaQuery.of(context).size.height;
+                  }
+                  context.bloc<PositionBloc>().add(
+                      DropPlayer(cancelOffset, widget.index, width, height));
                 },
                 onDragEnd: (details) {},
               ),

@@ -60,10 +60,13 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     var currentState = state;
     if (currentState is PositionSuccess) {
       List<Offset> offsets = List.from(currentState.offsets);
+
       Offset temp = offsets[event.first];
       offsets[event.first] = offsets[event.second];
       offsets[event.second] = temp;
+
       yield currentState.copyWith(offsets: offsets);
+
       _updateOffset(
         currentState.listFormations[currentState.currentPage],
         offsets,
@@ -76,7 +79,27 @@ class PositionBloc extends Bloc<PositionEvent, PositionState> {
     var currentState = state;
     if (currentState is PositionSuccess) {
       List<Offset> offsets = List.from(currentState.offsets);
-      offsets[event.index] = event.offset - Offset(4, 51.5);
+      double top = event.offset.dy;
+      double left = event.offset.dx;
+
+      if ((left) > (event.width - 73.0)) {
+        left = event.width - 73.0;
+      } else if ((left) < 0.0) {
+        left = 0.0;
+      } else {
+        left = event.offset.dx - 4.0;
+      }
+
+      if ((top - 51.5) > (event.height - 90)) {
+        top = event.height - 90;
+      } else if ((top - 51.5) < 0.0) {
+        top = 0.0;
+      } else {
+        top = event.offset.dy - 51.5;
+      }
+
+      offsets[event.index] = Offset(left, top);
+
       yield currentState.copyWith(offsets: offsets);
       _updateOffset(
         currentState.listFormations[currentState.currentPage],

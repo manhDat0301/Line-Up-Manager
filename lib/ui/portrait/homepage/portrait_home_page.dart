@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
 import 'package:marozi/resources/strings.dart';
+import 'package:marozi/utils/log_in_service.dart';
 
 class PortraitHomePage extends StatefulWidget {
   @override
@@ -98,7 +99,8 @@ class _PortraitHomePageState extends State<PortraitHomePage> {
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(table);
+                    LogInService().getCurrentUser();
+                    // Navigator.of(context).pushNamed(table);
                     SystemChrome.setPreferredOrientations([
                       DeviceOrientation.portraitUp,
                       DeviceOrientation.portraitDown,

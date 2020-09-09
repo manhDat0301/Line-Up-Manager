@@ -16,10 +16,11 @@ class _PreviewFieldXIState extends State<PreviewFieldXI> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.629,
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.73,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
         image: DecorationImage(
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.fill,
           image: AssetImage('assets/images/field_xi.png'),
         ),
       ),
