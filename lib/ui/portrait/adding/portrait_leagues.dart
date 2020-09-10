@@ -38,22 +38,21 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
     List<Player> players,
     Club club,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-            color: Colors.white,
-          ),
-          child: InkWell(
+    return Container(
+      margin: EdgeInsets.only(top: 10, bottom: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          InkWell(
             onTap: () {
               context.bloc<AddingBloc>().add(ClubBack());
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.fromLTRB(7, 10, 7, 2),
               child: Row(
                 children: <Widget>[
                   AddingImage(club.logoUrl),
@@ -71,100 +70,103 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               ),
             ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 22),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8)),
-            color: Colors.white,
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            child: Divider(),
           ),
-          child: SingleChildScrollView(
-            child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: players.length,
-              itemBuilder: (context, index) {
-                return BlocBuilder<SelectedPlayerBloc,
-                    SelectedPlayerEventPlayerState>(
-                  builder: (BuildContext context,
-                      SelectedPlayerEventPlayerState state) {
-                    if (state is PlayersSelected) {
-                      bool bSt = state.starting
-                          .any((player) => player.id == players[index].id);
-                      bool bSu = state.subs
-                          .any((player) => player.id == players[index].id);
-                      return InkWell(
-                        onTap: () {
-                          context
-                              .bloc<SelectedPlayerBloc>()
-                              .add(MultiPlayerSelect(players[index]));
-                        },
-                        child: Opacity(
-                          opacity: state.isStarting
-                              ? (bSu ? 0.3 : 1)
-                              : (bSt ? 0.3 : 1),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                            child: Row(
-                              children: <Widget>[
-                                AddingImage(players[index].avatarUrl,
-                                    isPlayer: true),
-                                SizedBox(width: 4),
-                                Flexible(
-                                  fit: FlexFit.tight,
-                                  child: Text(
-                                    players[index].name,
-                                    style: TextStyle(
-                                      color: null,
-                                      fontSize: 19,
+          Container(
+            padding: EdgeInsets.only(left: 22),
+            child: SingleChildScrollView(
+              child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: players.length,
+                itemBuilder: (context, index) {
+                  return BlocBuilder<SelectedPlayerBloc,
+                      SelectedPlayerEventPlayerState>(
+                    builder: (BuildContext context,
+                        SelectedPlayerEventPlayerState state) {
+                      if (state is PlayersSelected) {
+                        bool bSt = state.starting
+                            .any((player) => player.id == players[index].id);
+                        bool bSu = state.subs
+                            .any((player) => player.id == players[index].id);
+                        return InkWell(
+                          onTap: () {
+                            context
+                                .bloc<SelectedPlayerBloc>()
+                                .add(MultiPlayerSelect(players[index]));
+                          },
+                          child: Opacity(
+                            opacity: state.isStarting
+                                ? (bSu ? 0.3 : 1)
+                                : (bSt ? 0.3 : 1),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              child: Row(
+                                children: <Widget>[
+                                  AddingImage(players[index].avatarUrl,
+                                      isPlayer: true),
+                                  SizedBox(width: 4),
+                                  Flexible(
+                                    fit: FlexFit.tight,
+                                    child: Text(
+                                      players[index].name,
+                                      style: TextStyle(
+                                        color: null,
+                                        fontSize: 19,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.clip,
                                     ),
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.clip,
                                   ),
-                                ),
-                                bSt || bSu
-                                    ? Icon(
-                                        Icons.check,
-                                        size: 22,
-                                        color: Colors.orange,
-                                      )
-                                    : Container(),
-                              ],
+                                  bSt || bSu
+                                      ? Icon(
+                                          Icons.check,
+                                          size: 22,
+                                          color: Colors.orange,
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    return BottomLoader();
-                  },
-                );
-              },
+                        );
+                      }
+                      return BottomLoader();
+                    },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildClubs(List<Club> clubs, League league) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-            color: Colors.white,
-          ),
-          child: InkWell(
+    return Container(
+      margin: EdgeInsets.only(top: 10, bottom: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          InkWell(
             onTap: () {
               context.bloc<AddingBloc>().add(LeagueBack());
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.fromLTRB(7, 10, 7, 2),
               child: Row(
                 children: <Widget>[
                   AddingImage(league.logoUrl),
@@ -182,52 +184,62 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
               ),
             ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 22),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8)),
-            color: Colors.white,
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            child: Divider(),
           ),
-          child: SingleChildScrollView(
-            child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: clubs.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    context.bloc<AddingBloc>().add(ClubSelect(clubs[index]));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    child: Row(
-                      children: <Widget>[
-                        AddingImage(clubs[index].logoUrl),
-                        SizedBox(width: 4),
-                        Flexible(
-                          fit: FlexFit.tight,
-                          child: Text(
-                            clubs[index].name,
-                            style: TextStyle(
-                              color: null,
-                              fontSize: 19,
+          Container(
+            padding: EdgeInsets.only(left: 22),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8)),
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+              child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: clubs.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      context.bloc<AddingBloc>().add(ClubSelect(clubs[index]));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Row(
+                        children: <Widget>[
+                          AddingImage(clubs[index].logoUrl),
+                          SizedBox(width: 4),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              clubs[index].name,
+                              style: TextStyle(
+                                color: null,
+                                fontSize: 19,
+                              ),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.clip,
                             ),
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -257,7 +269,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
                   color: Colors.white,
                 ),
                 child: SingleChildScrollView(
-                  child: ListView.builder(
+                  child: ListView.separated(
                     shrinkWrap: true,
                     itemCount: leagueByNation[nat].length,
                     physics: NeverScrollableScrollPhysics(),
@@ -269,8 +281,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
                               .add(LeagueSelect(leagueByNation[nat][index]));
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
+                          padding: const EdgeInsets.all(10.0),
                           child: Row(
                             children: <Widget>[
                               AddingImage(leagueByNation[nat][index].logoUrl),
@@ -287,6 +298,12 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
                             ],
                           ),
                         ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        child: Divider(height: 0),
                       );
                     },
                   ),

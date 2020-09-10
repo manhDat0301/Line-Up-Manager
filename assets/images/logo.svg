@@ -8,13 +8,13 @@
             fill="url(#paint1_linear)" />
     </g>
     <defs>
-        <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear" x1="33.365" x2="33.365" y1="153.595"
-            y2="194.248">
+        <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear" x1="33.365" x2="33.365"
+            y1="153.595" y2="194.248">
             <stop stop-color="#FFA843" />
             <stop offset="1" stop-color="#EB7F00" />
         </linearGradient>
-        <linearGradient gradientUnits="userSpaceOnUse" id="paint1_linear" x1="118.67" x2="118.67" y1="0"
-            y2="230.01">
+        <linearGradient gradientUnits="userSpaceOnUse" id="paint1_linear" x1="118.67" x2="118.67"
+            y1="0" y2="230.01">
             <stop stop-color="#FFA843" />
             <stop offset="1" stop-color="#EB7F00" />
         </linearGradient>
