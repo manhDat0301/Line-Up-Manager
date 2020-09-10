@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marozi/data/constants.dart';
+import 'package:marozi/data/position/landscape_offset_user.dart';
+import 'package:marozi/data/position/portrait_offset_user.dart';
 import 'package:marozi/model/favorite/favorite.dart';
 import 'package:marozi/model/favorite/favorite_repository.dart';
 import 'package:marozi/model/player/player.dart';
 import 'package:marozi/model/player/player_repository.dart';
-import 'package:marozi/repository/constants.dart';
-import 'package:marozi/repository/position/landscape_offset_user.dart';
-import 'package:marozi/repository/position/portrait_offset_user.dart';
 
 part 'position_event.dart';
 part 'position_state.dart';

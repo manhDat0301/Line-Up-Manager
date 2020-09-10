@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:marozi/repository/position/calculate_offset.dart';
-import 'package:marozi/repository/position/portrait_percentage.dart';
+import 'package:marozi/data/position/calculate_offset.dart';
+import 'package:marozi/data/position/portrait_percentage.dart';
 
 class PortraitOffsetInitial {
   static List<Offset> _formation;

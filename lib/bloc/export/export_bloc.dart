@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:marozi/data/constants.dart';
 import 'package:marozi/model/club/club.dart';
 import 'package:marozi/model/club/club_repository.dart';
 import 'package:marozi/model/player/player.dart';
-import 'package:marozi/repository/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -104,7 +104,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         .getAColOfClub(clubId: event.players[0].clubId, columns: [clubName]);
 
     double width =
-        event.isPortrait ? Constants.width * 0.97 : Constants.width * 0.56;
+        event.isPortrait ? Constants.width * 0.95 : Constants.width * 0.56;
     double height =
         event.isPortrait ? Constants.height * 0.66 : Constants.height * 0.92;
 
@@ -162,8 +162,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
       String tempDir = (await getTemporaryDirectory()).path;
       File file = File('$tempDir/export.png');
       file.writeAsBytesSync(pngByte);
-//      final path = await ImageGallerySaver.saveImage(pngByte,
-//          name: 'export', quality: 100);
       final path = await ImageGallerySaver.saveFile(file.path);
       return path;
     } else {

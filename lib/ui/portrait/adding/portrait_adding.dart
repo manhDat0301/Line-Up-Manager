@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/adding/selected_players_bloc/selected_players_bloc.dart';
 import 'package:marozi/bloc/table/table_bloc/table_bloc.dart';
+import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/strings.dart';
 import 'package:marozi/ui/portrait/adding/portrait_favorite.dart';
@@ -113,49 +114,41 @@ class _PortraitAddingState extends State<PortraitAdding> {
 
   Widget _selectedImages() {
     return Container(
-      height: 80,
-      child: ListView.builder(
-        itemCount: 11,
-        scrollDirection: Axis.horizontal,
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(vertical: 8),
-        itemBuilder: (BuildContext context, int index) {
-          return BlocBuilder<SelectedPlayerBloc,
-              SelectedPlayerEventPlayerState>(
-            builder:
-                (BuildContext context, SelectedPlayerEventPlayerState state) {
-              if (state is PlayersSelected) {
+      height: 50,
+      child: BlocBuilder<SelectedPlayerBloc, SelectedPlayerEventPlayerState>(
+        builder: (BuildContext context, SelectedPlayerEventPlayerState state) {
+          if (state is PlayersSelected) {
+            bool isStarting = state.isStarting;
+            List<Player> list = isStarting ? state.starting : state.subs;
+            return ListView.builder(
+              itemCount: isStarting ? 11 : 7,
+              scrollDirection: Axis.horizontal,
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(vertical: 8),
+              itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  width: 70,
-                  height: 70,
+                  width: 40,
+                  height: 40,
                   padding: EdgeInsets.symmetric(horizontal: 2),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10000.0),
-                    child: index < state.starting.length
+                    child: index < list.length
                         ? CachedNetworkImage(
                             errorWidget: (context, str, dyna) => Icon(
                               Icons.error,
                               color: Colors.orange,
                             ),
                             placeholder: (context, string) => BottomLoader(),
-                            imageUrl: state.starting[index].avatarUrl ?? '',
+                            imageUrl: list[index].avatarUrl ?? '',
                           )
                         : Image.asset('assets/images/no_face.jpg'),
                   ),
                 );
-              }
-              return Container(
-                width: 70,
-                height: 70,
-                padding: EdgeInsets.symmetric(horizontal: 2),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10000.0),
-                  child: Image.asset('assets/images/no_face.jpg'),
-                ),
-              );
-            },
-          );
+              },
+            );
+          }
+          return BottomLoader();
         },
       ),
     );

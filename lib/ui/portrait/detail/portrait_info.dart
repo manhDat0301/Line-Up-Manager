@@ -229,9 +229,9 @@ class _PortraitInfoState extends State<PortraitInfo> {
                 children: <Widget>[
                   Expanded(child: TextFix('Nation')),
                   Expanded(
-                    child: Container(
-                      width: 50,
-                      child: Image.asset(iconEngland1),
+                    child: Image.asset(
+                      iconEngland1,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ],
