@@ -16,7 +16,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'export_event.dart';
-
 part 'export_state.dart';
 
 class ExportBloc extends Bloc<ExportEvent, ExportState> {

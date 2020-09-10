@@ -34,19 +34,20 @@ class _PortraitAddingState extends State<PortraitAdding> {
           if (state is PlayersSelected) {
             return WillPopScope(
               onWillPop: () async {
-                bool canGoBack =
-                    state.starting.length > 4 || state.subs.length > 2;
-                if (canGoBack) {
-                  context.bloc<TableBloc>().add(PlayerSelect(
-                        state.isStarting ? state.starting : state.subs,
-                        state.isStarting,
-                      ));
-                } else {
-                  _scaffold.currentState.showSnackBar(SnackBar(
-                    content: Text('Need at least 5 starting or 3 substitute'),
-                  ));
-                }
-                return canGoBack ? true : false;
+                // bool canGoBack =
+                //     state.starting.length > 4 || state.subs.length > 2;
+                // if (canGoBack) {
+                //   context.bloc<TableBloc>().add(PlayerSelect(
+                //         state.isStarting ? state.starting : state.subs,
+                //         state.isStarting,
+                //       ));
+                // } else {
+                //   _scaffold.currentState.showSnackBar(SnackBar(
+                //     content: Text('Need at least 5 starting or 3 substitute'),
+                //   ));
+                // }
+                // return canGoBack ? true : false;
+                return true;
               },
               child: Visibility(
                 visible: state.starting.length > 4 || state.subs.length > 2,
