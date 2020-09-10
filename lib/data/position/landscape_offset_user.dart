@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/repository/constants.dart';
-import 'package:marozi/repository/position/landscape_offset_initial.dart';
+import 'package:marozi/data/constants.dart';
+import 'package:marozi/data/position/landscape_offset_initial.dart';
 
 class LandscapeOffsetUser {
   static List<Offset> offset_4_2_3_1 =

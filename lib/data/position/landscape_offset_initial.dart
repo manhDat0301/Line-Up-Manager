@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marozi/repository/position/calculate_offset.dart';
-import 'package:marozi/repository/position/landscape_percentage.dart';
+import 'package:marozi/data/position/calculate_offset.dart';
+import 'package:marozi/data/position/landscape_percentage.dart';
 
 class LandscapeOffsetInitial {
   static List<Offset> _formation;

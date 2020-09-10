@@ -10,13 +10,9 @@ class TableBloc extends Bloc<TableEvent, TableState> {
 
   @override
   Stream<TableState> mapEventToState(TableEvent event) async* {
-    if (event is PlayerSelect) {
-      yield* _mapPlayerSelectToState(event);
-    }
+    if (event is PlayerSelect) yield* _mapPlayerSelectToState(event);
 
-    if (event is PlayerDelete) {
-      yield* _mapPlayerDeleteToState(event);
-    }
+    if (event is PlayerDelete) yield* _mapPlayerDeleteToState(event);
   }
 
   Stream<TableState> _mapPlayerSelectToState(PlayerSelect event) async* {

@@ -16,8 +16,8 @@ class _AddingImageState extends State<AddingImage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 55,
-      height: 55,
+      width: 50,
+      height: 50,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(widget.isPlayer ? 10000.0 : 0),
         child: CachedNetworkImage(

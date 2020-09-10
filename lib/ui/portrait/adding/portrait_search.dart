@@ -65,87 +65,27 @@ class _PortraitSearchState extends State<PortraitSearch> {
                   break;
                 case ConnectionState.done:
                   players = [];
-                  snapshot.data.docs.forEach((element) async {
+                  for (var element in snapshot.data.docs) {
                     var player = Player();
                     player.name = element.data()['player_name'];
                     player.id = element.id;
+                    String gsUrl = element.data()['player_avatar_url'];
+                    // player.avatarUrl = gsUrl != null && gsUrl != ''
+                    //     ? await FirebaseStorage.instance
+                    //         .getReferenceFromUrl(gsUrl)
+                    //         .then((StorageReference ref) => ref
+                    //             .getDownloadURL()
+                    //             .then(
+                    //                 (dynamic snapshot) => snapshot.toString()))
+                    //     : '';
                     players.add(player);
-                  });
+                  }
+                  snapshot.data.docs.forEach(
+                    (element) async {},
+                  );
                   return players.isEmpty
                       ? Container()
-                      : Container(
-                          height: snapshot.data.docs.length < 5 ? null : 170,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(8),
-                                bottomRight: Radius.circular(8),
-                              )),
-                          child: ListView.separated(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: players.length,
-                            padding: const EdgeInsets.only(bottom: 2),
-                            separatorBuilder: (context, index) => const Divider(
-                              height: 0.8,
-                              indent: 10,
-                              endIndent: 10,
-                            ),
-                            itemBuilder: (context, index) {
-                              return Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    context
-                                        .bloc<SelectedPlayerBloc>()
-                                        .add(SearchSelect(players[index].id));
-                                  },
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(10, 17, 10, 11),
-                                    child: BlocBuilder<SelectedPlayerBloc,
-                                        SelectedPlayerEventPlayerState>(
-                                      builder: (BuildContext context,
-                                          SelectedPlayerEventPlayerState
-                                              playerState) {
-                                        if (playerState is PlayersSelected) {
-                                          bool isSub = playerState.subs.any(
-                                              (player) =>
-                                                  player.id ==
-                                                  players[index].id);
-                                          bool isSt = playerState.starting.any(
-                                              (player) =>
-                                                  player.id ==
-                                                  players[index].id);
-                                          return Row(
-                                            children: [
-                                              Flexible(
-                                                fit: FlexFit.tight,
-                                                child: Text(
-                                                  players[index].name,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ),
-                                              isSt || isSub
-                                                  ? Icon(
-                                                      Icons.check,
-                                                      color: Colors.orange,
-                                                    )
-                                                  : Container(),
-                                            ],
-                                          );
-                                        }
-                                        return BottomLoader();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
+                      : _searchResult(snapshot.data.docs.length);
                   break;
                 default:
                   return Container();
@@ -154,6 +94,80 @@ class _PortraitSearchState extends State<PortraitSearch> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _searchResult(int length) {
+    return Container(
+      height: length < 5 ? null : 170,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(8),
+        ),
+      ),
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: players.length,
+        padding: const EdgeInsets.only(bottom: 2),
+        separatorBuilder: (context, index) => const Divider(
+          height: 0.0,
+          indent: 10,
+          endIndent: 10,
+        ),
+        itemBuilder: (context, index) {
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                context
+                    .bloc<SelectedPlayerBloc>()
+                    .add(SearchSelect(players[index].id));
+              },
+              child: Container(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 6),
+                child: BlocBuilder<SelectedPlayerBloc,
+                    SelectedPlayerEventPlayerState>(
+                  builder: (BuildContext context,
+                      SelectedPlayerEventPlayerState playerState) {
+                    if (playerState is PlayersSelected) {
+                      bool isSub = playerState.subs
+                          .any((player) => player.id == players[index].id);
+                      bool isSt = playerState.starting
+                          .any((player) => player.id == players[index].id);
+                      print('##### ${players[index].avatarUrl}');
+                      return Row(
+                        children: [
+                          // AddingImage(players[index].avatarUrl, isPlayer: true),
+                          // SizedBox(width: 5),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              players[index].name,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          isSt || isSub
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.orange,
+                                )
+                              : Container(),
+                        ],
+                      );
+                    }
+                    return BottomLoader();
+                  },
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -186,14 +200,16 @@ class _PortraitSearchState extends State<PortraitSearch> {
               color: Colors.black38,
             ),
           ),
-          // suffixIcon: IconButton(
-          //   padding: EdgeInsets.all(0.0),
-          //   constraints: iconConstraints,
-          //   icon: Icon(Icons.clear, color: Colors.black),
-          //   onPressed: () {
-          //     controller.clear();
-          //   },
-          // ),
+          suffixIcon: _textController.text.length != 0
+              ? IconButton(
+                  padding: EdgeInsets.all(0.0),
+                  constraints: iconConstraints,
+                  icon: Icon(Icons.clear, color: Colors.black12),
+                  onPressed: () {
+                    controller.clear();
+                  },
+                )
+              : Icon(null),
           suffixIconConstraints: iconConstraints,
           prefixIconConstraints: iconConstraints,
           enabledBorder: InputBorder.none,
@@ -202,14 +218,4 @@ class _PortraitSearchState extends State<PortraitSearch> {
       ),
     );
   }
-
-// Widget _popupList(Player player) {
-//   return Container(
-//     padding: EdgeInsets.all(12),
-//     child: Text(
-//       player.name,
-//       style: TextStyle(fontSize: 16),
-//     ),
-//   );
-// }
 }

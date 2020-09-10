@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marozi/bloc/export/export_bloc.dart';
-import 'package:marozi/repository/constants.dart';
+import 'package:marozi/data/constants.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
@@ -79,16 +79,16 @@ class _PortraitExportState extends State<PortraitExport> {
       child: Card(
         child: Column(
           children: <Widget>[
-            Spacer(),
             Container(
-              width: MediaQuery.of(context).size.width * 0.96,
-              height: MediaQuery.of(context).size.height * 0.756,
+              margin: EdgeInsets.symmetric(vertical: 5),
+              width: MediaQuery.of(context).size.width * 0.95,
+              height: MediaQuery.of(context).size.height * 0.742,
               child: RepaintBoundary(
                 key: _globalKey,
                 child: PortraitPreview(),
               ),
             ),
-            Spacer(),
+            Divider(height: 1),
             Padding(
               padding: const EdgeInsets.fromLTRB(11, 3, 11, 3),
               child: Row(
@@ -156,45 +156,46 @@ class _PortraitExportState extends State<PortraitExport> {
 
   Widget _bottom() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: MediaQuery.of(context).size.height * 0.083,
       child: Card(
         child: BlocBuilder<ExportBloc, ExportState>(
           builder: (BuildContext context, ExportState state) {
-            return ListView.builder(
+            return ListView.separated(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: Constants.listExport.length,
               itemBuilder: (context, index) {
                 if (state is ExportFromPositionSuccess) {
-                  return Row(
-                    children: <Widget>[
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          context.bloc<ExportBloc>().add(SelectType(index));
-                        },
-                        child: Text(
-                          state.exportTypes[index],
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: state.currentPage == index
-                                ? Colors.deepOrangeAccent
-                                : Colors.black,
-                          ),
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(3.0),
+                    onTap: () {
+                      context.bloc<ExportBloc>().add(SelectType(index));
+                    },
+                    child: Container(
+                      width: 90,
+                      alignment: Alignment.center,
+                      child: Text(
+                        state.exportTypes[index],
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: state.currentPage == index
+                              ? Colors.deepOrangeAccent
+                              : Colors.black,
                         ),
                       ),
-                      index != 0 && index < state.exportTypes.length - 1
-                          ? VerticalDivider(
-                              color: Colors.black,
-                              thickness: 0.15,
-                              indent: 12,
-                              width: 1,
-                              endIndent: 12,
-                            )
-                          : SizedBox(),
-                    ],
+                    ),
                   );
                 }
                 return Container();
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return VerticalDivider(
+                  color: Colors.black,
+                  thickness: 0.2,
+                  indent: 12,
+                  width: 1,
+                  endIndent: 12,
+                );
               },
             );
           },

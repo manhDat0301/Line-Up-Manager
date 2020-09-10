@@ -56,7 +56,11 @@ class _PortraitStatState extends State<PortraitStat> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Image.asset('assets/images/left_foot.png'),
+                Image.asset(
+                  'assets/images/left_foot.png',
+                  width: 30,
+                  fit: BoxFit.contain,
+                ),
                 SizedBox(height: 3),
                 Text(
                   '3',
@@ -67,7 +71,11 @@ class _PortraitStatState extends State<PortraitStat> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset('assets/images/right_foot_colored.png'),
+                Image.asset(
+                  'assets/images/right_foot_colored.png',
+                  width: 30,
+                  fit: BoxFit.contain,
+                ),
                 SizedBox(height: 3),
                 Text(
                   '5',

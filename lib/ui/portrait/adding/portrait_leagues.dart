@@ -72,7 +72,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Divider(),
+            child: Divider(height: 1),
           ),
           Container(
             padding: EdgeInsets.only(left: 22),
@@ -186,7 +186,7 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Divider(),
+            child: Divider(height: 1),
           ),
           Container(
             padding: EdgeInsets.only(left: 22),
@@ -244,77 +244,80 @@ class _PortraitLeaguesState extends State<PortraitLeagues> {
   }
 
   Widget _buildLeagues(Map<String, List<League>> leagueByNation) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: leagueByNation.length,
-      itemBuilder: (context, i) {
-        if (i < leagueByNation.length) {
-          String nat = leagueByNation.keys.toList()[i];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
-                child: MyText(
-                  text: '$nat',
-                  color: Colors.black,
-                  fontSize: 16,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: leagueByNation[nat].length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          context
-                              .bloc<AddingBloc>()
-                              .add(LeagueSelect(leagueByNation[nat][index]));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: <Widget>[
-                              AddingImage(leagueByNation[nat][index].logoUrl),
-                              SizedBox(width: 4),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: MyText(
-                                  text: leagueByNation[nat][index].name,
-                                  color: null,
-                                  fontSize: 19,
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 15),
-                        child: Divider(height: 0),
-                      );
-                    },
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: leagueByNation.length,
+        itemBuilder: (context, i) {
+          if (i < leagueByNation.length) {
+            String nat = leagueByNation.keys.toList()[i];
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
+                  child: MyText(
+                    text: '$nat',
+                    color: Colors.black,
+                    fontSize: 16,
+                    textAlign: TextAlign.start,
                   ),
                 ),
-              ),
-            ],
-          );
-        } else {
-          return Container(height: 50, child: BottomLoader());
-        }
-      },
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: leagueByNation[nat].length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            context
+                                .bloc<AddingBloc>()
+                                .add(LeagueSelect(leagueByNation[nat][index]));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                AddingImage(leagueByNation[nat][index].logoUrl),
+                                SizedBox(width: 4),
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: MyText(
+                                    text: leagueByNation[nat][index].name,
+                                    color: null,
+                                    fontSize: 19,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(horizontal: 15),
+                          child: Divider(height: 0),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Container(height: 50, child: BottomLoader());
+          }
+        },
+      ),
     );
   }
 }

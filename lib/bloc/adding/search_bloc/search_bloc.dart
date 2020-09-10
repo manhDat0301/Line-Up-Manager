@@ -20,7 +20,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       for (var element in snapShot.docs) {
         tempSearchStore
             .add(Player(name: element.data()['player_name'], id: element.id));
-        print('${element.data()['player_name']}');
       }
     });
     yield SearchHasData(searching: tempSearchStore);

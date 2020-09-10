@@ -5,6 +5,7 @@ import 'package:marozi/bloc/export/export_bloc.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
 import 'package:marozi/resources/custom_widgets/export_button.dart';
 import 'package:marozi/resources/custom_widgets/my_text.dart';
+import 'package:marozi/resources/fonts.dart';
 import 'package:marozi/ui/landscape/export/preview/landscape_preview.dart';
 import 'package:marozi/ui/orientation/dialog_setting.dart';
 
@@ -26,11 +27,14 @@ class _LandscapeExportState extends State<LandscapeExport> {
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: Column(
-            children: <Widget>[
-              _topBar(),
-              _center(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              children: <Widget>[
+                _topBar(),
+                _center(),
+              ],
+            ),
           ),
         ),
       ),
@@ -47,6 +51,10 @@ class _LandscapeExportState extends State<LandscapeExport> {
             onTap: () => Navigator.of(context).pop(),
             child: Icon(Icons.arrow_back_ios, color: Colors.orange),
           ),
+          Text(
+            'Export',
+            style: TextStyle(fontSize: 20, fontFamily: fontSFDisplayRegular),
+          ),
           ExportDialog(_globalKey),
         ],
       ),
@@ -62,7 +70,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
           children: <Widget>[
             Card(
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.82,
+                width: MediaQuery.of(context).size.width * 0.65,
                 height: double.infinity,
                 child: Column(
                   children: <Widget>[
@@ -74,7 +82,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Divider(indent: 15, endIndent: 15, height: 0),
+                        Divider(indent: 10, endIndent: 10, height: 0),
                         _settingBar(),
                       ],
                     ),
@@ -82,7 +90,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
                 ),
               ),
             ),
-            _bottom(),
+            _mostRight(),
           ],
         ),
       ),
@@ -91,7 +99,7 @@ class _LandscapeExportState extends State<LandscapeExport> {
 
   Widget _settingBar() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(13, 5, 13, 5),
+      padding: const EdgeInsets.fromLTRB(13, 2, 13, 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -145,46 +153,52 @@ class _LandscapeExportState extends State<LandscapeExport> {
     );
   }
 
-  Widget _bottom() {
+  Widget _mostRight() {
     return Expanded(
       child: Card(
         child: BlocBuilder<ExportBloc, ExportState>(
           builder: (BuildContext context, ExportState state) {
             if (state is ExportFromPositionSuccess) {
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: state.exportTypes.length,
+                scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
+                      InkWell(
+                        borderRadius: BorderRadius.circular(3.0),
+                        onTap: () {
                           context.bloc<ExportBloc>().add(SelectType(index));
                         },
-                        child: Text(
-                          state.exportTypes[index],
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: state.currentPage == index
-                                ? Colors.deepOrangeAccent
-                                : Colors.black,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
+                          child: Text(
+                            state.exportTypes[index],
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: state.currentPage == index
+                                  ? Colors.deepOrangeAccent
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                      index < state.exportTypes.length - 1
-                          ? Container(
-                              width: double.infinity,
-                              child: Divider(
-                                color: Colors.black,
-                                thickness: 0.15,
-                                height: 0,
-                                indent: 12,
-                                endIndent: 12,
-                              ),
-                            )
-                          : SizedBox(),
                     ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    width: double.infinity,
+                    child: Divider(
+                      color: Colors.black,
+                      thickness: 0.15,
+                      height: 0,
+                      indent: 12,
+                      endIndent: 12,
+                    ),
                   );
                 },
               );
