@@ -6,6 +6,8 @@ import 'package:marozi/model/player/player.dart';
 import 'package:marozi/resources/colors.dart';
 import 'package:marozi/resources/custom_widgets/auto_complete_tf.dart';
 import 'package:marozi/resources/custom_widgets/bottom_loader.dart';
+import 'package:marozi/ui/orientation/mutual_widgets/adding_image.dart';
+import 'package:marozi/utils/load_image_service.dart';
 import 'package:marozi/utils/search_service.dart';
 
 class PortraitSearch extends StatefulWidget {
@@ -69,15 +71,7 @@ class _PortraitSearchState extends State<PortraitSearch> {
                     var player = Player();
                     player.name = element.data()['player_name'];
                     player.id = element.id;
-                    String gsUrl = element.data()['player_avatar_url'];
-                    // player.avatarUrl = gsUrl != null && gsUrl != ''
-                    //     ? await FirebaseStorage.instance
-                    //         .getReferenceFromUrl(gsUrl)
-                    //         .then((StorageReference ref) => ref
-                    //             .getDownloadURL()
-                    //             .then(
-                    //                 (dynamic snapshot) => snapshot.toString()))
-                    //     : '';
+                    player.avatarUrl = element.data()['player_avatar_url'];
                     players.add(player);
                   }
                   snapshot.data.docs.forEach(
@@ -138,11 +132,20 @@ class _PortraitSearchState extends State<PortraitSearch> {
                           .any((player) => player.id == players[index].id);
                       bool isSt = playerState.starting
                           .any((player) => player.id == players[index].id);
-                      print('##### ${players[index].avatarUrl}');
                       return Row(
                         children: [
-                          // AddingImage(players[index].avatarUrl, isPlayer: true),
-                          // SizedBox(width: 5),
+                          FutureBuilder(
+                            future: LoadImageService.loadImage(
+                                context, players[index].avatarUrl),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<dynamic> snapshot) {
+                              return AddingImage(
+                                snapshot.data,
+                                isPlayer: true,
+                              );
+                            },
+                          ),
+                          SizedBox(width: 5),
                           Flexible(
                             fit: FlexFit.tight,
                             child: Text(
